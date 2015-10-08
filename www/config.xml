@@ -21,7 +21,7 @@
   </feature>
   <gap:plugin name="com.ionic.deploy" version="0.1.6" />
   <gap:plugin name="cordova-plugin-whitelist" source="npm" />
-  <gap:plugin name="cordova-plugin-device" source="npm" />
+  <!--<gap:plugin name="cordova-plugin-device" source="npm" />-->
   <gap:plugin name="cordova-plugin-console" source="npm" />
   <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
   <gap:plugin name="com.ionic.keyboard" source="npm" />
@@ -32,9 +32,9 @@
   <gap:plugin name="cordova-plugin-x-toast" source="npm" />
   
   <gap:plugin name="org.apache.cordova.camera" source="npm"/>
-	<gap:plugin name="org.apache.cordova.media-capture" source="npm"/>
-	<gap:plugin name="org.apache.cordova.media" source="npm"/>
-	<!--<gap:plugin name="org.apache.cordova.device" source="npm"/>-->
+	<!--<gap:plugin name="org.apache.cordova.media-capture" source="npm"/>
+	<gap:plugin name="org.apache.cordova.media" source="npm"/>-->
+	<gap:plugin name="org.apache.cordova.device" source="npm"/>
   <platform name="android">
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources/android/icon/drawable-mdpi-icon.png" density="mdpi"/>
