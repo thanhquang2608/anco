@@ -260,8 +260,12 @@
             targetHeight: 500,
             saveToPhotoAlbum: false
         };
-
-        navigator.camera.getPicture(onSuccess, onFail, options);
+		try {
+			navigator.camera.getPicture(onSuccess, onFail, options);
+		}
+		catch (err) {
+            $scope.showToast('exception ' + err, 'short', 'bottom');
+        }
     }
 
     function onSuccess(imageURI) {
