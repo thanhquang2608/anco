@@ -1,5 +1,5 @@
 ﻿app.controller('SurveyController', function ($rootScope, $scope, $state, $http, $ionicHistory, $ionicPlatform,
-     AuthService, SurveyService, Dealers, AUTH_EVENTS ){//, $ionicLoading, NETWORK) {
+     AuthService, SurveyService, Dealers, AUTH_EVENTS, $ionicLoading, NETWORK) {
     $scope.serviceBase = NETWORK.BASE_URL;
     //Model
     ////adress
@@ -260,12 +260,8 @@
             targetHeight: 500,
             saveToPhotoAlbum: false
         };
-		try {
-			navigator.camera.getPicture(onSuccess, onFail, options);
-		}
-		catch (err) {
-            $scope.showToast('exception ' + err, 'short', 'bottom');
-        }
+
+        navigator.camera.getPicture(onSuccess, onFail, options);
     }
 
     function onSuccess(imageURI) {
@@ -305,7 +301,7 @@
         console.log($scope.update);
         if ($scope.update) {
             //console.log("func: saveHeo " + SurveyService.getSurveyID());
-            //$ionicLoading.show({ template: 'Đang lưu...' });
+            $ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
                 token: AuthService.token(),
@@ -360,8 +356,8 @@
 
             $http.post($scope.serviceBase + '/survey/create/heo', param)
                 .success(function (response) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                     //console.log("AC_PC: " + ac_pc);
                     $scope.survey.HEO_ID = response.HeoId;
                     $scope.update = false;
@@ -371,8 +367,8 @@
                         $state.go('tabs.sales-ga', {});
 
                 }).error(function (err, status) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
                 });
         }
         else {
@@ -386,7 +382,7 @@
     // ---------------------GA--------------------------
     $scope.saveGa = function () {
         if ($scope.update) {
-            //$ionicLoading.show({ template: 'Đang lưu...' });
+            $ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
                 token: AuthService.token(),
@@ -441,16 +437,16 @@
 
             $http.post($scope.serviceBase + '/survey/create/ga', param)
                 .success(function (response) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                     $scope.survey.GA_ID = response.GaId;
                     $scope.update = false;
 
                     $state.go('tabs.sales-vit', {});
 
                 }).error(function (err, status) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
                 });
         }
         else {
@@ -461,7 +457,7 @@
     // ---------------------VIT--------------------------
     $scope.saveVit = function () {
         if ($scope.update) {
-            //$ionicLoading.show({ template: 'Đang lưu...' });
+            $ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
                 token: AuthService.token(),
@@ -509,16 +505,16 @@
 
             $http.post($scope.serviceBase + '/survey/create/vit', param)
                 .success(function (response) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                     $scope.survey.VIT_ID = response.VitId;
                     $scope.update = false;
 
                     $state.go('tabs.sales-bo', {});
 
                 }).error(function (err, status) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
                 });
         }
         else {
@@ -529,7 +525,7 @@
     // ---------------------BO--------------------------
     $scope.saveBo = function () {
         if ($scope.update) {
-            //$ionicLoading.show({ template: 'Đang lưu...' });
+            $ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
                 token: AuthService.token(),
@@ -562,16 +558,16 @@
 
             $http.post($scope.serviceBase + '/survey/create/bo', param)
                 .success(function (response) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                     $scope.BO_ID = response.BoId;
                     $scope.update = false;
                     $ionicHistory.clearCache();
                     $state.go('tabs.survey', {}, { reload: true });
 
                 }).error(function (err, status) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
                 });
         }
         else {
@@ -583,7 +579,7 @@
     // ---------------------GIA CAM--------------------------
     $scope.saveGiaCam = function () {
         if ($scope.update) {
-            //$ionicLoading.show({ template: 'Đang lưu...' });
+            $ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
                 token: AuthService.token(),
@@ -601,16 +597,16 @@
 
             $http.post($scope.serviceBase + '/survey/create/giacam', param)
                 .success(function (response) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                     $scope.survey.GIA_CAM_ID = response.giaCamId;
                     $scope.update = false;
                     $ionicHistory.clearCache();
                     $state.go('tabs.survey', {}, { reload: true });
 
                 }).error(function (err, status) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
                 });
         }
         else {
@@ -704,12 +700,12 @@
         return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
     }
     $scope.initSurvey = function () {
-        ////$ionicLoading.hide();
-        ////$ionicLoading.show({ template: 'I am created\n', noBackdrop: true, duration: 2000 });
+        //$ionicLoading.hide();
+        //$ionicLoading.show({ template: 'I am created\n', noBackdrop: true, duration: 2000 });
     }
     $ionicPlatform.on("resume", function (event) {
-        ////$ionicLoading.hide();
-        ////$ionicLoading.show({
+        //$ionicLoading.hide();
+        //$ionicLoading.show({
         //    template: event
         //    //template: 'I am comeback\nUpdate1: ' + $scope.update1 + '\nUpdate2: ' + $scope.update2
         //    //+ '\nUpdate3: ' + $scope.update3
@@ -732,13 +728,13 @@
         $scope.submited = true;
 
         if (!isValid) {
-            //$ionicLoading.hide();
-            //$ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
+            $ionicLoading.hide();
+            $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
             return;
         }
 
         if ($scope.update) {
-            //$ionicLoading.show({ template: 'Đang lưu...' });
+            $ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
                 token: AuthService.token(),
@@ -796,8 +792,8 @@
                     $scope.dealer.dealerId = response.DealerId;
 
 
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
 
                     if ($scope.update1)
                         uploadImage($scope.imgCMND1, 1);
@@ -815,8 +811,8 @@
                     $state.go('tabs.sales-heo');
 
                 }).error(function (err, status) {
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
                     //console.log(err);
                 });
         }
@@ -864,8 +860,8 @@
                 case 2: $scope.update2 = false; break;
                 case 3:
                     // update dealer photo
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
                     var serverResult = JSON.stringify(r.response);
                     var serverImageUrl = JSON.parse(r.response).file[0].fd;
                     Dealers.setImageToFirstItem(null, null, null, serverImageUrl);
@@ -877,7 +873,7 @@
         }
 
         var fail = function (error) {
-            //$ionicLoading.show({ template: 'upload failed!\n', noBackdrop: true, duration: 2000 });
+            $ionicLoading.show({ template: 'upload failed!\n', noBackdrop: true, duration: 2000 });
             $scope.showToast("ERROR: " + JSON.stringify(err), 'long', 'bottom');
         }
 
@@ -1023,7 +1019,7 @@
     }
 
     $scope.complete = function () {
-        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
         clearData();
         $state.go('tabs.survey', {}, { reload: true });
     };

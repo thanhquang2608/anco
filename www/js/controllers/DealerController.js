@@ -1,5 +1,5 @@
 ﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService,
-    AUTH_EVENTS, NETWORK, Dealers, $state, SurveyService ){ //, $ionicLoading) {
+    AUTH_EVENTS, NETWORK, //$ionicLoading, Dealers, $state, SurveyService) {
     //$scope.dealer = Dealers.get($stateParams.dealerId);
     $scope.serviceBase = NETWORK.BASE_URL;
     $scope.submited = false;
@@ -83,8 +83,8 @@
             type: typeId
         };
 
-        //$ionicLoading.hide();
-        //$ionicLoading.show({ template: 'start upload ! + ' + typeId, noBackdrop: true, duration: 2000 });
+        ////$ionicLoading.hide();
+        ////$ionicLoading.show({ template: 'start upload ! + ' + typeId, noBackdrop: true, duration: 2000 });
 
 
         $scope.showToast('start upload ' + uri, 'short', 'bottom');
@@ -95,8 +95,8 @@
                 case 2: $scope.update2 = false; break;
                 case 3:
                     // update dealer photo
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
+                    ////$ionicLoading.hide();
+                    ////$ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
                     var serverResult = JSON.stringify(r.response);
                     var serverImageUrl = JSON.parse(r.response).file[0].fd;
                     Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, null, null, null, serverImageUrl);
@@ -108,8 +108,8 @@
         }
 
         var fail = function (error) {
-            //$ionicLoading.hide();
-            //$ionicLoading.show({ template: "ERROR: " + JSON.stringify(err), noBackdrop: true, duration: 2000 });
+            ////$ionicLoading.hide();
+            ////$ionicLoading.show({ template: "ERROR: " + JSON.stringify(err), noBackdrop: true, duration: 2000 });
         }
 
         var options = new FileUploadOptions();
@@ -129,8 +129,8 @@
         }
 
          }  catch (err) {
-             //$ionicLoading.hide();
-        //$ionicLoading.show({ template: 'exception ' + err, noBackdrop: true, duration: 2000 });
+             ////$ionicLoading.hide();
+        ////$ionicLoading.show({ template: 'exception ' + err, noBackdrop: true, duration: 2000 });
         }
     }
 
@@ -337,13 +337,13 @@
         $scope.submited = true;
 
         if (!isValid) {
-            //$ionicLoading.hide();
-            //$ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
+            ////$ionicLoading.hide();
+            ////$ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
             return;
         }
 
         if ($scope.update) {
-            //$ionicLoading.show({ template: 'Đang lưu...' });
+            ////$ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
                 token: AuthService.token(),
@@ -383,8 +383,8 @@
             $http.post($scope.serviceBase + '/survey/create_or_update', param)
                 .success(function (response) {
                     //console.log(response);
-                    //$ionicLoading.hide();
-                    //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                    ////$ionicLoading.hide();
+                    ////$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
 
                     // edit first item in list dealer
                     var provinceName = getProvinceName($scope.dealer.provinceId);
