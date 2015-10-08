@@ -1,5 +1,5 @@
 ﻿app.controller('SurveyController', function ($rootScope, $scope, $state, $http, $ionicHistory, $ionicPlatform,
-     AuthService, SurveyService, Dealers, AUTH_EVENTS, //$ionicLoading, NETWORK) {
+     AuthService, SurveyService, Dealers, AUTH_EVENTS ){//, $ionicLoading, NETWORK) {
     $scope.serviceBase = NETWORK.BASE_URL;
     //Model
     ////adress

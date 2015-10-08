@@ -1,5 +1,5 @@
 ﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService,
-    AUTH_EVENTS, NETWORK, //$ionicLoading, Dealers, $state, SurveyService) {
+    AUTH_EVENTS, NETWORK, Dealers, $state, SurveyService ){ //, $ionicLoading) {
     //$scope.dealer = Dealers.get($stateParams.dealerId);
     $scope.serviceBase = NETWORK.BASE_URL;
     $scope.submited = false;
