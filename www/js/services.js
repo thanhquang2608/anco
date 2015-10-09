@@ -96,18 +96,19 @@ angular.module('starter.services', [])
         }
     }
 })
-.service('AuthService', function ($rootScope, $q, $http, USER_ROLES, AUTH_EVENTS, NETWORK) {
+.service('AuthService', function ($rootScope, $q, $http, $localstorage, USER_ROLES, AUTH_EVENTS, NETWORK, STORAGE_KEYS) {
     var serviceBase = NETWORK.BASE_URL;
-    var LOCAL_TOKEN_KEY = 'AncoTokenKey';
-    var LOCAL_USER_KEY = 'AncoUserKey';
+    var LOCAL_TOKEN_KEY = STORAGE_KEYS.token_key;
+    var LOCAL_USER_KEY = STORAGE_KEYS.user_key;
+    var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
     var isAuthenticated = false;
     var role = '';
     var authToken;
     var user;
 
     function loadUserCredentials() {
-        var token = window.localStorage.getItem(LOCAL_TOKEN_KEY);
-        var retrievedUser = window.localStorage.getItem(LOCAL_USER_KEY);
+        var token = $localstorage.get(LOCAL_TOKEN_KEY);
+        var retrievedUser = $localstorage.get(LOCAL_USER_KEY);
         //console.log(retrievedUser);
         if (token && retrievedUser) {
             useCredentials(token);
@@ -117,8 +118,8 @@ angular.module('starter.services', [])
     }
 
     function storeUserCredentials(u, token) {
-        window.localStorage.setItem(LOCAL_TOKEN_KEY, token);
-        window.localStorage.setItem(LOCAL_USER_KEY, JSON.stringify(u));
+        $localstorage.set(LOCAL_TOKEN_KEY, token);
+        $localstorage.set(LOCAL_USER_KEY, JSON.stringify(u));
         useCredentials(token);
         user = u;
         $rootScope.$broadcast(AUTH_EVENTS.authenticated);
@@ -138,8 +139,9 @@ angular.module('starter.services', [])
         authToken = undefined;
         username = '';
         isAuthenticated = false;
-        window.localStorage.removeItem(LOCAL_TOKEN_KEY);
-        window.localStorage.removeItem(LOCAL_USER_KEY);
+        $localstorage.deleteObject(LOCAL_TOKEN_KEY);
+        $localstorage.deleteObject(LOCAL_USER_KEY);
+        $localstorage.deleteObject(LIST_DEALERS_KEY);
     }
 
     var login = function (userdata) {
@@ -243,18 +245,25 @@ angular.module('starter.services', [])
     set: function(key, value) {
       window.localStorage.setItem(key, value);
     },
+
     get: function(key, defaultValue) {
       return window.localStorage.getItem(key) || defaultValue;
     },
+
     setObject: function(key, value) {
       window.localStorage.setItem(key, JSON.stringify(value));
     },
+
     getObject: function(key) {
         if (window.localStorage.getItem(key) === null || window.localStorage.getItem(key) === undefined) {
            return undefined;
         } else {
             return JSON.parse(window.localStorage.getItem(key) || '{}');
         }
+    },
+
+    deleteObject : function(key) {
+        window.localStorage.removeItem(key);
     }
   }
 });

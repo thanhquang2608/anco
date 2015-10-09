@@ -1,9 +1,10 @@
 ﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService,
-    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage) {
+    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS) {
     //$scope.dealer = Dealers.get($stateParams.dealerId);
-    var LIST_DEALERS_KEY = 'AncoListDealersKey';
+    var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
     $scope.serviceBase = NETWORK.BASE_URL;
     $scope.submited = false;
+    $scope.loading = false;
 
     $scope.dates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
     $scope.months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
@@ -197,6 +198,7 @@
         $scope.user = AuthService.user();
         //$scope.loadDealers();
     });
+
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         //console.log("DealerController change state");
         //event.preventDefault();
@@ -227,10 +229,13 @@
     }
 
     $scope.loadDealers = function () {
+        $scope.loading = true;
+
         var listDealers = $localstorage.getObject(LIST_DEALERS_KEY);
         if (listDealers) {
             Dealers.setDealers(listDealers);
             $scope.dealers = Dealers.all();
+            $scope.loading = false;
             return;
         }
 
@@ -249,8 +254,10 @@
 
                 $localstorage.setObject(LIST_DEALERS_KEY, $scope.dealers);
                 ////console.log($scope.dealers);
+                $scope.loading = false;
 
             }).error(function (err, status) {
+                $scope.loading = false;
                 //console.log("load dealers error "+err);
             });
     }

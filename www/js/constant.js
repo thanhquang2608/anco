@@ -2,12 +2,19 @@
 
 .constant('AUTH_EVENTS', {
     authenticated: 'authenticated',
+    logout: 'logout',
     notAuthenticated: 'auth-not-authenticated',
     notAuthorized: 'auth-not-authorized'
 })
 
 .constant('NETWORK_EVENTS', {
     nointernet: 'nointernet'
+})
+
+.constant('STORAGE_KEYS', {
+    list_dealers : 'AncoListDealersKey',
+    token_key : 'AncoTokenKey',
+    user_key : 'AncoUserKey'
 })
 
 .constant('USER_ROLES', {
