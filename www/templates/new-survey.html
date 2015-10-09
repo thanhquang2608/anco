@@ -52,7 +52,7 @@
                     <label>
                         <input class="match-parent" type="text item-input-inset" name="dealerName" ng-model="dealer.dealerName" ng-change="setUpdate()" ng-maxlenght="100" required>
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.dealerName.$dirty) && frmSurvey.dealerName.$error.required">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="submited && frmSurvey.dealerName.$error.required">
                         Vui lòng nhập tên đại lý
                     </div>
                     <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.dealerName.$dirty) && frmSurvey.dealerName.$error.maxlenght">
@@ -89,10 +89,10 @@
                     <label>
                         <input class="match-parent" type="text item-input-inset" name="fullName" ng-model="dealer.fullName" ng-change="setUpdate()" ng-maxlenght="100" required>
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.fullName.$dirty) && frmSurvey.fullName.$error.required">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited) && frmSurvey.fullName.$error.required">
                         Vui lòng nhập tên người KD
                     </div>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.fullName.$dirty) && frmSurvey.fullName.$error.maxlenght">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited) && frmSurvey.fullName.$error.maxlenght">
                         Tên người KD quá dài
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                 <div class="col-survey-title">Số ĐTDĐ</div>
                 <div class="col">
                     <label>
-                        <input pattern="[0-9]*" class="match-parent" type="text item-input-inset" ng-minlength="6" ng-maxlength="15" name="phoneNumber" ng-model="dealer.phoneNumber" ng-change="setUpdate()" required>
+                        <input pattern="[0-9]*" class="match-parent" type="number item-input-inset" ng-minlength="6" ng-maxlength="15" name="phoneNumber" ng-model="dealer.phoneNumber" ng-change="setUpdate()" required>
                     </label>
                     <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.phoneNumber.$dirty) && frmSurvey.phoneNumber.$error.required">
                         Vui lòng nhập số điện thoại
@@ -127,7 +127,7 @@
                     </select>
                     <label>/</label>
                     <label>
-                        <input pattern="[0-9]*" ng-minlength="4" ng-maxlength="4" type="text item-input-inset" style="width:40px;" ng-model="dealer.year" name="year"  ng-change="setUpdate()" required>
+                        <input pattern="[0-9]*" ng-minlength="4" ng-maxlength="4" type="number item-input-inset" style="width:40px;" ng-model="dealer.year" name="year"  ng-change="setUpdate()" required>
                     </label>
                     <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.year.$dirty) && frmSurvey.year.$error.required">
                         Vui lòng nhập ngày tháng năm sinh
@@ -207,7 +207,7 @@
                 <div class="col-survey-title">Số CMND</div>
                 <div class="col">
                     <label>
-                        <input pattern="[0-9]*" class="match-parent" type="text item-input-inset" pattern="[0-9]*" name="cmnd" ng-model="dealer.cmnd" ng-change="setUpdate()" ng-maxlength="15" required>
+                        <input pattern="[0-9]*" class="match-parent" type="number item-input-inset" pattern="[0-9]*" name="cmnd" ng-model="dealer.cmnd" ng-change="setUpdate()" ng-maxlength="15" required>
                     </label>
                     <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.cmnd.$dirty) && frmSurvey.cmnd.$error.required">
                         Vui lòng nhập CMND
@@ -312,7 +312,7 @@
                 <div class="col-survey-title">SL Hộ/Trại</div>
                 <div class="col">
                     <label>
-                        <input class="number" pattern="[0-9]*" type="text item-input-inset" ng-model="survey.SL_HO" name="SL_HO" ng-change="setUpdate()" style="width:100px;" required ng-maxlength="5">
+                        <input class="number" pattern="[0-9]*" type="number item-input-inset" ng-model="survey.SL_HO" name="SL_HO" ng-change="setUpdate()" style="width:100px;" required ng-maxlength="5">
                     </label>
                     <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.SL_HO.$dirty) && frmSurvey.SL_HO.$error.required">
                     Vui lòng số lượng Hộ/Trại
@@ -343,7 +343,7 @@
                         Nái
                     </div>
                     <div class="col">
-                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-wrapper" ng-model="survey.SL_NAI" name="SL_NAI" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
+                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="number item-input-wrapper" ng-model="survey.SL_NAI" name="SL_NAI" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
                         <label>
                             (con)
                         </label>
@@ -357,7 +357,7 @@
                         Thịt
                     </div>
                     <div class="col">
-                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-inset" ng-model="survey.SL_THIT" name="SL_THIT" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
+                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="number item-input-inset" ng-model="survey.SL_THIT" name="SL_THIT" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
                         <label>
                             (con)
                         </label>
@@ -372,7 +372,7 @@
                     </div>
                     <div class="col">
                         <label>
-                            <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-inset" ng-model="survey.SL_NOC" name="SL_NOC" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
+                            <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="number item-input-inset" ng-model="survey.SL_NOC" name="SL_NOC" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
                         </label>
                         <label>
                             (con)

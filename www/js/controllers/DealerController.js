@@ -1,6 +1,7 @@
 ﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService,
-    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService) {
+    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage) {
     //$scope.dealer = Dealers.get($stateParams.dealerId);
+    var LIST_DEALERS_KEY = 'AncoListDealersKey';
     $scope.serviceBase = NETWORK.BASE_URL;
     $scope.submited = false;
 
@@ -13,7 +14,7 @@
     }
 
     $scope.getUser();
-    
+
     // -----------------------upload picture--------------------------------------
 
     $scope.takePhoto = function (id) {
@@ -88,16 +89,16 @@
         $ionicLoading.show({ template: 'start upload ! + ' + typeId, noBackdrop: true, duration: 2000 });
 
 
-        $scope.showToast('start upload ' + uri, 'short', 'bottom');
+        // $scope.showToast('start upload ' + uri, 'short', 'bottom');
         var win = function (r) {
-            $scope.showToast("SUCCESS: " + JSON.stringify(r.response), 'long', 'bottom');
+            // $scope.showToast("SUCCESS: " + JSON.stringify(r.response), 'long', 'bottom');
             switch (typeId) {
                 case 1: $scope.update1 = false; break;
                 case 2: $scope.update2 = false; break;
                 case 3:
                     // update dealer photo
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
+                    // $ionicLoading.hide();
+                    // $ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
                     var serverResult = JSON.stringify(r.response);
                     var serverImageUrl = JSON.parse(r.response).file[0].fd;
                     Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, null, null, null, serverImageUrl);
@@ -121,17 +122,17 @@
         try {
             var ft = new FileTransfer();
             ft.onprogress = function (progressEvent) {
-                $scope.showToast("PROGREss: " + JSON.stringify(err), 'long', 'bottom');
+                // $scope.showToast("PROGRESS: " + JSON.stringify(err), 'long', 'bottom');
             };
             ft.upload(fileURL, encodeURI($scope.serviceBase + '/images/upload'), win, fail, options);
         }
         catch (err) {
-            $scope.showToast('exception ' + err, 'short', 'bottom');
+            // $scope.showToast('exception ' + err, 'short', 'bottom');
         }
 
          }  catch (err) {
              $ionicLoading.hide();
-        $ionicLoading.show({ template: 'exception ' + err, noBackdrop: true, duration: 2000 });
+            $ionicLoading.show({ template: 'exception ' + err, noBackdrop: true, duration: 2000 });
         }
     }
 
@@ -226,6 +227,13 @@
     }
 
     $scope.loadDealers = function () {
+        var listDealers = $localstorage.getObject(LIST_DEALERS_KEY);
+        if (listDealers) {
+            Dealers.setDealers(listDealers);
+            $scope.dealers = Dealers.all();
+            return;
+        }
+
         console.log('Load Dealers');
         var param = {
             token: AuthService.token(),
@@ -238,6 +246,8 @@
             .success(function (response) {
                 Dealers.setDealers(response);
                 $scope.dealers = Dealers.all();
+
+                $localstorage.setObject(LIST_DEALERS_KEY, $scope.dealers);
                 ////console.log($scope.dealers);
 
             }).error(function (err, status) {
@@ -403,7 +413,7 @@
                         uploadImage($scope.survey.StockPhoto_Local, 5);
 
                     $scope.update = false;
-
+                    $scope.submited = true;
                     $state.go('tabs.dealer-detail-sales-heo');
                     //$window.location.href = "#/tab/sales-heo";
 
@@ -425,6 +435,7 @@
             if ($scope.update5)
                 uploadImage($scope.survey.StockPhoto_Local, 5);
 
+            $scope.submited = true;
             $state.go('tabs.dealer-detail-sales-heo');
         }
     }

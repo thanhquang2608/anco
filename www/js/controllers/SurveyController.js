@@ -860,6 +860,7 @@
                         uploadImage($scope.imgWarehouse, 5);
 
                     //$window.location.href = "#/tab/sales-heo";
+                    $scope.submited = true;
                     $scope.update = false;
                     $state.go('tabs.sales-heo');
 
@@ -882,6 +883,7 @@
             if ($scope.update5)
                 uploadImage($scope.imgWarehouse, 5);
             // Khong co gi thay doi thi k lam gi ca
+            $scope.submited = true;
             $state.go('tabs.sales-heo');
         }
     }
@@ -902,10 +904,10 @@
             type: typeId
         };
 
-        $scope.showToast('Start uploading!\n');
+        // $scope.showToast('Start uploading!\n');
         //$scope.showToast('start upload ' + uri, 'short', 'bottom');
         var win = function (r) {
-            $scope.showToast('Upload success!\n');
+            // $scope.showToast('Upload success!\n');
             //$scope.showToast("SUCCESS: " + JSON.stringify(r.response), 'long', 'bottom');
 
             switch (typeId) {
@@ -927,7 +929,7 @@
 
         var fail = function (error) {
             $ionicLoading.show({ template: 'upload failed!\n', noBackdrop: true, duration: 2000 });
-            $scope.showToast("ERROR: " + JSON.stringify(err), 'long', 'bottom');
+            // $scope.showToast("ERROR: " + JSON.stringify(err), 'long', 'bottom');
         }
 
         var options = new FileUploadOptions();
@@ -938,12 +940,12 @@
         try {
             var ft = new FileTransfer();
             ft.onprogress = function (progressEvent) {
-                $scope.showToast("PROGRESS: " + JSON.stringify(err), 'long', 'bottom');
+                // $scope.showToast("PROGRESS: " + JSON.stringify(err), 'long', 'bottom');
             };
             ft.upload(fileURL, encodeURI($scope.serviceBase + '/images/upload'), win, fail, options);
         }
         catch (err) {
-            $scope.showToast('exception ' + err, 'short', 'bottom');
+            // $scope.showToast('exception ' + err, 'short', 'bottom');
         }
     }
 
