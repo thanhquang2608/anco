@@ -1,5 +1,9 @@
 ﻿<ion-view view-title="Danh Sách Đã Khảo Sát" ng-init="loadDealers()" hide-back-button="true" showTabs>
     <ion-content>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="loadDealers(true)">
+        </ion-refresher>
         <ion-list>
             <div style="margin: 0 auto; width:100px; padding-bottom:10px; padding-top:10px;" ng-if="loading">
                 <img src="img/loading.gif" style="vertical-align: middle;" >

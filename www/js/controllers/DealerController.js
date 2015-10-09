@@ -228,14 +228,17 @@
         }
     }
 
-    $scope.loadDealers = function () {
-        $scope.loading = true;
+    $scope.loadDealers = function (isPull) {
+        if (!isPull) {
+            $scope.loading = true;
+        }
 
         var listDealers = $localstorage.getObject(LIST_DEALERS_KEY);
         if (listDealers) {
             Dealers.setDealers(listDealers);
             $scope.dealers = Dealers.all();
             $scope.loading = false;
+            $scope.$broadcast('scroll.refreshComplete');
             return;
         }
 
@@ -254,9 +257,11 @@
 
                 $localstorage.setObject(LIST_DEALERS_KEY, $scope.dealers);
                 ////console.log($scope.dealers);
+                $scope.$broadcast('scroll.refreshComplete');
                 $scope.loading = false;
 
             }).error(function (err, status) {
+                $scope.$broadcast('scroll.refreshComplete');
                 $scope.loading = false;
                 //console.log("load dealers error "+err);
             });
