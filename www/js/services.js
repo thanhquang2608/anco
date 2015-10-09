@@ -250,7 +250,11 @@ angular.module('starter.services', [])
       $window.localStorage[key] = JSON.stringify(value);
     },
     getObject: function(key) {
-      return JSON.parse($window.localStorage[key] || '{}');
+        if ($window.localStorage[key] === null) {
+           return undefined;
+        } else {
+            return JSON.parse($window.localStorage[key] || '{}');
+        }
     }
   }
 }]);
