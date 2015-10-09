@@ -18,7 +18,7 @@
                         <div class="col-survey-title padding-left" style="max-width:60px;">Gà</div>
                         <div class="col">
                             <div class="col match-parent col-flex">
-                                <input pattern="^[0-9]+\.?[0-9]*$" ng-maxlength="8" ng-disabled="giacam.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_GA" ng-model="giacam.GIA_CAM_GA" ng-change="setUpdate()">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="giacam.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_GA" ng-model="giacam.GIA_CAM_GA" ng-change="setUpdate()">
                                 <label>(tấn/tháng)</label>
                             </div>
                             <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmGiacam.GIA_CAM_GA.$dirty) && (frmGiacam.GIA_CAM_GA.$error.pattern || frmGiacam.GIA_CAM_GA.$error.maxlength)">
@@ -30,7 +30,7 @@
                         <div class="col-survey-title padding-left" style="max-width:60px;">Vịt</div>
                         <div class="col">
                             <div class="col match-parent col-flex">
-                                <input pattern="^[0-9]+\.?[0-9]*$" ng-maxlength="8" ng-disabled="giacam.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_VIT" ng-model="giacam.GIA_CAM_VIT" ng-change="setUpdate()">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="giacam.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_VIT" ng-model="giacam.GIA_CAM_VIT" ng-change="setUpdate()">
                                 <label>(tấn/tháng)</label>
                             </div>
                              <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmGiacam.GIA_CAM_VIT.$dirty) && (frmGiacam.GIA_CAM_VIT.$error.pattern || frmGiacam.GIA_CAM_VIT.$error.maxlength)">
@@ -42,7 +42,7 @@
                         <div class="col-survey-title padding-left" style="max-width:60px;">Cút</div>
                         <div class="col">
                             <div class="col match-parent col-flex">
-                                <input pattern="^[0-9]+\.?[0-9]*$" ng-maxlength="8" ng-disabled="giacam.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_CUT" ng-model="giacam.GIA_CAM_CUT" ng-change="setUpdate()">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="giacam.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_CUT" ng-model="giacam.GIA_CAM_CUT" ng-change="setUpdate()">
                                 <label>(tấn/tháng)</label>
                             </div>
                              <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmGiacam.GIA_CAM_CUT.$dirty) && (frmGiacam.GIA_CAM_CUT.$error.pattern || frmGiacam.GIA_CAM_CUT.$error.maxlength)">

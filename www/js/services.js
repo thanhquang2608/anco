@@ -53,6 +53,7 @@ angular.module('starter.services', [])
             return null;
         },
         setDealers: function (data) {
+            dealers = [];
             dealers = data;
         },
         setSurvey: function (data) {
