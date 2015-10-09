@@ -238,23 +238,23 @@ angular.module('starter.services', [])
     $httpProvider.interceptors.push('NetworkInterceptor');
 })
 
-.factory('$localstorage', ['$window', function($window) {
+.factory('$localstorage', function() {
   return {
     set: function(key, value) {
-      $window.localStorage[key] = value;
+      window.localStorage.setItem(key, value);
     },
     get: function(key, defaultValue) {
-      return $window.localStorage[key] || defaultValue;
+      return window.localStorage.getItem(key) || defaultValue;
     },
     setObject: function(key, value) {
-      $window.localStorage[key] = JSON.stringify(value);
+      window.localStorage.setItem(key, JSON.stringify(value));
     },
     getObject: function(key) {
-        if ($window.localStorage[key] === null) {
+        if (window.localStorage.getItem(key) === null || window.localStorage.getItem(key) === undefined) {
            return undefined;
         } else {
-            return JSON.parse($window.localStorage[key] || '{}');
+            return JSON.parse(window.localStorage.getItem(key) || '{}');
         }
     }
   }
-}]);
+});
