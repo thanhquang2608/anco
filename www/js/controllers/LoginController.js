@@ -24,7 +24,7 @@
          function (err) {
              var alertPopup = $ionicPopup.alert({
                  title: 'Đăng nhập thất bại!',
-                 template: err.toString()
+                 template: err.message
              });
          });
 

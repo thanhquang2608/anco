@@ -6,6 +6,10 @@
     notAuthorized: 'auth-not-authorized'
 })
 
+.constant('NETWORK_EVENTS', {
+    nointernet: 'nointernet'
+})
+
 .constant('USER_ROLES', {
     admin: 'admin_role',
     public: 'public_role'

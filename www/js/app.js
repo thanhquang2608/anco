@@ -18,6 +18,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             // org.apache.cordova.statusbar required
             StatusBar.styleLightContent();
         }
+
+        if (window.Connection) {
+            if (navigator.connection.type == Connection.NONE) {
+                alert('Không kết nối mạng được!'); 
+            }
+        }
     });
 })
 

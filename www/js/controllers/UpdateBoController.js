@@ -8,6 +8,7 @@
     }
 
     $scope.getUser();
+    $scope.submited = false;
 
     $rootScope.$on('$stateChangeStart', function (event, next, current) {
         //console.log("UpdateBoController change state");
@@ -55,25 +56,25 @@
                     //console.log("load gia cam success");
                     //////// BO
                     //// CON CO
-                    $scope.survey.BO_CC = CC_KD;
-                    $scope.survey.BO_CC_MUA_TT = CC_MUA;
-                    $scope.survey.BO_CC_SL = CC_SL;
+                    $scope.survey.BO_CC = response.CC_KD;
+                    $scope.survey.BO_CC_MUA_TT = response.CC_MUA;
+                    $scope.survey.BO_CC_SL = response.CC_SL;
                     //// DH
-                    $scope.survey.BO_DH = DH_KD;
-                    $scope.survey.BO_DH_MUA_TT = DH_MUA
-                    $scope.survey.BO_DH_SL = DH_SL;
+                    $scope.survey.BO_DH = response.DH_KD;
+                    $scope.survey.BO_DH_MUA_TT = response.DH_MUA
+                    $scope.survey.BO_DH_SL = response.DH_SL;
                     //// CP
-                    $scope.survey.BO_CP = CP_KD;
-                    $scope.survey.BO_CP_MUA_TT = CP_MUA;
-                    $scope.survey.BO_CP_SL = CP_SL;
+                    $scope.survey.BO_CP = response.CP_KD;
+                    $scope.survey.BO_CP_MUA_TT = response.CP_MUA;
+                    $scope.survey.BO_CP_SL = response.CP_SL;
                     //// UP
-                    $scope.survey.BO_UP = UP_KD;
-                    $scope.survey.BO_UP_MUA_TT = UP_MUA;
-                    $scope.survey.BO_UP_SL = UP_SL;
+                    $scope.survey.BO_UP = response.UP_KD;
+                    $scope.survey.BO_UP_MUA_TT = response.UP_MUA;
+                    $scope.survey.BO_UP_SL = response.UP_SL;
                     //// ANOTHER
-                    $scope.survey.BO_ANOTHER = O_KD;
-                    $scope.survey.BO_ANOTHER_MUA_TT = O_MUA;
-                    $scope.survey.BO_ANOTHER_SL = O_SL;
+                    $scope.survey.BO_ANOTHER = response.O_KD;
+                    $scope.survey.BO_ANOTHER_MUA_TT = response.O_MUA;
+                    $scope.survey.BO_ANOTHER_SL = response.O_SL;
                 }).error(function (err, status) {
                     //console.log("load dealers error " + err);
                 });
@@ -104,7 +105,16 @@
         //console.log($scope.giacam);
     }
 
-    $scope.updateBo = function () {
+    $scope.updateBo = function (isValid) {
+        $scope.submited = true;
+
+        if (!isValid) {
+            $ionicLoading.hide();
+            $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
+            return;
+        }
+
+
         if ($scope.update) {
             $ionicLoading.show({ template: 'Đang lưu...' });
 
@@ -113,25 +123,25 @@
                 token: AuthService.token(),
                 surveyid: Dealers.survey().SurveyId,
 
-                cc_kd: $scope.BO_CC,
-                cc_mua: $scope.BO_CC_MUA_TT,
-                cc_sl: $scope.BO_CC_SL,
+                cc_kd: $scope.survey.BO_CC,
+                cc_mua: $scope.survey.BO_CC == 0 ? 0 : $scope.survey.BO_CC_MUA_TT,
+                cc_sl:  $scope.survey.BO_CC == 0 ? 0 : $scope.survey.BO_CC_SL,
 
-                dh_kd: $scope.BO_DH,
-                dh_mua: $scope.BO_DH_MUA_TT,
-                dh_sl: $scope.BO_DH_SL,
+                dh_kd: $scope.survey.BO_DH,
+                dh_mua: $scope.survey.BO_DH == 0 ? 0 : $scope.survey.BO_DH_MUA_TT,
+                dh_sl:  $scope.survey.BO_DH == 0 ? 0 : $scope.survey.BO_DH_SL,
 
-                cp_kd: $scope.BO_CP,
-                cp_mua: $scope.BO_CP_MUA_TT,
-                cp_sl: $scope.BO_CP_SL,
+                cp_kd: $scope.survey.BO_CP,
+                cp_mua: $scope.survey.BO_CP == 0 ? 0 : $scope.survey.BO_CP_MUA_TT,
+                cp_sl:  $scope.survey.BO_CP == 0 ? 0 : $scope.survey.BO_CP_SL,
 
-                up_kd: $scope.BO_UP,
-                up_mua: $scope.BO_UP_MUA_TT,
-                up_sl: $scope.BO_UP_SL,
+                up_kd: $scope.survey.BO_UP,
+                up_mua: $scope.survey.BO_UP == 0 ? 0 : $scope.survey.BO_UP_MUA_TT,
+                up_sl:  $scope.survey.BO_UP == 0 ? 0 : $scope.survey.BO_UP_SL,
 
-                o_kd: $scope.BO_ANOTHER,
-                o_mua: $scope.BO_ANOTHER_MUA_TT,
-                o_sl: $scope.BO_ANOTHER_SL
+                o_kd: $scope.survey.BO_ANOTHER,
+                o_mua: $scope.survey.BO_ANOTHER == 0 ? 0 : $scope.survey.BO_ANOTHER_MUA_TT,
+                o_sl:  $scope.survey.BO_ANOTHER == 0 ? 0 : $scope.survey.BO_ANOTHER_SL
             }
             if (Dealers.survey().BO_ID) {
                 param.boid = Dealers.survey().BO_ID;
@@ -145,21 +155,27 @@
                     $scope.BO_ID = response.BoId;
                     $scope.update = false;
 
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true,
+                        historyRoot : false
+                    });
+                    $ionicHistory.clearHistory();
+                    $ionicHistory.clearCache();
                     $state.go('tabs.dealers', {}, { reload: true });
 
                 }).error(function (err, status) {
                     $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
+                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n', noBackdrop: true, duration: 2000 });
                 });
         }
         else {
-            $ionicViewService.nextViewOptions({
+            $ionicHistory.nextViewOptions({
                 disableBack: true,
                 historyRoot : false
             });
             $ionicHistory.clearHistory();
             $ionicHistory.clearCache();
-            $state.go('tabs.dealers', {});
+            $state.go('tabs.dealers', {}, { reload: true });
         }
     }
 })

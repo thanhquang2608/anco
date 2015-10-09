@@ -13,6 +13,7 @@
     }
 
     $scope.getUser();
+    
     // -----------------------upload picture--------------------------------------
 
     $scope.takePhoto = function (id) {
@@ -368,9 +369,9 @@
                 sldl2: $scope.survey.SL_DL2,
                 slho: $scope.survey.SL_HO,
                 nuoitt: $scope.survey.NUOI_TT,
-                slnai: $scope.survey.SL_NAI,
-                slthit: $scope.survey.SL_THIT,
-                slnoc: $scope.survey.SL_NOC,
+                slnai:  $scope.survey.NUOI_TT == 0 ? 0 : $scope.survey.SL_NAI,
+                slthit: $scope.survey.NUOI_TT == 0 ? 0 : $scope.survey.SL_THIT,
+                slnoc:  $scope.survey.NUOI_TT == 0 ? 0 : $scope.survey.SL_NOC,
                 saleid: $scope.user.SaleRepId
             }
 

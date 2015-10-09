@@ -8,6 +8,7 @@
     }
 
     $scope.getUser();
+    $scope.submited = false;
 
     $rootScope.$on('$stateChangeStart', function (event, next, current) {
         //console.log("UpdateVitController change state");
@@ -148,7 +149,15 @@
         //console.log($scope.giacam);
     }
 
-    $scope.updateVit = function () {
+    $scope.updateVit = function (isValid) {
+        $scope.submited = true;
+
+        if (!isValid) {
+            $ionicLoading.hide();
+            $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
+            return;
+        }
+
         if ($scope.update) {
             $ionicLoading.show({ template: 'Đang lưu...' });
 
@@ -157,39 +166,39 @@
                 surveyid: Dealers.survey().SurveyId,
 
                 cg_kd: $scope.survey.VIT_CG,
-                cg_mua: $scope.survey.VIT_CG_MUA_TT,
-                cg_vd: $scope.survey.VIT_CG_VD,
-                cg_vt: $scope.survey.VIT_CG_VT,
+                cg_mua: $scope.survey.VIT_CG == 0 ? 0 : $scope.survey.VIT_CG_MUA_TT,
+                cg_vd:  $scope.survey.VIT_CG == 0 ? 0 : $scope.survey.VIT_CG_VD,
+                cg_vt:  $scope.survey.VIT_CG == 0 ? 0 : $scope.survey.VIT_CG_VT,
 
                 cc_kd: $scope.survey.VIT_CC,
-                cc_mua: $scope.survey.VIT_CC_MUA_TT,
-                cc_vd: $scope.survey.VIT_CC_VD,
-                cc_vt: $scope.survey.VIT_CC_VT,
+                cc_mua: $scope.survey.VIT_CC == 0 ? 0 : $scope.survey.VIT_CC_MUA_TT,
+                cc_vd:  $scope.survey.VIT_CC == 0 ? 0 : $scope.survey.VIT_CC_VD,
+                cc_vt:  $scope.survey.VIT_CC == 0 ? 0 : $scope.survey.VIT_CC_VT,
 
                 dh_kd: $scope.survey.VIT_DH,
-                dh_mua: $scope.survey.VIT_DH_MUA_TT,
-                dh_vd: $scope.survey.VIT_DH_VD,
-                dh_vt: $scope.survey.VIT_DH_VT,
+                dh_mua: $scope.survey.VIT_DH == 0 ? 0 : $scope.survey.VIT_DH_MUA_TT,
+                dh_vd:  $scope.survey.VIT_DH == 0 ? 0 : $scope.survey.VIT_DH_VD,
+                dh_vt:  $scope.survey.VIT_DH == 0 ? 0 : $scope.survey.VIT_DH_VT,
 
                 nh_kd: $scope.survey.VIT_NH,
-                nh_mua: $scope.survey.VIT_NH_MUA_TT,
-                nh_vd: $scope.survey.VIT_NH_VD,
-                nh_vt: $scope.survey.VIT_NH_VT,
+                nh_mua: $scope.survey.VIT_CG == 0 ? 0 : $scope.survey.VIT_NH_MUA_TT,
+                nh_vd: $scope.survey.VIT_CG == 0 ? 0 : $scope.survey.VIT_NH_VD,
+                nh_vt: $scope.survey.VIT_CG == 0 ? 0 : $scope.survey.VIT_NH_VT,
 
                 gf_kd: $scope.survey.VIT_GF,
-                gf_mua: $scope.survey.VIT_GF_MUA_TT,
-                gf_vd: $scope.survey.VIT_GF_VD,
-                gf_vt: $scope.survey.VIT_GF_VT,
+                gf_mua: $scope.survey.VIT_GF == 0 ? 0 : $scope.survey.VIT_GF_MUA_TT,
+                gf_vd:  $scope.survey.VIT_GF == 0 ? 0 : $scope.survey.VIT_GF_VD,
+                gf_vt:  $scope.survey.VIT_GF == 0 ? 0 : $scope.survey.VIT_GF_VT,
 
                 lt_kd: $scope.survey.VIT_LT,
-                lt_mua: $scope.survey.VIT_LT_MUA_TT,
-                lt_vd: $scope.survey.VIT_LT_VD,
-                lt_vt: $scope.survey.VIT_LT_VT,
+                lt_mua: $scope.survey.VIT_LT == 0 ? 0 : $scope.survey.VIT_LT_MUA_TT,
+                lt_vd:  $scope.survey.VIT_LT == 0 ? 0 : $scope.survey.VIT_LT_VD,
+                lt_vt:  $scope.survey.VIT_LT == 0 ? 0 : $scope.survey.VIT_LT_VT,
 
                 o_kd: $scope.survey.VIT_ANOTHER,
-                o_mua: $scope.survey.VIT_ANOTHER_MUA_TT,
-                o_vd: $scope.survey.VIT_ANOTHER_VD,
-                o_vt: $scope.survey.VIT_ANOTHER_VT
+                o_mua: $scope.survey.VIT_ANOTHER == 0 ? 0 : $scope.survey.VIT_ANOTHER_MUA_TT,
+                o_vd:  $scope.survey.VIT_ANOTHER == 0 ? 0 : $scope.survey.VIT_ANOTHER_VD,
+                o_vt:  $scope.survey.VIT_ANOTHER == 0 ? 0 : $scope.survey.VIT_ANOTHER_VT
             }
             if (Dealers.survey().VIT_ID) {
                 param.vitid = Dealers.survey().VIT_ID;
@@ -202,7 +211,7 @@
                     $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                     $scope.update = false;
 
-                    $state.go('tabs.dealer-detail-sales-bo', {});
+                    $state.go('tabs.dealer-detail-sales-bo', {}, { reload: true });
 
                 }).error(function (err, status) {
                     $ionicLoading.hide();
@@ -210,7 +219,7 @@
                 });
         }
         else {
-            $state.go('tabs.dealer-detail-sales-bo', {});
+            $state.go('tabs.dealer-detail-sales-bo', {}, { reload: true });
         }
     }
 })

@@ -1,6 +1,6 @@
 var app = angular.module('starter.controllers', []);
 
-app.controller('AppCtrl', function ($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
+app.controller('AppCtrl', function ($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS, NETWORK_EVENTS) {
     $scope.username = AuthService.username();
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
@@ -16,6 +16,12 @@ app.controller('AppCtrl', function ($scope, $state, $ionicPopup, AuthService, AU
         var alertPopup = $ionicPopup.alert({
             title: 'Session Lost!',
             template: 'Sorry, You have to login again.'
+        });
+    });
+
+    $scope.$on(NETWORK_EVENTS.nointernet, function (event) {
+        var alertPopup = $ionicPopup.alert({
+            template: 'Không kết nối mạng được'
         });
     });
 

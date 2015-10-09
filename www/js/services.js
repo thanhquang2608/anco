@@ -212,6 +212,28 @@ angular.module('starter.services', [])
     };
 })
 
+.factory('NetworkInterceptor', function ($rootScope, $q, NETWORK_EVENTS) {
+    var networkInterceptor = {
+        request: function(config) {
+            var deferred = $q.defer();
+            if (window.Connection) {
+                if (navigator.connection.type == Connection.NONE) {
+                    $rootScope.$broadcast(NETWORK_EVENTS.nointernet); 
+                    return deferred.resolve();
+                } else {
+                    return config;
+                }
+            } else {
+                return config;
+            }
+            
+        }
+    };
+
+    return networkInterceptor;
+})
+
 .config(function ($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
+    $httpProvider.interceptors.push('NetworkInterceptor');
 });
