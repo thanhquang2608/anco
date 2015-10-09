@@ -61,7 +61,7 @@
                 </div>
                 <div class="col" ng-show="dealer.AC_PC != 2">
                     <label>
-                        <select class="full-width" ng-model="dealerIndex" ng-change="setDealer(dealerIndex); setUpdate()">
+                        <select class="full-width match-parent" ng-model="dealerIndex" ng-change="setDealer(dealerIndex); setUpdate()">
                         <option ng-selected="dealer.dealerId == d.DealerId" ng-repeat="d in dealers" ng-bind="d.DealerName" ng-value="$index"></option>
                     </select>
                     <div style="padding-top:5px; font-size:12px;" ng-show="dealer.dealerCode">
@@ -343,7 +343,7 @@
                         Nái
                     </div>
                     <div class="col">
-                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-wrapper" ng-model="survey.SL_NAI" name="SL_NAI" ng-change="setUpdate()" ng-maxlenght="5">
+                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-wrapper" ng-model="survey.SL_NAI" name="SL_NAI" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
                         <label>
                             (con)
                         </label>
@@ -357,7 +357,7 @@
                         Thịt
                     </div>
                     <div class="col">
-                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-inset" ng-model="survey.SL_THIT" name="SL_THIT" ng-change="setUpdate()" ng-maxlenght="5">
+                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-inset" ng-model="survey.SL_THIT" name="SL_THIT" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
                         <label>
                             (con)
                         </label>
@@ -371,7 +371,9 @@
                         Nọc
                     </div>
                     <div class="col">
-                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-inset" ng-model="survey.SL_NOC" name="SL_NOC" ng-change="setUpdate()" ng-maxlenght="5">
+                        <label>
+                            <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="text item-input-inset" ng-model="survey.SL_NOC" name="SL_NOC" ng-change="setUpdate()" ng-maxlenght="5" style="width:100px;">
+                        </label>
                         <label>
                             (con)
                         </label>
