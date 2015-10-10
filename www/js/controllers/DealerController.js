@@ -254,8 +254,6 @@
             .success(function (response) {
                 Dealers.setDealers(response);
                 $scope.dealers = Dealers.all();
-
-                $localstorage.setObject(LIST_DEALERS_KEY, $scope.dealers);
                 ////console.log($scope.dealers);
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.loading = false;

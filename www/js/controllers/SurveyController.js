@@ -915,8 +915,8 @@
                 case 2: $scope.update2 = false; break;
                 case 3:
                     // update dealer photo
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
+                    // $ionicLoading.hide();
+                    // $ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
                     var serverResult = JSON.stringify(r.response);
                     var serverImageUrl = JSON.parse(r.response).file[0].fd;
                     Dealers.setImageToFirstItem(null, null, null, serverImageUrl);

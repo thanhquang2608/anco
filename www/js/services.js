@@ -1,12 +1,18 @@
 angular.module('starter.services', [])
 
-.factory('Dealers', function () {
+.factory('Dealers', function ($localstorage, STORAGE_KEYS) {
      //Might use a resource here that returns a JSON array
 
      //Some fake testing data
+    var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
     var dealers = [];
     var dealer = {};
     var survey = {};
+
+    function saveDealer() {
+        $localstorage.setObject(LIST_DEALERS_KEY, dealers);
+    }
+
     return {
         updateDealerBySurveyId: function(surveyId, dealerName, provinceName, address, URL) {
             for (var dealer in dealers) {
@@ -19,6 +25,7 @@ angular.module('starter.services', [])
                         dealer.Adrress = address;
                     if (URL != null)
                         dealer.DealerPhoto = URL;
+                    saveDealer();
                 }
             }
         },
@@ -32,17 +39,22 @@ angular.module('starter.services', [])
                     dealers[0].Adrress = address;
                 if (URL != null)
                     dealers[0].DealerPhoto = URL;
+
+                saveDealer();
             }
         },
         all: function () {
             return dealers;
         },
         dealerPush: function(item) {
-            if(dealers != null && dealers.length > 0)
+            if(dealers != null && dealers.length > 0) {
                 dealers.unshift(item);
+                saveDealer();
+            }
         },
         remove: function (dealer) {
             dealers.splice(dealers.indexOf(dealer), 1);
+            saveDealer();
         },
         get: function (surveyId) {
             for (var i = 0; i < dealers.length; i++) {
@@ -55,6 +67,7 @@ angular.module('starter.services', [])
         setDealers: function (data) {
             dealers = [];
             dealers = data;
+            saveDealer();
         },
         setSurvey: function (data) {
             survey = data;

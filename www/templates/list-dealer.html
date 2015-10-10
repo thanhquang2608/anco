@@ -16,7 +16,7 @@
                     Tìm thấy (0) khảo sát
                 </label>
             </div>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="dealer in dealers" type="item-text-wrap" href="#/tab/dealers/{{dealer.SurveyId}}">
+            <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="dealer in dealers" type="item-text-wrap" href="#/tab/dealers/{{dealer.SurveyId}}">
                 <img ng-if="dealer.DealerPhoto" ng-src="{{serviceBase}}{{dealer.DealerPhoto}}">
                 <img ng-if="!dealer.DealerPhoto" src="img/no-image.png">
                 <h2>{{dealer.DealerName}}</h2>
