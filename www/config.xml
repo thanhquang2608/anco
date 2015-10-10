@@ -35,6 +35,7 @@
 	<!--<gap:plugin name="org.apache.cordova.media-capture" source="npm"/>
 	<gap:plugin name="org.apache.cordova.media" source="npm"/>-->
 	<gap:plugin name="org.apache.cordova.device" source="npm"/>
+  <gap:plugin name="org.apache.cordova.geolocation" source="npm" />
   <platform name="android">
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources/android/icon/drawable-mdpi-icon.png" density="mdpi"/>
@@ -57,7 +58,7 @@
   </platform>
   <preference name="AndroidPersistentFileLocation" value="Compatibility" />
   
-  <feature name="http://api.phonegap.com/1.0/geolocation"/>
+  <!-- <feature name="http://api.phonegap.com/1.0/geolocation"/> -->
   <!--<feature name="http://api.phonegap.com/1.0/camera"/>
   <feature name="http://api.phonegap.com/1.0/file"/>
   <feature name="http://api.phonegap.com/1.0/geolocation"/>
