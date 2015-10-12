@@ -1,4 +1,4 @@
-﻿<ion-view view-title="Danh Sách Đã Khảo Sát" ng-init="loadDealers()" hide-back-button="true" showTabs>
+﻿<ion-view view-title="Danh Sách Đã Khảo Sát" ng-init="loadDealers(false)" hide-back-button="true" showTabs>
     <ion-content>
         <ion-refresher
             pulling-text="Pull to refresh..."
@@ -11,10 +11,12 @@
                     Đang tải...
                 </label>
             </div>
-            <div ng-if="dealers && !loading && dealers.length === 0" style="margin: 0 auto; width:150px; padding-bottom:10px; padding-top:10px;">
-                <label style="color: gray;">
-                    Tìm thấy (0) khảo sát
-                </label>
+            <div ng-if="!loading" style="margin: 0 auto; width:150px; padding-bottom:10px; padding-top:10px;">
+                <center>
+                    <label style="color: gray;">
+                        {{dealers.length}} khảo sát
+                    </label>
+                </center>
             </div>
             <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="dealer in dealers" type="item-text-wrap" href="#/tab/dealers/{{dealer.SurveyId}}">
                 <img ng-if="dealer.DealerPhoto" ng-src="{{serviceBase}}{{dealer.DealerPhoto}}">

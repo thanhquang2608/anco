@@ -30,17 +30,17 @@
                     Mua trực tiếp từ
                 </div>
                 <div class="col">
-                    <label class="padding-right" ng-show="user.AC_PC == 0">
-                        <input type="radio" name="ac" ng-model="dealer.AC_PC" value="0" ng-change="loadDealer(); setUpdate()">
-                        AC
+                    <label class="padding-right" ng-if="user.AC_PC == 0">
+                        <input id="buy_ac" type="radio" name="ac" ng-model="dealer.AC_PC" value="0" ng-change="loadDealer(); setUpdate()">
+                        <label for="buy_ac">AC</label>
                     </label>
-                    <label class="padding-right" ng-show="user.AC_PC == 1">
-                        <input type="radio" name="ac" ng-model="dealer.AC_PC" value="1" ng-change="loadDealer(); setUpdate()">
-                        PC
+                    <label class="padding-right" ng-if="user.AC_PC == 1">
+                        <input id="buy_pc" type="radio" name="ac" ng-model="dealer.AC_PC" value="1" ng-change="loadDealer(); setUpdate()">
+                        <label for="buy_pc">PC</label>
                     </label>
                     <label>
-                        <input type="radio" name="ac" ng-model="dealer.AC_PC" value="2" ng-change="clearDealerSelected(); setUpdate()">
-                        Mới
+                        <input id="buy_new" type="radio" name="ac" ng-model="dealer.AC_PC" value="2" ng-change="clearDealerSelected(); setUpdate()">
+                        <label for="buy_new">Mới</label>
                     </label>
                 </div>
             </div>
@@ -48,23 +48,23 @@
                 <div class="col-survey-title">
                     Tên đại lý
                 </div>
-                <div class="col" ng-show="dealer.AC_PC == 2">
+                <div class="col" ng-if="dealer.AC_PC == 2">
                     <label>
                         <input class="match-parent" type="text item-input-inset" name="dealerName" ng-model="dealer.dealerName" ng-change="setUpdate()" ng-maxlenght="100" required>
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="submited && frmSurvey.dealerName.$error.required">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="submited && frmSurvey.dealerName.$error.required">
                         Vui lòng nhập tên đại lý
                     </div>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.dealerName.$dirty) && frmSurvey.dealerName.$error.maxlenght">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.dealerName.$dirty) && frmSurvey.dealerName.$error.maxlenght">
                         Tên đại lý quá dài
                     </div>
                 </div>
-                <div class="col" ng-show="dealer.AC_PC != 2">
+                <div class="col" ng-if="dealer.AC_PC != 2">
                     <label>
                         <select class="full-width match-parent" ng-model="dealerIndex" ng-change="setDealer(dealerIndex); setUpdate()">
                         <option ng-selected="dealer.dealerId == d.DealerId" ng-repeat="d in dealers" ng-bind="d.DealerName" ng-value="$index"></option>
                     </select>
-                    <div style="padding-top:5px; font-size:12px;" ng-show="dealer.dealerCode">
+                    <div style="padding-top:5px; font-size:12px;" ng-if="dealer.dealerCode">
                         Mã: {{dealer.dealerCode}}
                     </div>
                     </label>
@@ -89,10 +89,10 @@
                     <label>
                         <input class="match-parent" type="text item-input-inset" name="fullName" ng-model="dealer.fullName" ng-change="setUpdate()" ng-maxlenght="100" required>
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited) && frmSurvey.fullName.$error.required">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited) && frmSurvey.fullName.$error.required">
                         Vui lòng nhập tên người KD
                     </div>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited) && frmSurvey.fullName.$error.maxlenght">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited) && frmSurvey.fullName.$error.maxlenght">
                         Tên người KD quá dài
                     </div>
                 </div>
@@ -105,10 +105,10 @@
                     <label>
                         <input pattern="[0-9]*" class="match-parent" type="number item-input-inset" ng-minlength="6" ng-maxlength="15" name="phoneNumber" ng-model="dealer.phoneNumber" ng-change="setUpdate()" required>
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.phoneNumber.$dirty) && frmSurvey.phoneNumber.$error.required">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.phoneNumber.$dirty) && frmSurvey.phoneNumber.$error.required">
                         Vui lòng nhập số điện thoại
                     </div>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.phoneNumber.$dirty) && !frmSurvey.phoneNumber.$error.required && (frmSurvey.phoneNumber.$error.pattern || frmSurvey.phoneNumber.$error.minlength || frmSurvey.phoneNumber.$error.maxlength)">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.phoneNumber.$dirty) && !frmSurvey.phoneNumber.$error.required && (frmSurvey.phoneNumber.$error.pattern || frmSurvey.phoneNumber.$error.minlength || frmSurvey.phoneNumber.$error.maxlength)">
                         Số điện thoại không hợp lệ
                     </div>
                 </div>
@@ -129,10 +129,10 @@
                     <label>
                         <input pattern="[0-9]*" ng-minlength="4" ng-maxlength="4" type="number item-input-inset" style="width:40px;" ng-model="dealer.year" name="year"  ng-change="setUpdate()" required>
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.year.$dirty) && frmSurvey.year.$error.required">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.year.$dirty) && frmSurvey.year.$error.required">
                         Vui lòng nhập ngày tháng năm sinh
                     </div>
-                     <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.year.$dirty) && !frmSurvey.year.$error.required && (frmSurvey.year.$error.pattern || frmSurvey.year.$error.minlength || frmSurvey.year.$error.maxlength)">
+                     <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.year.$dirty) && !frmSurvey.year.$error.required && (frmSurvey.year.$error.pattern || frmSurvey.year.$error.minlength || frmSurvey.year.$error.maxlength)">
                         Ngày sinh không hợp lệ
                     </div>
                 </div>
@@ -156,13 +156,25 @@
             </div>-->
             <div class="row">
                 <div class="col-survey-title padding-left">Quận/Huyện</div>
-                <div class="col" ng-show="dealer.AC_PC == 2">
-                    <select class="full-width match-parent" ng-model="dealer.districtId" ng-change="setUpdate()">
+                <div class="col" ng-if="dealer.AC_PC == 2">
+                    <select class="full-width match-parent" ng-model="dealer.districtId" ng-change="loadWard(); setUpdate()">
                         <option ng-selected="dealer.districtId == d.DistrictId" ng-repeat="d in districts track by $index" ng-bind="d.DistrictName" ng-value="d.DistrictId"></option>
                     </select>
                 </div>
-                <div class="col" ng-show="dealer.AC_PC != 2">
+                <div class="col" ng-if="dealer.AC_PC != 2">
                     <label ng-bind="dealer.districtName">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-survey-title padding-left">Xã/Phường</div>
+                <div class="col" ng-if="dealer.AC_PC == 2">
+                    <select class="full-width match-parent" ng-model="dealer.wardId" ng-change="setUpdate()">
+                        <option ng-selected="dealer.wardId == d.WardId" ng-repeat="d in wards track by $index" ng-bind="d.WardName" ng-value="d.WardId"></option>
+                    </select>
+                </div>
+                <div class="col" ng-if="dealer.AC_PC != 2">
+                    <label ng-bind="dealer.wardName">
                     </label>
                 </div>
             </div>
@@ -170,15 +182,15 @@
                 <div class="col-survey-title padding-left">Địa chỉ cụ thể</div>
                 <div class="col">
                     <label>
-                        <!-- <input type="text item-input-inset" ng-model="dealer.address" ng-show="false"> -->
+                        <!-- <input type="text item-input-inset" ng-model="dealer.address" ng-if="false"> -->
                         <textarea class="match-parent" type="text item-input-inset" name="address" ng-model="dealer.address" rows="3" cols="25" ng-change="setUpdate()" ng-maxlength="200" style="border: 1px solid #AAAAAA;" required></textarea>
                         <div>
                             <label style="padding-top:5px; font-size:12px;">(Số nhà, tên đường, ấp, xã/phường)</label>
                         </div>
-                        <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.address.$dirty) && frmSurvey.address.$error.required">
+                        <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.address.$dirty) && frmSurvey.address.$error.required">
                         Vui lòng nhập ngày địa chỉ
                         </div>
-                        <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.address.$dirty) && frmSurvey.address.$error.maxlength">
+                        <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.address.$dirty) && frmSurvey.address.$error.maxlength">
                         Địa chỉ quá dài
                         </div>
                     </label>
@@ -191,9 +203,9 @@
                     Tọa độ GPS
                 </div>
                 <div class="col">
-                    <div ng-show="survey.lat && survey.long" style="padding-top:5px;">
-                        <input type="checkbox" ng-model="dealer.confirmGPS">
-                        Xác nhận
+                    <div ng-if="survey.lat && survey.long" style="padding-top:5px;">
+                        <input id="confirm_gps" type="checkbox" ng-model="dealer.confirmGPS">
+                        <label for="confirm_gps">Xác nhận</label>
                     </div>
                     <div  id="latlong" ng-model="dealer.gps">
                         Chưa xác định
@@ -209,10 +221,10 @@
                     <label>
                         <input pattern="[0-9]*" class="match-parent" type="number item-input-inset" pattern="[0-9]*" name="cmnd" ng-model="dealer.cmnd" ng-change="setUpdate()" ng-maxlength="15" required>
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.cmnd.$dirty) && frmSurvey.cmnd.$error.required">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.cmnd.$dirty) && frmSurvey.cmnd.$error.required">
                         Vui lòng nhập CMND
                     </div>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.cmnd.$dirty) && (frmSurvey.cmnd.$error.maxlength || frmSurvey.cmnd.$error.pattern)">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.cmnd.$dirty) && (frmSurvey.cmnd.$error.maxlength || frmSurvey.cmnd.$error.pattern)">
                        CMND không hợp lệ
                     </div>
                 </div>
@@ -221,11 +233,11 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="imgCMND1 !== undefined" ng-src="{{imgCMND1}}">
-                            <img ng-show="imgCMND1 === undefined" id="img_cmnd1" src="img/no-image.png">
+                            <img ng-if="imgCMND1 !== undefined" ng-src="{{imgCMND1}}">
+                            <img ng-if="imgCMND1 === undefined" id="img_cmnd1" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(1)">
+                            <button type="button" class="button button-small" ng-click="takePhoto(1, 0)">
                                 Mặt trước CMND
                             </button>
                         </center>
@@ -234,11 +246,11 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="imgCMND2 !== undefined" ng-src="{{imgCMND2}}">
-                            <img ng-show="imgCMND2 === undefined" id="img_cmnd2" src="img/no-image.png">
+                            <img ng-if="imgCMND2 !== undefined" ng-src="{{imgCMND2}}">
+                            <img ng-if="imgCMND2 === undefined" id="img_cmnd2" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(2)">
+                            <button type="button" class="button button-small" ng-click="takePhoto(2, 0)">
                                 Mặt sau CMND
                             </button>
                         </center>
@@ -254,11 +266,11 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="imgDealer !== undefined" ng-src="{{imgDealer}}">
-                            <img ng-show="imgDealer === undefined" id="img_dealer" src="img/no-image.png">
+                            <img ng-if="imgDealer !== undefined" ng-src="{{imgDealer}}">
+                            <img ng-if="imgDealer === undefined" id="img_dealer" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(3)">
+                            <button type="button" class="button button-small" ng-click="getPhoto(3)">
                                 Chủ đại lý
                             </button>
                         </center>
@@ -267,11 +279,11 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="imgShop !== undefined" ng-src="{{imgShop}}">
-                            <img ng-show="imgShop === undefined" id="img_shop" src="img/no-image.png">
+                            <img ng-if="imgShop !== undefined" ng-src="{{imgShop}}">
+                            <img ng-if="imgShop === undefined" id="img_shop" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(4)">
+                            <button type="button" class="button button-small" ng-click="getPhoto(4)">
                                 Cửa hàng
                             </button>
                         </center>
@@ -280,11 +292,11 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="imgWarehouse !== undefined" ng-src="{{imgWarehouse}}">
-                            <img ng-show="imgWarehouse === undefined" id="img_warehouse" src="img/no-image.png">
+                            <img ng-if="imgWarehouse !== undefined" ng-src="{{imgWarehouse}}">
+                            <img ng-if="imgWarehouse === undefined" id="img_warehouse" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(5)">
+                            <button type="button" class="button button-small" ng-click="getPhoto(5)">
                                 Kho
                             </button>
                         </center>
@@ -301,7 +313,7 @@
                     <label>
                          <input class="number" pattern="[0-9]*" type="number item-input-inset" name="SL_DL2" ng-model="survey.SL_DL2" ng-change="setUpdate()" style="width:100px;" ng-maxlength="5">
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.SL_DL2.$dirty) && (frmSurvey.SL_DL2.$error.pattern || frmSurvey.SL_DL2.$error.maxlength)">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_DL2.$dirty) && (frmSurvey.SL_DL2.$error.pattern || frmSurvey.SL_DL2.$error.maxlength)">
                         Số lượng đại lý cấp 2 không hợp lệ
                     </div>
                 </div>
@@ -314,10 +326,10 @@
                     <label>
                         <input class="number" pattern="[0-9]*" type="number item-input-inset" ng-model="survey.SL_HO" name="SL_HO" ng-change="setUpdate()" style="width:100px;" required ng-maxlength="5">
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.SL_HO.$dirty) && frmSurvey.SL_HO.$error.required">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_HO.$dirty) && frmSurvey.SL_HO.$error.required">
                     Vui lòng số lượng Hộ/Trại
                     </div>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.SL_HO.$dirty) && (frmSurvey.SL_HO.$error.maxlength || frmSurvey.SL_HO.$error.pattern)">
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_HO.$dirty) && (frmSurvey.SL_HO.$error.maxlength || frmSurvey.SL_HO.$error.pattern)">
                     Số lượng Hộ/Trại không hợp lệ
                     </div>
                 </div>
@@ -329,10 +341,10 @@
                     Chăn nuôi trực tiếp
                 </div>
                 <div class="col">
-                   <input type="radio" name="nuoiTT" value="0" ng-model="survey.NUOI_TT" ng-change="setUpdate()">
-                    Không &nbsp;
-                    <input type="radio" name="nuoiTT" value="1" ng-model="survey.NUOI_TT" ng-change="setUpdate()">
-                    Có
+                   <input id="k_nuoi_tt" type="radio" name="nuoiTT" value="0" ng-model="survey.NUOI_TT" ng-change="setUpdate()">
+                    <label for="k_nuoi_tt">Không &nbsp;</label>
+                    <input id="nuoi_tt" type="radio" name="nuoiTT" value="1" ng-model="survey.NUOI_TT" ng-change="setUpdate()">
+                    <label for="nuoi_tt">Có</label>
                 </div>
             </div>
 
@@ -347,7 +359,7 @@
                         <label>
                             (con)
                         </label>
-                        <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.SL_NAI.$dirty) && (frmSurvey.SL_NAI.$error.pattern || frmSurvey.SL_NAI.$error.maxlenght)">
+                        <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_NAI.$dirty) && (frmSurvey.SL_NAI.$error.pattern || frmSurvey.SL_NAI.$error.maxlenght)">
                             Số lượng không hợp lệ
                         </div>
                     </div>
@@ -361,7 +373,7 @@
                         <label>
                             (con)
                         </label>
-                        <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.SL_THIT.$dirty) && (frmSurvey.SL_THIT.$error.pattern || frmSurvey.SL_THIT.$error.maxlenght)">
+                        <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_THIT.$dirty) && (frmSurvey.SL_THIT.$error.pattern || frmSurvey.SL_THIT.$error.maxlenght)">
                             Số lượng không hợp lệ
                         </div>
                     </div>
@@ -377,7 +389,7 @@
                         <label>
                             (con)
                         </label>
-                         <div class="error" style="padding-top:5px; font-size:12px;" ng-show="(submited || frmSurvey.SL_NOC.$dirty) && (frmSurvey.SL_NOC.$error.pattern || frmSurvey.SL_NOC.$error.maxlenght)">
+                         <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_NOC.$dirty) && (frmSurvey.SL_NOC.$error.pattern || frmSurvey.SL_NOC.$error.maxlenght)">
                             Số lượng không hợp lệ
                         </div>
                     </div> 
@@ -389,11 +401,11 @@
                 <br>
             </div>
 
-            <div class="row" ng-show="!dealer.confirmGPS">
+            <div class="row" ng-if="!dealer.confirmGPS">
                <label class="error"> * Vui lòng xác nhận tọa độ GPS trước khi tiếp tục.</label>
             </div>
 
-            <div class="row" ng-show="submited && !frmSurvey.$valid">
+            <div class="row" ng-if="submited && !frmSurvey.$valid">
                <label class="error"> * Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại.</label>
             </div>
 

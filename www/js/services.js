@@ -14,18 +14,21 @@ angular.module('starter.services', [])
     }
 
     return {
-        updateDealerBySurveyId: function(surveyId, dealerName, provinceName, address, URL) {
-            for (var dealer in dealers) {
-                if (dealer.SurveyId == surveyId) {
+        updateDealerBySurveyId: function (surveyId, dealerName, provinceName, address, URL) {
+            //console.log(dealers);
+            for (var i = 0; i < dealers.length; i++) {
+                if (dealers[i].SurveyId == surveyId) {
+                    //console.log("I'm find it!");
                     if (dealerName != null)
-                        dealer.DealerName = dealerName;
+                        dealers[i].DealerName = dealerName;
                     if (provinceName != null)
-                        dealer.ProvineName = provinceName;
+                        dealers[i].ProvinceName = provinceName;
                     if (address != null)
-                        dealer.Adrress = address;
+                        dealers[i].Address = address;
                     if (URL != null)
-                        dealer.DealerPhoto = URL;
+                        dealers[i].DealerPhoto = URL;
                     saveDealer();
+                    return;
                 }
             }
         },
@@ -34,9 +37,9 @@ angular.module('starter.services', [])
                 if(dealerName != null)
                     dealers[0].DealerName = dealerName;
                 if (provinceName != null)
-                    dealers[0].ProvineName = provinceName;
+                    dealers[0].ProvinceName = provinceName;
                 if (address != null)
-                    dealers[0].Adrress = address;
+                    dealers[0].Address = address;
                 if (URL != null)
                     dealers[0].DealerPhoto = URL;
 
@@ -44,9 +47,13 @@ angular.module('starter.services', [])
             }
         },
         all: function () {
-            return dealers;
+           dealers = $localstorage.getObject(LIST_DEALERS_KEY);
+           //console.log(dealers);
+           return dealers;
+            //return dealers;
         },
-        dealerPush: function(item) {
+        dealerPush: function (item) {
+            dealers = $localstorage.getObject(LIST_DEALERS_KEY);
             if(dealers != null && dealers.length > 0) {
                 dealers.unshift(item);
                 saveDealer();

@@ -1,5 +1,5 @@
 ﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService,
-    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS) {
+    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS, $ionicPopup) {
     //$scope.dealer = Dealers.get($stateParams.dealerId);
     var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
     $scope.serviceBase = NETWORK.BASE_URL;
@@ -18,9 +18,31 @@
 
     // -----------------------upload picture--------------------------------------
 
-    $scope.takePhoto = function (id) {
-        //console.log(id);
+   $scope.getPhoto = function(id) {
         $scope.id = id;
+        $scope.popupChooseImage = $ionicPopup.show({
+            templateUrl: 'templates/popup-choose-picture.html',
+            title: 'Chọn ảnh từ',
+            scope: $scope
+        });
+    }
+    
+   $scope.takePhoto = function (id, from) {
+        switch(from) {
+            case 0:
+                $scope.takePhotoFromCamera(id);
+                break;
+            case 1:
+                $scope.takePhotoFromAlbum(id);
+                break;
+        }
+    }
+
+    $scope.takePhotoFromCamera = function (id) {
+        if ($scope.popupChooseImage) {
+            $scope.popupChooseImage.close();
+        }
+        
         var options = {
             quality: 75,
             destinationType: Camera.DestinationType.FILE_URL,
@@ -30,9 +52,27 @@
             popoverOptions: CameraPopoverOptions,
             targetWidth: 500,
             targetHeight: 500,
-            saveToPhotoAlbum: false
+            saveToPhotoAlbum: true
         };
 
+        navigator.camera.getPicture(onSuccess, onFail, options);
+    } 
+
+    $scope.takePhotoFromAlbum = function (id) {
+        if ($scope.popupChooseImage) {
+            $scope.popupChooseImage.close();
+        }
+        
+        var options = {
+            quality: 75,
+            destinationType: Camera.DestinationType.FILE_URL,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+            //allowEdit: true,
+            encodingType: Camera.EncodingType.JPEG,
+            popoverOptions: CameraPopoverOptions,
+            targetWidth: 500,
+            targetHeight: 500
+        };
         navigator.camera.getPicture(onSuccess, onFail, options);
     }
 
@@ -175,6 +215,24 @@
             });
     }
 
+    $scope.loadWard = function () {
+        var param = {
+            token: AuthService.token(),
+            district: $scope.dealer.DistrictId,
+        }
+
+        $http.get($scope.serviceBase + '/wards', { params: param })
+            .success(function (response) {
+                $scope.wards = [];
+                $scope.wards.push.apply($scope.wards, response);
+
+                if ($scope.wards.length > 0) {
+                    $scope.dealer.wardId = $scope.wards[0].WardId;
+                }
+            }).error(function (err, status) {
+            });
+    }
+
     $scope.loadProvinces = function () {
         var param = {
             token: AuthService.token(),
@@ -200,22 +258,15 @@
     });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-        //console.log("DealerController change state");
-        //event.preventDefault();
-        //if ("tabs.dealer-detail" == fromState.name)
-        //    $scope.initDealer();
-        //if ("tabs.dealer-detail" == fromState.name)
-        //    $scope.initDealer();
-        //console.log(fromstate);
-        //console.log(tostate);
-        //$scope.update = true;
-        ////use to check update image
-        //$scope.update1 = false;
-        //$scope.update2 = false;
-        //$scope.update3 = false;
-        //$scope.update4 = false;
-        //$scope.update5 = false;
-        //$scope.loadDealers();
+        if (toState.name == "tabs.dealers")
+        {
+            $scope.loadDealers(false);
+            console.log("EDIT");
+        }
+            
+        if (fromState.name == "tabs.dealers" && (toState.name == "tabs.dealer-detail-sales-giacam" ||
+            toState.name == "tabs.dealer-detail-sales-bo"))
+            event.preventDefault();
     });
 
     $scope.setUpdateImage = function (id) {
@@ -229,40 +280,89 @@
     }
 
     $scope.loadDealers = function (isPull) {
-        if (!isPull) {
-            $scope.loading = true;
-        }
-
-        var listDealers = $localstorage.getObject(LIST_DEALERS_KEY);
-        if (listDealers) {
-            Dealers.setDealers(listDealers);
-            $scope.dealers = Dealers.all();
-            $scope.loading = false;
-            $scope.$broadcast('scroll.refreshComplete');
-            return;
-        }
-
-        console.log('Load Dealers');
+        // New flow
+        $scope.loading = true;
+        var listDealer = $localstorage.getObject(LIST_DEALERS_KEY);
         var param = {
             token: AuthService.token(),
             saleid: $scope.user.SaleRepId
         }
+        // List dealer not null
+        if (listDealer != null) {
+            // If pull refresh
+            if (isPull) {
+                $http.get($scope.serviceBase + '/survey/list', { params: param })
+                    .success(function (response) {
+                        Dealers.setDealers(response);
+                        $scope.dealers = Dealers.all();
+                        //console.log($scope.dealers);
+                        $scope.$broadcast('scroll.refreshComplete');
+                        //$scope.loading = false;
 
-        //console.log(param);
-
-        $http.get($scope.serviceBase + '/survey/list', { params: param })
+                    }).error(function (err, status) {
+                        $scope.$broadcast('scroll.refreshComplete');
+                        //$scope.loading = false;
+                        //console.log("load dealers error "+err);
+                    });
+            }
+            // Click tab
+            else {
+                Dealers.setDealers(listDealer);
+                $scope.dealers = Dealers.all();
+            }
+        }
+        // List dealer null
+        else {
+            $http.get($scope.serviceBase + '/survey/list', { params: param })
             .success(function (response) {
                 Dealers.setDealers(response);
                 $scope.dealers = Dealers.all();
                 ////console.log($scope.dealers);
                 $scope.$broadcast('scroll.refreshComplete');
-                $scope.loading = false;
+                //$scope.loading = false;
 
             }).error(function (err, status) {
                 $scope.$broadcast('scroll.refreshComplete');
-                $scope.loading = false;
+                //$scope.loading = false;
                 //console.log("load dealers error "+err);
             });
+        }
+        $scope.loading = false;
+        // Old flow
+        //if (!isPull) {
+        //    $scope.loading = true;
+        //}
+
+        //var listDealers = $localstorage.getObject(LIST_DEALERS_KEY);
+        //if (listDealers) {
+        //    Dealers.setDealers(listDealers);
+        //    $scope.dealers = Dealers.all();
+        //    $scope.loading = false;
+        //    $scope.$broadcast('scroll.refreshComplete');
+        //    return;
+        //}
+
+        //console.log('Load Dealers');
+        //var param = {
+        //    token: AuthService.token(),
+        //    saleid: $scope.user.SaleRepId
+        //}
+
+        ////console.log(param);
+
+        //$http.get($scope.serviceBase + '/survey/list', { params: param })
+        //    .success(function (response) {
+        //        Dealers.setDealers(response);
+        //        $scope.dealers = Dealers.all();
+        //        ////console.log($scope.dealers);
+        //        $scope.$broadcast('scroll.refreshComplete');
+        //        $scope.loading = false;
+
+        //    }).error(function (err, status) {
+        //        $scope.$broadcast('scroll.refreshComplete');
+        //        $scope.loading = false;
+        //        //console.log("load dealers error "+err);
+        //    });
     }
 
     $scope.initDealer = function () {
@@ -376,6 +476,7 @@
                 phonenumber: $scope.dealer.PhoneNumber,
                 birthday: $scope.dealer.day + "/" + $scope.dealer.month + "/" + $scope.dealer.year,
                 districtid: $scope.dealer.DistrictId,
+                wardid: $scope.dealer.WardId,
                 address: $scope.dealer.Address,
                 cmnd: $scope.dealer.CMND,
                 // cmndfont : $scope.dealer.cmndFront,
@@ -386,12 +487,12 @@
                 // dealerphoto : $scope.survey.dealerPhoto,
                 // storephoto : $scope.survey.storePhoto,
                 // stockphoto : $scope.survey.stockPhoto,
-                sldl2: $scope.survey.SL_DL2,
-                slho: $scope.survey.SL_HO,
+                sldl2: parseInt($scope.survey.SL_DL2),
+                slho: parseInt($scope.survey.SL_HO),
                 nuoitt: $scope.survey.NUOI_TT,
-                slnai:  $scope.survey.NUOI_TT == 0 ? 0 : $scope.survey.SL_NAI,
-                slthit: $scope.survey.NUOI_TT == 0 ? 0 : $scope.survey.SL_THIT,
-                slnoc:  $scope.survey.NUOI_TT == 0 ? 0 : $scope.survey.SL_NOC,
+                slnai:  $scope.survey.NUOI_TT == 0 ? 0 : parseInt($scope.survey.SL_NAI),
+                slthit: $scope.survey.NUOI_TT == 0 ? 0 : parseInt($scope.survey.SL_THIT),
+                slnoc:  $scope.survey.NUOI_TT == 0 ? 0 : parseInt($scope.survey.SL_NOC),
                 saleid: $scope.user.SaleRepId
             }
 
@@ -408,8 +509,12 @@
                     $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
 
                     // edit first item in list dealer
-                    var provinceName = getProvinceName($scope.dealer.provinceId);
-                    Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, $scope.dealer.dealerName, provinceName, $scope.dealer.address, null);
+                    var provinceName = getProvinceName($scope.dealer.ProvinceId);
+                    console.log(Dealers.survey().SurveyId);
+                    console.log($scope.dealer.DealerName);
+                    console.log(provinceName);
+                    console.log($scope.dealer.Address);
+                    Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, $scope.dealer.DealerName, provinceName, $scope.dealer.Address, null);
 
                     if ($scope.update1)
                         uploadImage($scope.dealer.CMND_Front_Local, 1);

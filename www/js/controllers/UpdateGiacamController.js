@@ -71,9 +71,9 @@
                 surveyid: Dealers.survey().SurveyId,
 
                 kd: $scope.giacam.GIACAM_KD,
-                ga:  $scope.giacam.GIACAM_KD == 0 ? 0 : $scope.giacam.GIA_CAM_GA,
-                vit: $scope.giacam.GIACAM_KD == 0 ? 0 : $scope.giacam.GIA_CAM_VIT,
-                cut: $scope.giacam.GIACAM_KD == 0 ? 0 : $scope.giacam.GIA_CAM_CUT
+                ga:  $scope.giacam.GIACAM_KD == 0 ? 0 : parseFloat($scope.giacam.GIA_CAM_GA),
+                vit: $scope.giacam.GIACAM_KD == 0 ? 0 : parseFloat($scope.giacam.GIA_CAM_VIT),
+                cut: $scope.giacam.GIACAM_KD == 0 ? 0 : parseFloat($scope.giacam.GIA_CAM_CUT)
             }
             if (Dealers.survey().GIACAM_ID) {
                 param.giacamid = Dealers.survey().GIACAM_ID;

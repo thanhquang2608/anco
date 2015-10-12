@@ -125,23 +125,23 @@
 
                 cc_kd: $scope.survey.BO_CC,
                 cc_mua: $scope.survey.BO_CC == 0 ? 0 : $scope.survey.BO_CC_MUA_TT,
-                cc_sl:  $scope.survey.BO_CC == 0 ? 0 : $scope.survey.BO_CC_SL,
+                cc_sl:  $scope.survey.BO_CC == 0 ? 0 : parseInt($scope.survey.BO_CC_SL),
 
                 dh_kd: $scope.survey.BO_DH,
                 dh_mua: $scope.survey.BO_DH == 0 ? 0 : $scope.survey.BO_DH_MUA_TT,
-                dh_sl:  $scope.survey.BO_DH == 0 ? 0 : $scope.survey.BO_DH_SL,
+                dh_sl:  $scope.survey.BO_DH == 0 ? 0 : parseInt($scope.survey.BO_DH_SL),
 
                 cp_kd: $scope.survey.BO_CP,
                 cp_mua: $scope.survey.BO_CP == 0 ? 0 : $scope.survey.BO_CP_MUA_TT,
-                cp_sl:  $scope.survey.BO_CP == 0 ? 0 : $scope.survey.BO_CP_SL,
+                cp_sl:  $scope.survey.BO_CP == 0 ? 0 : parseInt($scope.survey.BO_CP_SL),
 
                 up_kd: $scope.survey.BO_UP,
                 up_mua: $scope.survey.BO_UP == 0 ? 0 : $scope.survey.BO_UP_MUA_TT,
-                up_sl:  $scope.survey.BO_UP == 0 ? 0 : $scope.survey.BO_UP_SL,
+                up_sl:  $scope.survey.BO_UP == 0 ? 0 : parseInt($scope.survey.BO_UP_SL),
 
                 o_kd: $scope.survey.BO_ANOTHER,
                 o_mua: $scope.survey.BO_ANOTHER == 0 ? 0 : $scope.survey.BO_ANOTHER_MUA_TT,
-                o_sl:  $scope.survey.BO_ANOTHER == 0 ? 0 : $scope.survey.BO_ANOTHER_SL
+                o_sl:  $scope.survey.BO_ANOTHER == 0 ? 0 : parseInt($scope.survey.BO_ANOTHER_SL)
             }
             if (Dealers.survey().BO_ID) {
                 param.boid = Dealers.survey().BO_ID;

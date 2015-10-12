@@ -100,17 +100,33 @@
             </div>
             <div class="row">
                 <div class="col-survey-title padding-left">Quận/Huyện</div>
-                <div class="col">
-                    <select class="full-width match-parent" ng-model="dealer.DistrictId" ng-change="setUpdate()" >
+                <div class="col" ng-if="dealer.AC_PC == 2">
+                    <select class="full-width match-parent" ng-model="dealer.DistrictId" ng-change="loadWard(); setUpdate()" >
                     <option ng-selected="dealer.DistrictId == d.DistrictId" ng-repeat="d in districts track by $index" ng-bind="d.DistrictName" ng-value="d.DistrictId"></option>
                     </select>
+                </div>
+                <div class="col" ng-if="dealer.AC_PC != 2">
+                    <label ng-bind="dealer.DistrictName">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-survey-title padding-left">Xã/Phường</div>
+                <div class="col" ng-if="dealer.AC_PC == 2">
+                    <select class="full-width match-parent" ng-model="dealer.wardId"  ng-change="setUpdate()">
+                        <option ng-selected="dealer.wardId == d.wardId" ng-repeat="d in wards track by $index" ng-bind="d.WardName" ng-value="d.WardId"></option>
+                    </select>
+                </div>
+                <div class="col" ng-if="dealer.AC_PC != 2">
+                    <label ng-bind="dealer.WardName">
+                    </label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-survey-title padding-left">Địa chỉ cụ thể</div>
                 <div class="col">
                     <label>
-                        <!-- <input type="text item-input-inset" ng-model="dealer.address" ng-show="false"> -->
+                        <!-- <input type="text item-input-inset" ng-model="dealer.address" ng-if="false"> -->
                         <textarea class="match-parent" type="text item-input-inset" name="address" ng-model="dealer.Address" rows="3" cols="25" ng-change="setUpdate()"  ng-maxlength="200" style="border: 1px solid #AAAAAA;" required></textarea>
                         <div>
                             <label style="padding-top:5px; font-size:12px;">(Số nhà, tên đường, ấp, xã/phường)</label>
@@ -157,12 +173,12 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="dealer.CMND_Front_Local" ng-src="{{dealer.CMND_Front_Local}}">
-                            <img ng-show="!dealer.CMND_Front_Local && dealer.CMND_Front !== null" ng-src="{{serviceBase}}{{dealer.CMND_Front}}">
-                            <img ng-show="!dealer.CMND_Front_Local && !dealer.CMND_Front" id="img_cmnd1" src="img/no-image.png">
+                            <img ng-if="dealer.CMND_Front_Local" ng-src="{{dealer.CMND_Front_Local}}">
+                            <img ng-if="!dealer.CMND_Front_Local && dealer.CMND_Front !== null" ng-src="{{serviceBase}}{{dealer.CMND_Front}}">
+                            <img ng-if="!dealer.CMND_Front_Local && !dealer.CMND_Front" id="img_cmnd1" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(1)">
+                            <button type="button" class="button button-small" ng-click="takePhoto(1, 0)">
                                 Mặt trước CMND
                             </button>
                         </center>
@@ -172,12 +188,12 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="dealer.CMND_Back_Local" ng-src="{{dealer.CMND_Back_Local}}">
-                            <img ng-show="!dealer.CMND_Back_Local && dealer.CMND_Back !== null" ng-src="{{serviceBase}}{{dealer.CMND_Back}}">
-                            <img ng-show="!dealer.CMND_Back_Local && !dealer.CMND_Back" id="img_cmnd2" src="img/no-image.png">
+                            <img ng-if="dealer.CMND_Back_Local" ng-src="{{dealer.CMND_Back_Local}}">
+                            <img ng-if="!dealer.CMND_Back_Local && dealer.CMND_Back !== null" ng-src="{{serviceBase}}{{dealer.CMND_Back}}">
+                            <img ng-if="!dealer.CMND_Back_Local && !dealer.CMND_Back" id="img_cmnd2" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(2)">
+                            <button type="button" class="button button-small" ng-click="takePhoto(2, 0)">
                                 Mặt sau CMND
                             </button>
                         </center>
@@ -195,12 +211,12 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="survey.DealerPhoto_Local" ng-src="{{survey.DealerPhoto_Local}}">
-                            <img ng-show="!survey.DealerPhoto_Local && survey.DealerPhoto !== null" ng-src="{{serviceBase}}{{survey.DealerPhoto}}">
-                            <img ng-show="!survey.DealerPhoto_Local && !survey.DealerPhoto" id="img_dealer" src="img/no-image.png">
+                            <img ng-if="survey.DealerPhoto_Local" ng-src="{{survey.DealerPhoto_Local}}">
+                            <img ng-if="!survey.DealerPhoto_Local && survey.DealerPhoto !== null" ng-src="{{serviceBase}}{{survey.DealerPhoto}}">
+                            <img ng-if="!survey.DealerPhoto_Local && !survey.DealerPhoto" id="img_dealer" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(3)">
+                            <button type="button" class="button button-small" ng-click="getPhoto(3)">
                                 Chủ đại lý
                             </button>
                         </center>
@@ -209,12 +225,12 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="survey.StorePhoto_Local" ng-src="{{survey.StorePhoto_Local}}">
-                            <img ng-show="!survey.StorePhoto_Local && survey.StorePhoto !== null" ng-src="{{serviceBase}}{{survey.StorePhoto}}">
-                            <img ng-show="!survey.StorePhoto_Local && !survey.StorePhoto" id="img_shop" src="img/no-image.png">
+                            <img ng-if="survey.StorePhoto_Local" ng-src="{{survey.StorePhoto_Local}}">
+                            <img ng-if="!survey.StorePhoto_Local && survey.StorePhoto !== null" ng-src="{{serviceBase}}{{survey.StorePhoto}}">
+                            <img ng-if="!survey.StorePhoto_Local && !survey.StorePhoto" id="img_shop" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(4)">
+                            <button type="button" class="button button-small" ng-click="getPhoto(4)">
                                 Cửa hàng
                             </button>
                         </center>
@@ -223,12 +239,12 @@
                 <div class="col-survey-img">
                     <div class="list card" style="pading:10px;">
                         <div class="item item-image">
-                            <img ng-show="survey.StockPhoto_Local" ng-src="{{survey.StockPhoto_Local}}">
-                            <img ng-show="!survey.StockPhoto_Local && survey.StockPhoto !== null" ng-src="{{serviceBase}}{{survey.StockPhoto}}">
-                            <img ng-show="!survey.StockPhoto_Local && !survey.StockPhoto" id="img_warehouse" src="img/no-image.png">
+                            <img ng-if="survey.StockPhoto_Local" ng-src="{{survey.StockPhoto_Local}}">
+                            <img ng-if="!survey.StockPhoto_Local && survey.StockPhoto !== null" ng-src="{{serviceBase}}{{survey.StockPhoto}}">
+                            <img ng-if="!survey.StockPhoto_Local && !survey.StockPhoto" id="img_warehouse" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(5)">
+                            <button type="button" class="button button-small" ng-click="getPhoto(5)">
                                 Kho
                             </button>
                         </center>
@@ -273,10 +289,10 @@
                     Chăn nuôi trực tiếp
                 </div>
                 <div class="col">
-                    <input type="radio" name="nuoiTT" value="0" ng-model="survey.NUOI_TT" ng-change="setUpdate()">
-                    Không &nbsp;
-                    <input type="radio" name="nuoiTT" value="1" ng-model="survey.NUOI_TT" ng-change="setUpdate()">
-                    Có
+                    <input id="k_nuoi_tt" type="radio" name="nuoiTT" value="0" ng-model="survey.NUOI_TT" ng-change="setUpdate()">
+                    <label for="k_nuoi_tt">Không &nbsp;</label>
+                    <input id="nuoi_tt" type="radio" name="nuoiTT" value="1" ng-model="survey.NUOI_TT" ng-change="setUpdate()">
+                    <label for="nuoi_tt">Có</label>
                 </div>
             </div>
 

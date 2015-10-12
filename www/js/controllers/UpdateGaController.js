@@ -190,45 +190,45 @@
 
                 cc_kd: $scope.survey.GA_CC,
                 cc_mua:  $scope.survey.GA_CC == 0 ? 0 : $scope.survey.GA_CC_MUA_TT,
-                cc_gade: $scope.survey.GA_CC == 0 ? 0 : $scope.survey.GA_CC_GD,
-                cc_lt:   $scope.survey.GA_CC == 0 ? 0 : $scope.survey.GA_CC_LT,
-                cc_lm:   $scope.survey.GA_CC == 0 ? 0 : $scope.survey.GA_CC_LM,
+                cc_gade: $scope.survey.GA_CC == 0 ? 0 : parseInt($scope.survey.GA_CC_GD),
+                cc_lt:   $scope.survey.GA_CC == 0 ? 0 : parseInt($scope.survey.GA_CC_LT),
+                cc_lm:   $scope.survey.GA_CC == 0 ? 0 : parseInt($scope.survey.GA_CC_LM),
 
                 cp_kd: $scope.survey.GA_CP,
                 cp_mua:  $scope.survey.GA_CP == 0 ? 0 : $scope.survey.GA_CP_MUA_TT,
-                cp_gade: $scope.survey.GA_CP == 0 ? 0 : $scope.survey.GA_CP_GD,
-                cp_lt:   $scope.survey.GA_CP == 0 ? 0 : $scope.survey.GA_CP_LT,
-                cp_lm:   $scope.survey.GA_CP == 0 ? 0 : $scope.survey.GA_CP_LM,
+                cp_gade: $scope.survey.GA_CP == 0 ? 0 : parseInt($scope.survey.GA_CP_GD),
+                cp_lt:   $scope.survey.GA_CP == 0 ? 0 : parseInt($scope.survey.GA_CP_LT),
+                cp_lm:   $scope.survey.GA_CP == 0 ? 0 : parseInt($scope.survey.GA_CP_LM),
 
                 gf_kd: $scope.survey.GA_GF,
                 gf_mua:  $scope.survey.GA_GF == 0 ? 0 : $scope.survey.GA_GF_MUA_TT,
-                gf_gade: $scope.survey.GA_GF == 0 ? 0 : $scope.survey.GA_GF_GD,
-                gf_lt:   $scope.survey.GA_GF == 0 ? 0 : $scope.survey.GA_GF_LT,
-                gf_lm:   $scope.survey.GA_GF == 0 ? 0 : $scope.survey.GA_GF_LM,
+                gf_gade: $scope.survey.GA_GF == 0 ? 0 : parseInt($scope.survey.GA_GF_GD),
+                gf_lt:   $scope.survey.GA_GF == 0 ? 0 : parseInt($scope.survey.GA_GF_LT),
+                gf_lm:   $scope.survey.GA_GF == 0 ? 0 : parseInt($scope.survey.GA_GF_LM),
 
                 jf_kd: $scope.survey.GA_JF,
                 jf_mua:  $scope.survey.GA_JF == 0 ? 0 : $scope.survey.GA_JF_MUA_TT,
-                jf_gade: $scope.survey.GA_JF == 0 ? 0 : $scope.survey.GA_JF_GD,
-                jf_lt:   $scope.survey.GA_JF == 0 ? 0 : $scope.survey.GA_JF_LT,
-                jf_lm:   $scope.survey.GA_JF == 0 ? 0 : $scope.survey.GA_JF_LM,
+                jf_gade: $scope.survey.GA_JF == 0 ? 0 : parseInt($scope.survey.GA_JF_GD),
+                jf_lt:   $scope.survey.GA_JF == 0 ? 0 : parseInt($scope.survey.GA_JF_LT),
+                jf_lm:   $scope.survey.GA_JF == 0 ? 0 : parseInt($scope.survey.GA_JF_LM),
 
                 db_kd: $scope.survey.GA_DB,
                 db_mua:  $scope.survey.GA_DB == 0 ? 0 : $scope.survey.GA_DB_MUA_TT,
-                db_gade: $scope.survey.GA_DB == 0 ? 0 : $scope.survey.GA_DB_GD,
-                db_lt:   $scope.survey.GA_DB == 0 ? 0 : $scope.survey.GA_DB_LT,
-                db_lm:   $scope.survey.GA_DB == 0 ? 0 : $scope.survey.GA_DB_LM,
+                db_gade: $scope.survey.GA_DB == 0 ? 0 : parseInt($scope.survey.GA_DB_GD),
+                db_lt:   $scope.survey.GA_DB == 0 ? 0 : parseInt($scope.survey.GA_DB_LT),
+                db_lm:   $scope.survey.GA_DB == 0 ? 0 : parseInt($scope.survey.GA_DB_LM),
 
                 nh_kd: $scope.survey.GA_NH,
                 nh_mua:  $scope.survey.GA_NH == 0 ? 0 : $scope.survey.GA_NH_MUA_TT,
-                nh_gade: $scope.survey.GA_NH == 0 ? 0 : $scope.survey.GA_NH_GD,
-                nh_lt:   $scope.survey.GA_NH == 0 ? 0 : $scope.survey.GA_NH_LT,
-                nh_lm:   $scope.survey.GA_NH == 0 ? 0 : $scope.survey.GA_NH_LM,
+                nh_gade: $scope.survey.GA_NH == 0 ? 0 : parseInt($scope.survey.GA_NH_GD),
+                nh_lt:   $scope.survey.GA_NH == 0 ? 0 : parseInt($scope.survey.GA_NH_LT),
+                nh_lm:   $scope.survey.GA_NH == 0 ? 0 : parseInt($scope.survey.GA_NH_LM),
 
                 o_kd: $scope.survey.GA_ANOTHER,
                 o_mua:  $scope.survey.GA_ANOTHER == 0 ? 0 : $scope.survey.GA_ANOTHER_MUA_TT,
-                o_gade: $scope.survey.GA_ANOTHER == 0 ? 0 : $scope.survey.GA_ANOTHER_GD,
-                o_lt:   $scope.survey.GA_ANOTHER == 0 ? 0 : $scope.survey.GA_ANOTHER_LT,
-                o_lm:   $scope.survey.GA_ANOTHER == 0 ? 0 : $scope.survey.GA_ANOTHER_LM
+                o_gade: $scope.survey.GA_ANOTHER == 0 ? 0 : parseInt($scope.survey.GA_ANOTHER_GD),
+                o_lt:   $scope.survey.GA_ANOTHER == 0 ? 0 : parseInt($scope.survey.GA_ANOTHER_LT),
+                o_lm:   $scope.survey.GA_ANOTHER == 0 ? 0 : parseInt($scope.survey.GA_ANOTHER_LM)
             }
             if (Dealers.survey().GA_ID) {
                 param.gaid = Dealers.survey().GA_ID;
