@@ -19,7 +19,6 @@
     // -----------------------upload picture--------------------------------------
 
    $scope.getPhoto = function(id) {
-        $scope.id = id;
         $scope.popupChooseImage = $ionicPopup.show({
             templateUrl: 'templates/popup-choose-picture.html',
             title: 'Chọn ảnh từ',
@@ -39,6 +38,8 @@
     }
 
     $scope.takePhotoFromCamera = function (id) {
+        $scope.id = id;
+
         if ($scope.popupChooseImage) {
             $scope.popupChooseImage.close();
         }
@@ -59,6 +60,8 @@
     } 
 
     $scope.takePhotoFromAlbum = function (id) {
+        $scope.id = id;
+        
         if ($scope.popupChooseImage) {
             $scope.popupChooseImage.close();
         }
