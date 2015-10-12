@@ -52,7 +52,7 @@
             popoverOptions: CameraPopoverOptions,
             targetWidth: 500,
             targetHeight: 500,
-            saveToPhotoAlbum: true
+            saveToPhotoAlbum: false
         };
 
         navigator.camera.getPicture(onSuccess, onFail, options);
