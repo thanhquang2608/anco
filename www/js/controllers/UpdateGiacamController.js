@@ -87,12 +87,6 @@
                     $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                     $scope.update = false;
 
-                    $ionicViewService.nextViewOptions({
-                        disableBack: true,
-                        historyRoot : false
-                    });
-                    $ionicHistory.clearHistory();
-                    $ionicHistory.clearCache();
                     $state.go('tabs.dealers', {}, { reload: true });
 
                 }).error(function (err, status) {
@@ -101,12 +95,6 @@
                 });
         }
         else {
-            $ionicViewService.nextViewOptions({
-                disableBack: true,
-                historyRoot : false
-            });
-            $ionicHistory.clearHistory();
-            $ionicHistory.clearCache();
             $state.go('tabs.dealers', {}, { reload: true });
         }
     }

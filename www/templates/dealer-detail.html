@@ -7,11 +7,15 @@
                 <div class="col-survey-title">
                     Tỉnh/Thành phố
                 </div>
-                <div class="col">
+                <div class="col" ng-if="dealer.AC_PC == 2">
                     <label>
                         <select class="full-width match-parent" ng-model="dealer.ProvinceId" ng-animate="dealer.city_provine" ng-change="loadDistrict();">
                             <option ng-selected="dealer.ProvinceId == p.ProvinceId" ng-repeat="p in provinces track by $index" ng-bind="p.ProvinceName" ng-value="p.ProvinceId"></option>
                         </select>
+                    </label>
+                </div>
+                <div class="col" ng-if="dealer.AC_PC != 2">
+                    <label ng-bind="dealer.ProvinceName">
                     </label>
                 </div>
             </div>

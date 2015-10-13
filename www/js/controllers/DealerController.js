@@ -1,5 +1,5 @@
 ﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService,
-    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS, $ionicPopup) {
+    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS, $ionicPopup, $ionicHistory) {
     //$scope.dealer = Dealers.get($stateParams.dealerId);
     var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
     $scope.serviceBase = NETWORK.BASE_URL;
@@ -261,8 +261,7 @@
     });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.name == "tabs.dealers")
-        {
+        if (toState.name == "tabs.dealers") {
             $scope.loadDealers(false);
             console.log("EDIT");
         }
@@ -270,7 +269,8 @@
         if (fromState.name == "tabs.dealers" && (toState.name == "tabs.dealer-detail-sales-giacam" ||
             toState.name == "tabs.dealer-detail-sales-bo"))
             event.preventDefault();
-    });
+            $ionicHistory.clearCache();
+        });
 
     $scope.setUpdateImage = function (id) {
         switch (id) {
@@ -284,7 +284,6 @@
 
     $scope.loadDealers = function (isPull) {
         // New flow
-        $scope.loading = true;
         var listDealer = $localstorage.getObject(LIST_DEALERS_KEY);
         var param = {
             token: AuthService.token(),
@@ -316,21 +315,23 @@
         }
         // List dealer null
         else {
+            $scope.loading = true;
             $http.get($scope.serviceBase + '/survey/list', { params: param })
             .success(function (response) {
                 Dealers.setDealers(response);
                 $scope.dealers = Dealers.all();
                 ////console.log($scope.dealers);
                 $scope.$broadcast('scroll.refreshComplete');
-                //$scope.loading = false;
+                $scope.loading = false;
 
             }).error(function (err, status) {
                 $scope.$broadcast('scroll.refreshComplete');
-                //$scope.loading = false;
+                $scope.loading = false;
                 //console.log("load dealers error "+err);
             });
         }
-        $scope.loading = false;
+
+        // $scope.loading = false;
         // Old flow
         //if (!isPull) {
         //    $scope.loading = true;

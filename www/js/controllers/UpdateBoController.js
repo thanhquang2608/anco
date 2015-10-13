@@ -155,12 +155,6 @@
                     $scope.BO_ID = response.BoId;
                     $scope.update = false;
 
-                    $ionicHistory.nextViewOptions({
-                        disableBack: true,
-                        historyRoot : false
-                    });
-                    $ionicHistory.clearHistory();
-                    $ionicHistory.clearCache();
                     $state.go('tabs.dealers', {}, { reload: true });
 
                 }).error(function (err, status) {
@@ -169,12 +163,6 @@
                 });
         }
         else {
-            $ionicHistory.nextViewOptions({
-                disableBack: true,
-                historyRoot : false
-            });
-            $ionicHistory.clearHistory();
-            $ionicHistory.clearCache();
             $state.go('tabs.dealers', {}, { reload: true });
         }
     }
