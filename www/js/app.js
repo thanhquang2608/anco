@@ -223,17 +223,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     console.log('HomeTabCtrl');
 })
 
-.directive('hideTabs', function($rootScope) {
-    return {
-        restrict: 'A',
-        link: function($scope, $el) {
-            $rootScope.hideTabs = true;
-            $scope.$on('$destroy', function() {
-                $rootScope.hideTabs = false;
-            });
-        }
-    };
-})
+// .directive('hideTabs', function($rootScope) {
+//     return {
+//         restrict: 'A',
+//         link: function($scope, $el) {
+//             $rootScope.hideTabs = true;
+//             $scope.$on('$destroy', function() {
+//                 $rootScope.hideTabs = false;
+//             });
+//         }
+//     };
+// })
 
 .directive('showTabs', function($rootScope) {
     return {

@@ -1,7 +1,7 @@
 var app = angular.module('starter.controllers', []);
 
-app.controller('AppCtrl', function ($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS, NETWORK_EVENTS) {
-    $scope.username = AuthService.username();
+app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, AuthService, AUTH_EVENTS, NETWORK_EVENTS) {
+    // $scope.username = AuthService.username();
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
         var alertPopup = $ionicPopup.alert({
@@ -28,6 +28,16 @@ app.controller('AppCtrl', function ($scope, $state, $ionicPopup, AuthService, AU
     $scope.setCurrentUsername = function (name) {
         $scope.username = name;
     };
+
+    $scope.$on('$ionicView.beforeEnter', function () {
+        console.log('enter');
+        var stateName = $state.current.name;
+        if (stateName === 'tabs.survey' || stateName === 'tabs.dealers' || stateName === 'tabs.account') {
+            $rootScope.hideTabs = false;
+        } else {
+            $rootScope.hideTabs = true;
+        }
+    });
 })
 
 .controller('HomeCtrl', function ($scope) {
