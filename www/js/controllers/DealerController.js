@@ -297,7 +297,7 @@
                     .success(function (response) {
                         Dealers.setDealers(response);
                         $scope.dealers = Dealers.all();
-                        //console.log($scope.dealers);
+                        console.log($scope.dealers);
                         $scope.$broadcast('scroll.refreshComplete');
                         //$scope.loading = false;
 
@@ -478,7 +478,7 @@
                 dealercode: $scope.dealer.DealerCode,
                 fullname: $scope.dealer.FullName,
                 phonenumber: $scope.dealer.PhoneNumber,
-                birthday: $scope.dealer.day + "/" + $scope.dealer.month + "/" + $scope.dealer.year,
+                birthday: $scope.dealer.year? "" : $scope.dealer.day + "/" + $scope.dealer.month + "/" + $scope.dealer.year,
                 districtid: $scope.dealer.DistrictId,
                 wardid: $scope.dealer.WardId,
                 address: $scope.dealer.Address,
@@ -518,7 +518,7 @@
                     console.log($scope.dealer.DealerName);
                     console.log(provinceName);
                     console.log($scope.dealer.Address);
-                    Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, $scope.dealer.DealerName, provinceName, $scope.dealer.Address, null);
+                    Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, $scope.dealer.DealerName, $scope.dealer.ProvinceName, $scope.dealer.Address, null);
 
                     if ($scope.update1)
                         uploadImage($scope.dealer.CMND_Front_Local, 1);

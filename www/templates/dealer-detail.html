@@ -87,11 +87,11 @@
                     </select>
                     <label>/</label>
                      <label>
-                        <input pattern="[0-9]*" ng-minlength="4" ng-maxlength="4" type="number item-input-inset" style="width:40px;" ng-model="dealer.year" name="year"  ng-change="setUpdate()" required>
+                        <input pattern="[0-9]*" ng-minlength="4" ng-maxlength="4" type="number item-input-inset" style="width:40px;" ng-model="dealer.year" name="year"  ng-change="setUpdate()">
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.year.$dirty) && frmSurvey.year.$error.required">
+                    <!--<div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.year.$dirty) && frmSurvey.year.$error.required">
                         Vui lòng nhập ngày tháng năm sinh
-                    </div>
+                    </div>-->
                      <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.year.$dirty) && !frmSurvey.year.$error.required && (frmSurvey.year.$error.pattern || frmSurvey.year.$error.minlength || frmSurvey.year.$error.maxlength)">
                         Ngày sinh không hợp lệ
                     </div>

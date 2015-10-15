@@ -204,7 +204,8 @@
 
     $scope.getUser = function () {
         $scope.user = AuthService.user();
-        loadProvinces();
+        loadDistrict();
+        //loadProvinces();
     }
 
     $scope.getUser();
@@ -227,7 +228,7 @@
     $scope.update5 = false;
 
     $scope.setUpdate = function () {
-        console.log("SET UPDATE");
+        //console.log("SET UPDATE");
         $scope.update = true;
     }
     $scope.setUpdateImage = function (id) {
@@ -405,9 +406,9 @@
                     //console.log("AC_PC: " + ac_pc);
                     $scope.survey.HEO_ID = response.HeoId;
                     $scope.update = false;
-                    if (ac_pc == 0)
-                        $state.go('tabs.sales-giacam', {});
-                    else
+                    //if (ac_pc == 0)
+                    //    $state.go('tabs.sales-giacam', {});
+                    //else
                         $state.go('tabs.sales-ga', {});
 
                 }).error(function (err, status) {
@@ -417,9 +418,9 @@
         }
         else {
             $scope.update = false;
-            if (ac_pc == 0)
-                $state.go('tabs.sales-giacam', {});
-            else
+            //if (ac_pc == 0)
+            //    $state.go('tabs.sales-giacam', {});
+            //else
                 $state.go('tabs.sales-ga', {});
         }
     }
@@ -743,6 +744,7 @@
         $scope.dealer.wardId = dealer.WardId;
         $scope.dealer.address = dealer.Address;
 
+        $scope.loadWard();
         //console.log($scope.dealer);
     }
 
@@ -836,8 +838,8 @@
                 dealercode: $scope.dealer.dealerCode,
                 fullname: $scope.dealer.fullName,
                 phonenumber: $scope.dealer.phoneNumber,
-                birthday: $scope.dealer.day + "/" + $scope.dealer.month + "/" + $scope.dealer.year,
-                districtid: $scope.dealer.districtId,
+                birthday: $scope.dealer.year ? "" : $scope.dealer.day + "/" + $scope.dealer.month + "/" + $scope.dealer.year,
+                //districtid: $scope.dealer.districtId,
                 wardid: $scope.dealer.wardId,
                 address: $scope.dealer.address,
                 cmnd: $scope.dealer.cmnd,
@@ -869,17 +871,17 @@
                     //console.log(response);
                     SurveyService.setSurveyID(response.SurveyId);
                     console.log("provinceID = " + $scope.dealer.provinceId);
-                    var provinceName = getProvinceName($scope.dealer.provinceId);
+                    //var provinceName = getProvinceName($scope.dealer.provinceId);
 
                     if ($scope.dealer.dealerId) {
                         // if update dealer -> edit first item in list dealer                       
-                        Dealers.setImageToFirstItem($scope.dealer.dealerName, provinceName, $scope.dealer.address, null);
+                        Dealers.updateDealerBySurveyId(response.SurveyId, $scope.dealer.dealerName, $scope.user.Province.provinceName, $scope.dealer.address, null);
                     }
                     else {
                         // if create dealer -> add temp data to list dealer
                         Dealers.dealerPush({
                             "SurveyId": response.SurveyId, "DealerPhoto": "",
-                            "DealerName": $scope.dealer.dealerName, "ProvinceName": provinceName, "Address": $scope.dealer.address
+                            "DealerName": $scope.dealer.dealerName, "ProvinceName": $scope.user.Province.provinceName, "Address": $scope.dealer.address
                         });
                     }
                     $scope.dealer.dealerId = response.DealerId;
@@ -1005,7 +1007,7 @@
 
         var param = {
             token: AuthService.token(),
-            province: $scope.dealer.provinceId,
+            province: $scope.user.Province.provinceId,
             ac_pc: $scope.dealer.AC_PC,
             uac_pc: $scope.user.AC_PC
         }
@@ -1016,7 +1018,7 @@
             .success(function (response) {
                 $scope.dealers = [];
                 $scope.dealers.push.apply($scope.dealers, response);
-
+                console.log($scope.dealers);
                 if ($scope.dealers.length > 0) {
                     $scope.setDealer(0);
                 }
@@ -1119,10 +1121,10 @@
         $state.go('tabs.survey', {}, { reload: true });
     };
 
-    $scope.loadDistrict = function () {
+    function loadDistrict() {
         var param = {
             token: AuthService.token(),
-            province: $scope.dealer.provinceId,
+            province: $scope.user.Province.provinceId,
             uac_pc: $scope.user.AC_PC
         }
 
@@ -1135,6 +1137,7 @@
 
                 if ($scope.districts.length > 0) {
                     $scope.dealer.districtId = $scope.districts[0].DistrictId;
+                    $scope.loadWard();
                 }
             }).error(function (err, status) {
             });

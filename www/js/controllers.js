@@ -1,8 +1,6 @@
 var app = angular.module('starter.controllers', []);
 
 app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, AuthService, AUTH_EVENTS, NETWORK_EVENTS) {
-    // $scope.username = AuthService.username();
-
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
         var alertPopup = $ionicPopup.alert({
             title: 'Unauthorized!',

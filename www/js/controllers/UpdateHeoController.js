@@ -249,9 +249,9 @@
                     //console.log("AC_PC: " + $scope.user.AC_PC);
 
                     $scope.update = false;
-                    if ($scope.user.AC_PC == 0)
-                        $state.go('tabs.dealer-detail-sales-giacam', {});
-                    else
+                    //if ($scope.user.AC_PC == 0)
+                    //    $state.go('tabs.dealer-detail-sales-giacam', {});
+                    //else
                         $state.go('tabs.dealer-detail-sales-ga', {});
 
                 }).error(function (err, status) {
@@ -263,9 +263,9 @@
             //console.log("AC_PC: " + $scope.user.AC_PC);
 
             $scope.update = false;
-            if ($scope.user.AC_PC == 0)
-                $state.go('tabs.dealer-detail-sales-giacam', {});
-            else
+            //if ($scope.user.AC_PC == 0)
+            //    $state.go('tabs.dealer-detail-sales-giacam', {});
+            //else
                 $state.go('tabs.dealer-detail-sales-ga', {});
         }
 
