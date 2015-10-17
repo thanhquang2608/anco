@@ -1,6 +1,8 @@
 var app = angular.module('starter.controllers', []);
 
-app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, AuthService, AUTH_EVENTS, NETWORK_EVENTS) {
+app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, $ionicLoading, AuthService, AUTH_EVENTS, NETWORK_EVENTS) {
+    $rootScope.TIME_OUT = 60000;
+
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
         var alertPopup = $ionicPopup.alert({
             title: 'Unauthorized!',
@@ -18,8 +20,16 @@ app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, Aut
     });
 
     $scope.$on(NETWORK_EVENTS.nointernet, function (event) {
+        $ionicLoading.hide();
         var alertPopup = $ionicPopup.alert({
-            template: 'Không kết nối mạng được'
+            template: 'Không kết nối được với server'
+        });
+    });
+
+    $scope.$on(NETWORK_EVENTS.timeout, function (event) {
+        $ionicLoading.hide();
+        var alertPopup = $ionicPopup.alert({
+            template: 'Kết nối timeout'
         });
     });
 
@@ -36,6 +46,15 @@ app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, Aut
             $rootScope.hideTabs = true;
         }
     });
+
+    $rootScope.processRequestError =  function(response) {
+        if (response.status != 0 && response.status != 408) {
+            var alertPopup = $ionicPopup.alert({
+                 title: 'Thất bại!',
+                 template: err.data.message
+            });
+        }
+    }
 })
 
 .controller('HomeCtrl', function ($scope) {

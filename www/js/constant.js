@@ -8,7 +8,8 @@
 })
 
 .constant('NETWORK_EVENTS', {
-    nointernet: 'nointernet'
+    nointernet: 'nointernet',
+    timeout: 'timeout'
 })
 
 .constant('STORAGE_KEYS', {

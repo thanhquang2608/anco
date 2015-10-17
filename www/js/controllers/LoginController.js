@@ -1,4 +1,4 @@
-﻿app.controller('LoginController', function ($scope, $state, $ionicPopup, AuthService, REGIONS, USERS) {
+﻿app.controller('LoginController', function ($scope, $state, $ionicPopup, $ionicLoading, AuthService, REGIONS, USERS) {
     $scope.regions = REGIONS;
 
     $scope.users = USERS;
@@ -18,24 +18,20 @@
     }
 
     $scope.login = function (userdata) {
-        AuthService.login($scope.user).then(function (response) {
-            $state.go('tabs.survey', {}, { reload: true });
-        },
-         function (err) {
-             var alertPopup = $ionicPopup.alert({
-                 title: 'Đăng nhập thất bại!',
-                 template: err.message
-             });
-         });
+        $ionicLoading.show({ template: 'Đang đăng nhập...' });
+        AuthService.login($scope.user).then(
+            function (response) {
+                $ionicLoading.hide();
+                $scope.user.password = null;
+                $state.go('tabs.survey', {}, { reload: true });
+            },
 
-        //AuthService.login(userdata).then(function (authenticated) {
-        //    $state.go('tabs.survey', {}, { reload: true });
-        //    // $scope.setCurrentUsername(data.username);
-        //}, function (err) {
-        //    var alertPopup = $ionicPopup.alert({
-        //        title: 'Đăng nhập thất bại!',
-        //        template: 'Vui lòng kiểm tra lại!'
-        //    });
-        //});
+            function (err) {
+                $ionicLoading.hide();
+                var alertPopup = $ionicPopup.alert({
+                     title: 'Đăng nhập thất bại!',
+                     template: err.data.message
+                });
+         });
     };
 });

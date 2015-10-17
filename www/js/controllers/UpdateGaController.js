@@ -73,55 +73,59 @@
             var param = {
                 token: AuthService.token()
             }
-            $http.get(serviceBase + '/survey/ga/' + Dealers.survey().GA_ID, { params: param })
-                .success(function (response) {
-                    //console.log("load gia cam success");
-                    //////// GA
-                    //// CON CO
-                    $scope.survey.GA_CC = response.CC_KD;
-                    $scope.survey.GA_CC_MUA_TT = response.CC_MUA;
-                    $scope.survey.GA_CC_GD = response.CC_GADE;
-                    $scope.survey.GA_CC_LT = response.CC_LT;
-                    $scope.survey.GA_CC_LM = response.CC_LM;
-                    //// CP
-                    $scope.survey.GA_CP = response.CP_KD;
-                    $scope.survey.GA_CP_MUA_TT = response.CP_MUA;
-                    $scope.survey.GA_CP_GD = response.CP_GADE;
-                    $scope.survey.GA_CP_LT = response.CP_LT;
-                    $scope.survey.GA_CP_LM = response.CP_LM;
-                    //// GF
-                    $scope.survey.GA_GF = response.GF_KD;
-                    $scope.survey.GA_GF_MUA_TT = response.GF_MUA;
-                    $scope.survey.GA_GF_GD = response.GF_GADE;
-                    $scope.survey.GA_GF_LT = response.GF_LT;
-                    $scope.survey.GA_GF_LM = response.GF_LM;
-                    //// JF
-                    $scope.survey.GA_JF = response.JF_KD;
-                    $scope.survey.GA_JF_MUA_TT = response.JF_MUA;
-                    $scope.survey.GA_JF_GD = response.JF_GADE;
-                    $scope.survey.GA_JF_LT = response.JF_LT;
-                    $scope.survey.GA_JF_LM = response.JF_LM;
-                    //// DB
-                    $scope.survey.GA_DB = response.DB_KD;
-                    $scope.survey.GA_DB_MUA_TT = response.DB_MUA;
-                    $scope.survey.GA_DB_GD = response.DB_GADE;
-                    $scope.survey.GA_DB_LT = response.DB_LT;
-                    $scope.survey.GA_DB_LM = response.DB_LM;
-                    //// NH
-                    $scope.survey.GA_NH = response.NH_KD;
-                    $scope.survey.GA_NH_MUA_TT = response.NH_MUA;
-                    $scope.survey.GA_NH_GD = response.NH_GADE;
-                    $scope.survey.GA_NH_LT = response.NH_LT;
-                    $scope.survey.GA_NH_LM = response.NH_LM;
-                    //// ANOTHER
-                    $scope.survey.GA_ANOTHER = response.O_KD;
-                    $scope.survey.GA_ANOTHER_MUA_TT = response.O_MUA;
-                    $scope.survey.GA_ANOTHER_GD = response.O_GADE;
-                    $scope.survey.GA_ANOTHER_LT = response.O_LT;
-                    $scope.survey.GA_ANOTHER_LM = response.O_LM;
-                }).error(function (err, status) {
-                    //console.log("load dealers error " + err);
-                });
+            $http.get(serviceBase + '/survey/ga/' + Dealers.survey().GA_ID, { params: param, timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (res) {
+                        //console.log("load gia cam success");
+                        var response = res.data;
+                        //////// GA
+                        //// CON CO
+                        $scope.survey.GA_CC = response.CC_KD;
+                        $scope.survey.GA_CC_MUA_TT = response.CC_MUA;
+                        $scope.survey.GA_CC_GD = response.CC_GADE;
+                        $scope.survey.GA_CC_LT = response.CC_LT;
+                        $scope.survey.GA_CC_LM = response.CC_LM;
+                        //// CP
+                        $scope.survey.GA_CP = response.CP_KD;
+                        $scope.survey.GA_CP_MUA_TT = response.CP_MUA;
+                        $scope.survey.GA_CP_GD = response.CP_GADE;
+                        $scope.survey.GA_CP_LT = response.CP_LT;
+                        $scope.survey.GA_CP_LM = response.CP_LM;
+                        //// GF
+                        $scope.survey.GA_GF = response.GF_KD;
+                        $scope.survey.GA_GF_MUA_TT = response.GF_MUA;
+                        $scope.survey.GA_GF_GD = response.GF_GADE;
+                        $scope.survey.GA_GF_LT = response.GF_LT;
+                        $scope.survey.GA_GF_LM = response.GF_LM;
+                        //// JF
+                        $scope.survey.GA_JF = response.JF_KD;
+                        $scope.survey.GA_JF_MUA_TT = response.JF_MUA;
+                        $scope.survey.GA_JF_GD = response.JF_GADE;
+                        $scope.survey.GA_JF_LT = response.JF_LT;
+                        $scope.survey.GA_JF_LM = response.JF_LM;
+                        //// DB
+                        $scope.survey.GA_DB = response.DB_KD;
+                        $scope.survey.GA_DB_MUA_TT = response.DB_MUA;
+                        $scope.survey.GA_DB_GD = response.DB_GADE;
+                        $scope.survey.GA_DB_LT = response.DB_LT;
+                        $scope.survey.GA_DB_LM = response.DB_LM;
+                        //// NH
+                        $scope.survey.GA_NH = response.NH_KD;
+                        $scope.survey.GA_NH_MUA_TT = response.NH_MUA;
+                        $scope.survey.GA_NH_GD = response.NH_GADE;
+                        $scope.survey.GA_NH_LT = response.NH_LT;
+                        $scope.survey.GA_NH_LM = response.NH_LM;
+                        //// ANOTHER
+                        $scope.survey.GA_ANOTHER = response.O_KD;
+                        $scope.survey.GA_ANOTHER_MUA_TT = response.O_MUA;
+                        $scope.survey.GA_ANOTHER_GD = response.O_GADE;
+                        $scope.survey.GA_ANOTHER_LT = response.O_LT;
+                        $scope.survey.GA_ANOTHER_LM = response.O_LM;
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             //////// GA
@@ -235,18 +239,20 @@
             }
             //console.log(param);
 
-            $http.post(serviceBase + '/survey/create/ga', param)
-                .success(function (response) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
-                    $scope.update = false;
+            $http.post(serviceBase + '/survey/create/ga', param, { timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (response) {
+                        $ionicLoading.hide();
+                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        $scope.update = false;
 
-                    $state.go('tabs.dealer-detail-sales-vit', {});
+                        $state.go('tabs.dealer-detail-sales-vit', {});
 
-                }).error(function (err, status) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
-                });
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             $state.go('tabs.dealer-detail-sales-vit', {});

@@ -117,6 +117,7 @@ angular.module('starter.services', [])
         }
     }
 })
+
 .service('AuthService', function ($rootScope, $q, $http, $localstorage, USER_ROLES, AUTH_EVENTS, NETWORK, STORAGE_KEYS) {
     var serviceBase = NETWORK.BASE_URL;
     var LOCAL_TOKEN_KEY = STORAGE_KEYS.token_key;
@@ -176,27 +177,20 @@ angular.module('starter.services', [])
                 id: id,
                 password: pass
             }
-            //console.log(param);
-            //$http.post(serviceBase + '/login', { params: param })
-            $http.post(serviceBase + '/login', param)
-            .success(function (response) {
-                var user = response.user;
-                var token = response.token;
 
-                storeUserCredentials(user, token);
-                resolve('Login success.');
-            }).error(function (err, status) {
-                // var user = {};
-                // var token = '';
+            $http.post(serviceBase + '/login', param, {timeout: $rootScope.TIME_OUT} )
+                .then(function successCallback(response) {
+                    var user = response.data.user;
+                    var token = response.data.token;
 
-                // user.AC_PC = 1;
-                // storeUserCredentials(user, token);
-                // resolve('Login success.');
-                // return;
-                console.log("login failed");
-                console.log(err.toString());
-                reject(err);
-            });
+                    storeUserCredentials(user, token);
+                    resolve('Login success.');
+                }, function errorCallback(response) {
+                    if (response.status != 0 && response.status != 408) {
+                        console.log("login failed, statusCode: " + response.status);
+                        reject(response);
+                    } 
+                });
         });
     };
 
@@ -237,19 +231,23 @@ angular.module('starter.services', [])
 
 .factory('NetworkInterceptor', function ($rootScope, $q, NETWORK_EVENTS) {
     var networkInterceptor = {
-        request: function(config) {
-            var deferred = $q.defer();
-            if (window.Connection) {
-                if (navigator.connection.type == Connection.NONE) {
-                    $rootScope.$broadcast(NETWORK_EVENTS.nointernet); 
-                    return deferred.resolve();
-                } else {
-                    return config;
-                }
-            } else {
-                return config;
+        
+        request: function (config) {
+            config.timeout = 60000;
+            return config;
+        },
+
+        responseError: function (rejection) {
+            switch (rejection.status){
+                case 0 :
+                    $rootScope.$broadcast(NETWORK_EVENTS.nointernet);
+                    break;
+                case 408 :
+                    $rootScope.$broadcast(NETWORK_EVENTS.timeout);
+                    break;
             }
             
+            return $q.reject(rejection);
         }
     };
 

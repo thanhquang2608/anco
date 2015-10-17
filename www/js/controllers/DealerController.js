@@ -1,10 +1,16 @@
 ﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService,
     AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS, $ionicPopup, $ionicHistory) {
+    //FOR upload image
+    $scope.sum = 0;
+    $scope.success = 0;
+    $scope.failure = 0;
+
     //$scope.dealer = Dealers.get($stateParams.dealerId);
     var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
     $scope.serviceBase = NETWORK.BASE_URL;
     $scope.submited = false;
     $scope.loading = false;
+    $scope.update = false;
 
     $scope.dates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
     $scope.months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
@@ -48,7 +54,7 @@
         
         var options = {
             quality: 75,
-            destinationType: Camera.DestinationType.FILE_URL,
+            destinationType: Camera.DestinationType.NATIVE_URI,
             sourceType: Camera.PictureSourceType.CAMERA,
             //allowEdit: true,
             encodingType: Camera.EncodingType.JPEG,
@@ -66,20 +72,36 @@
             $scope.popupChooseImage.close();
         }
         
-        var options = {
-            quality: 75,
-            destinationType: Camera.DestinationType.FILE_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-            //allowEdit: true,
-            encodingType: Camera.EncodingType.JPEG,
-            popoverOptions: CameraPopoverOptions,
-            targetWidth: 500,
-            targetHeight: 500
-        };
-        navigator.camera.getPicture(onSuccess, onFail, options);
+        // var options = {
+        //     quality: 75,
+        //     destinationType: Camera.DestinationType.NATIVE_URI,
+        //     sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        //     //allowEdit: true,
+        //     encodingType: Camera.EncodingType.JPEG,
+        //     popoverOptions: CameraPopoverOptions,
+        //     targetWidth: 500,
+        //     targetHeight: 500
+        // };
+        // navigator.camera.getPicture(onSuccess, onFail, options);
+
+        window.imagePicker.getPictures(
+            function(results) {
+                var uri = results[0];
+                onSuccess(uri);
+            },
+            onFail,
+            {
+                maximumImagesCount: 1,
+                width: 500,
+                height: 500,
+                quality : 75
+            }
+        );
     }
 
     function onSuccess(imageURI) {
+        //$ionicLoading.hide();
+        //$ionicLoading.show({ template: "Image: " + imageURI, noBackdrop: true, duration: 2000 });
         $scope.$apply(function () {
             switch ($scope.id) {
                 case 1:
@@ -129,12 +151,13 @@
             type: typeId
         };
 
-        $ionicLoading.hide();
-        $ionicLoading.show({ template: 'start upload ! + ' + typeId, noBackdrop: true, duration: 2000 });
+        //$ionicLoading.hide();
+        //$ionicLoading.show({ template: 'start upload ! + ' + typeId, noBackdrop: true, duration: 2000 });
 
 
         // $scope.showToast('start upload ' + uri, 'short', 'bottom');
         var win = function (r) {
+            $scope.success++;
             // $scope.showToast("SUCCESS: " + JSON.stringify(r.response), 'long', 'bottom');
             switch (typeId) {
                 case 1: $scope.update1 = false; break;
@@ -151,11 +174,51 @@
                 case 4: $scope.update4 = false; break;
                 case 5: $scope.update5 = false; break;
             }
+
+            if ($scope.success + $scope.failure == $scope.sum) {
+                var imgFailed = "";
+                if ($scope.failure > 0) {
+                    if ($scope.update1)
+                        imgFailed += "Mặt trước CMND\n"
+                    if ($scope.update2)
+                        imgFailed += "Mặt sau CMND\n"
+                    if ($scope.update3)
+                        imgFailed += "Chủ đại lý\n"
+                    if ($scope.update4)
+                        imgFailed += "Cửa hàng\n"
+                    if ($scope.update5)
+                        imgFailed += "Kho\n"
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
+                }
+                else {
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Upload ảnh thành công!\n', noBackdrop: true, duration: 2000 });
+                }
+            }
         }
 
         var fail = function (error) {
-            $ionicLoading.hide();
-            $ionicLoading.show({ template: "ERROR: " + JSON.stringify(err), noBackdrop: true, duration: 2000 });
+            $scope.failure++;
+            if ($scope.success + $scope.failure == $scope.sum) {
+                var imgFailed = "";
+                if ($scope.failure > 0) {
+                    if ($scope.update1)
+                        imgFailed += "Mặt trước CMND\n"
+                    if ($scope.update2)
+                        imgFailed += "Mặt sau CMND\n"
+                    if ($scope.update3)
+                        imgFailed += "Chủ đại lý\n"
+                    if ($scope.update4)
+                        imgFailed += "Cửa hàng\n"
+                    if ($scope.update5)
+                        imgFailed += "Kho\n"
+                    $ionicLoading.hide();
+                    $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
+                }
+            }
+            //$ionicLoading.hide();
+            //$ionicLoading.show({ template: "ERROR: " + JSON.stringify(err), noBackdrop: true, duration: 2000 });
         }
 
         var options = new FileUploadOptions();
@@ -189,15 +252,15 @@
             });
     }
 
-    $scope.setUpdate = function (id) {
-        switch (id) {
-            case 1: $scope.update1 = true; break;
-            case 2: $scope.update2 = true; break;
-            case 3: $scope.update3 = true; break;
-            case 4: $scope.update4 = true; break;
-            case 5: $scope.update5 = true; break;
-        }
-    }
+    //$scope.setUpdate = function (id) {
+    //    switch (id) {
+    //        case 1: $scope.update1 = true; break;
+    //        case 2: $scope.update2 = true; break;
+    //        case 3: $scope.update3 = true; break;
+    //        case 4: $scope.update4 = true; break;
+    //        case 5: $scope.update5 = true; break;
+    //    }
+    //}
 
     // ---------------------- dealer--------------
     $scope.loadDistrict = function () {
@@ -209,13 +272,17 @@
         //console.log("dealer controller - loaddistrict");
         //console.log(param);
 
-        $http.get($scope.serviceBase + '/districts', { params: param })
-            .success(function (response) {
-                $scope.districts = response;
-                //$scope.districts = [];
-                //$scope.districts.push.apply($scope.districts, response);
-            }).error(function (err, status) {
-            });
+        $http.get($scope.serviceBase + '/districts', { params: param, timeout: $rootScope.TIME_OUT })
+            .then(
+                function successCallback (response) {
+                    $scope.districts = response.data;
+                    //$scope.districts = [];
+                    //$scope.districts.push.apply($scope.districts, response);
+                },
+                function errorCallback (response) {
+                    $rootScope.processRequestError(response);
+                }
+            );
     }
 
     $scope.loadWard = function () {
@@ -224,16 +291,20 @@
             district: $scope.dealer.DistrictId,
         }
 
-        $http.get($scope.serviceBase + '/wards', { params: param })
-            .success(function (response) {
-                $scope.wards = [];
-                $scope.wards.push.apply($scope.wards, response);
+        $http.get($scope.serviceBase + '/wards', { params: param, timeout: $rootScope.TIME_OUT })
+            .then(
+                function successCallback (response) {
+                    $scope.wards = [];
+                    $scope.wards.push.apply($scope.wards, response.data);
 
-                if ($scope.wards.length > 0) {
-                    $scope.dealer.wardId = $scope.wards[0].WardId;
+                    if ($scope.wards.length > 0) {
+                        $scope.dealer.wardId = $scope.wards[0].WardId;
+                    }
+                },
+                function errorCallback (response) {
+                    $rootScope.processRequestError(response);
                 }
-            }).error(function (err, status) {
-            });
+            );
     }
 
     $scope.loadProvinces = function () {
@@ -245,13 +316,16 @@
 
         //console.log(param);
 
-        $http.get($scope.serviceBase + '/provinces', { params: param })
-            .success(function (response) {
-                $scope.provinces = response;
-                $scope.loadDistrict();
-            }).error(function (err, status) {
-
-            });
+        $http.get($scope.serviceBase + '/provinces', { params: param, timeout: $rootScope.TIME_OUT })
+            .then(
+                function successCallback (response) {
+                    $scope.provinces = response.data;
+                    $scope.loadDistrict();
+                },
+                function errorCallback (response) {
+                    $rootScope.processRequestError(response);
+                }
+            );
     }
 
     $rootScope.$on(AUTH_EVENTS.authenticated, function (event) {
@@ -293,19 +367,21 @@
         if (listDealer != null) {
             // If pull refresh
             if (isPull) {
-                $http.get($scope.serviceBase + '/survey/list', { params: param })
-                    .success(function (response) {
-                        Dealers.setDealers(response);
-                        $scope.dealers = Dealers.all();
-                        console.log($scope.dealers);
-                        $scope.$broadcast('scroll.refreshComplete');
-                        //$scope.loading = false;
+                $http.get($scope.serviceBase + '/survey/list', { params: param, timeout: $rootScope.TIME_OUT })
+                    .then(
+                        function successCallback (response) {
+                            Dealers.setDealers(response.data);
+                            $scope.dealers = Dealers.all();
+                            console.log($scope.dealers);
+                            $scope.$broadcast('scroll.refreshComplete');
+                            //$scope.loading = false;
 
-                    }).error(function (err, status) {
-                        $scope.$broadcast('scroll.refreshComplete');
-                        //$scope.loading = false;
-                        //console.log("load dealers error "+err);
-                    });
+                        },
+                        function errorCallback (response) {
+                            $scope.$broadcast('scroll.refreshComplete');
+                            $rootScope.processRequestError(response);
+                        }
+                    );
             }
             // Click tab
             else {
@@ -316,19 +392,22 @@
         // List dealer null
         else {
             $scope.loading = true;
-            $http.get($scope.serviceBase + '/survey/list', { params: param })
-            .success(function (response) {
-                Dealers.setDealers(response);
-                $scope.dealers = Dealers.all();
-                ////console.log($scope.dealers);
-                $scope.$broadcast('scroll.refreshComplete');
-                $scope.loading = false;
+            $http.get($scope.serviceBase + '/survey/list', { params: param, timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (response) {
+                        Dealers.setDealers(response.data);
+                        $scope.dealers = Dealers.all();
+                        ////console.log($scope.dealers);
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.loading = false;
 
-            }).error(function (err, status) {
-                $scope.$broadcast('scroll.refreshComplete');
-                $scope.loading = false;
-                //console.log("load dealers error "+err);
-            });
+                    },
+                    function errorCallback (response) {
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.loading = false;
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
 
         // $scope.loading = false;
@@ -362,7 +441,8 @@
         //        $scope.$broadcast('scroll.refreshComplete');
         //        $scope.loading = false;
 
-        //    }).error(function (err, status) {
+        //    },
+        //            function errorCallback (response) {
         //        $scope.$broadcast('scroll.refreshComplete');
         //        $scope.loading = false;
         //        //console.log("load dealers error "+err);
@@ -371,44 +451,63 @@
 
     $scope.initDealer = function () {
         console.log("Init dealer");
+        $scope.update = false;
         var param = {
             token: AuthService.token()
         }
-        $http.get($scope.serviceBase + '/survey/' + $stateParams.SurveyId, { params: param })
-            .success(function (response) {
-                //console.log("Init DEALER");
-                //console.log(response);
+        $http.get($scope.serviceBase + '/survey/' + $stateParams.SurveyId, { params: param, timeout: $rootScope.TIME_OUT })
+            .then(
+                function successCallback (response) {
+                    //console.log("Init DEALER");
+                    //console.log(response);
 
 
-                Dealers.setDealer(response.dealer);
-                Dealers.setSurvey(response.survey);
-                $scope.dealer = Dealers.dealer();
-                $scope.survey = Dealers.survey();
+                    Dealers.setDealer(response.data.dealer);
+                    Dealers.setSurvey(response.data.survey);
+                    $scope.dealer = Dealers.dealer();
+                    $scope.survey = Dealers.survey();
 
-                if (!$scope.provinces) {
-                    $scope.loadProvinces()
-                } else {
-                    $scope.loadDistrict();
+                    if (!$scope.provinces) {
+                        $scope.loadProvinces()
+                    } else {
+                        $scope.loadDistrict();
+                    }
+
+                    console.log($scope.dealer);
+
+                    //console.log("DISTRICTS");
+                    //console.log($scope.districts);
+                    ////console.log(Dealers.getDay() + ", " + Dealers.getMonth());
+                    //$scope.dealer.day = Dealers.getDay();
+                    //$scope.dealer.month = Dealers.getMonth();
+                    //provinceId
+
+                    //console.log($scope.dealer);
+                },
+                function errorCallback (response) {
+                    $rootScope.processRequestError(response);
                 }
-
-                console.log($scope.dealer);
-
-                //console.log("DISTRICTS");
-                //console.log($scope.districts);
-                ////console.log(Dealers.getDay() + ", " + Dealers.getMonth());
-                //$scope.dealer.day = Dealers.getDay();
-                //$scope.dealer.month = Dealers.getMonth();
-                //provinceId
-
-                //console.log($scope.dealer);
-            }).error(function (err, status) {
-                //console.log("load dealers error " + err);
-            });
+            );
     }
 
-    $scope.setUpdate = function () {
-        //console.log("SET UPDATE");
-        $scope.update = true;
+    $scope.setUpdate = function (name) {
+        console.log("SET UPDATE at " + name);
+        switch(name){
+            case 4:
+                if (!isNaN($scope.dealer.day) && $scope.dealer.day != null)
+                    $scope.update = true;
+                break;
+            case 5:
+                if (!isNaN($scope.dealer.month) && $scope.dealer.month != null)
+                    $scope.update = true;
+                break;
+            case 6:
+                if (!isNaN($scope.dealer.year) && $scope.dealer.year != null)
+                    $scope.update = true;
+                break;
+            default:
+                $scope.update = true;
+        }
     }
 
     $scope.checkInput = function () {
@@ -470,6 +569,11 @@
         if ($scope.update) {
             $ionicLoading.show({ template: 'Đang lưu...' });
 
+            var mBirthday = $scope.dealer.day + "/" + $scope.dealer.month + "/";
+            if (!isNaN($scope.dealer.year) && $scope.dealer.year != null) {
+                mBirthday = mBirthday + $scope.dealer.year;
+            }
+
             var param = {
                 token: AuthService.token(),
 
@@ -478,7 +582,7 @@
                 dealercode: $scope.dealer.DealerCode,
                 fullname: $scope.dealer.FullName,
                 phonenumber: $scope.dealer.PhoneNumber,
-                birthday: $scope.dealer.year? "" : $scope.dealer.day + "/" + $scope.dealer.month + "/" + $scope.dealer.year,
+                birthday: mBirthday,
                 districtid: $scope.dealer.DistrictId,
                 wardid: $scope.dealer.WardId,
                 address: $scope.dealer.Address,
@@ -506,43 +610,74 @@
 
             //console.log(param);
 
-            $http.post($scope.serviceBase + '/survey/create_or_update', param)
-                .success(function (response) {
-                    //console.log(response);
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+            $http.post($scope.serviceBase + '/survey/create_or_update', param, { timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (response) {
+                        //console.log(response);
+                        $ionicLoading.hide();
+                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
 
-                    // edit first item in list dealer
-                    var provinceName = getProvinceName($scope.dealer.ProvinceId);
-                    console.log(Dealers.survey().SurveyId);
-                    console.log($scope.dealer.DealerName);
-                    console.log(provinceName);
-                    console.log($scope.dealer.Address);
-                    Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, $scope.dealer.DealerName, $scope.dealer.ProvinceName, $scope.dealer.Address, null);
+                        // edit first item in list dealer
+                        var provinceName = getProvinceName($scope.dealer.ProvinceId);
+                        console.log(Dealers.survey().SurveyId);
+                        console.log($scope.dealer.DealerName);
+                        console.log(provinceName);
+                        console.log($scope.dealer.Address);
+                        Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, $scope.dealer.DealerName, $scope.dealer.ProvinceName, $scope.dealer.Address, null);
 
-                    if ($scope.update1)
-                        uploadImage($scope.dealer.CMND_Front_Local, 1);
-                    if ($scope.update2)
-                        uploadImage($scope.dealer.CMND_Back_Local, 2);
-                    if ($scope.update3)
-                        uploadImage($scope.survey.DealerPhoto_Local, 3);
-                    if ($scope.update4)
-                        uploadImage($scope.survey.StorePhoto_Local, 4);
-                    if ($scope.update5)
-                        uploadImage($scope.survey.StockPhoto_Local, 5);
+                        // Upload image
+                        $scope.sum = 0;
+                        $scope.success = 0;
+                        $scope.failure = 0;
+                        if ($scope.update1)
+                            $scope.sum++;
+                        if ($scope.update2)
+                            $scope.sum++;
+                        if ($scope.update3)
+                            $scope.sum++;
+                        if ($scope.update4)
+                            $scope.sum++;
+                        if ($scope.update5)
+                            $scope.sum++;
 
-                    $scope.update = false;
-                    $scope.submited = true;
-                    $state.go('tabs.dealer-detail-sales-heo');
-                    //$window.location.href = "#/tab/sales-heo";
+                        if ($scope.update1)
+                            uploadImage($scope.dealer.CMND_Front_Local, 1);
+                        if ($scope.update2)
+                            uploadImage($scope.dealer.CMND_Back_Local, 2);
+                        if ($scope.update3)
+                            uploadImage($scope.survey.DealerPhoto_Local, 3);
+                        if ($scope.update4)
+                            uploadImage($scope.survey.StorePhoto_Local, 4);
+                        if ($scope.update5)
+                            uploadImage($scope.survey.StockPhoto_Local, 5);
 
-                }).error(function (err, status) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
-                    //console.log(err);
-                });
+                        $scope.update = false;
+                        $scope.submited = true;
+                        $state.go('tabs.dealer-detail-sales-heo');
+                        //$window.location.href = "#/tab/sales-heo";
+
+                    },
+                    function errorCallback (response) {
+                       $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
+            // Upload image
+            $scope.sum = 0;
+            $scope.success = 0;
+            $scope.failure = 0;
+            if ($scope.update1)
+                $scope.sum++;
+            if ($scope.update2)
+                $scope.sum++;
+            if ($scope.update3)
+                $scope.sum++;
+            if ($scope.update4)
+                $scope.sum++;
+            if ($scope.update5)
+                $scope.sum++;
+
             if ($scope.update1)
                 uploadImage($scope.dealer.CMND_Front_Local, 1);
             if ($scope.update2)
@@ -611,56 +746,60 @@
             var param = {
                 token: AuthService.token()
             }
-            $http.get($scope.serviceBase + '/survey/heo/' + Dealers.survey().HEO_ID, { params: param })
-                .success(function (response) {
-                    //console.log("load heo success");
-                    //console.log(response);
-                    $scope.heo = response;
-                    $scope.heo.HEO_ANCO = response.AC_KD;
-                    $scope.heo.HEO_ANCO_MUA_TT = response.AC_MUA;
-                    $scope.heo.HEO_ANCO_SL = response.AC_SL;
-                    $scope.heo.HEO_ANCO_HEO = response.AC_CON;
-                    $scope.heo.HEO_ANCO_THIT = response.AC_THIT;
-                    $scope.heo.HEO_ANCO_NAI = response.AC_NAI;
+            $http.get($scope.serviceBase + '/survey/heo/' + Dealers.survey().HEO_ID, { params: param, timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (res) {
+                        //console.log("load heo success");
+                        //console.log(response);
+                        var response = res.data;
+                        $scope.heo = response;
+                        $scope.heo.HEO_ANCO = response.AC_KD;
+                        $scope.heo.HEO_ANCO_MUA_TT = response.AC_MUA;
+                        $scope.heo.HEO_ANCO_SL = response.AC_SL;
+                        $scope.heo.HEO_ANCO_HEO = response.AC_CON;
+                        $scope.heo.HEO_ANCO_THIT = response.AC_THIT;
+                        $scope.heo.HEO_ANCO_NAI = response.AC_NAI;
 
-                    $scope.heo.HEO_CONCO = response.CC_KD;
-                    $scope.heo.HEO_CONCO_MUA_TT = response.CC_MUA;
-                    $scope.heo.HEO_CONCO_SL = response.CC_SL;
-                    $scope.heo.HEO_CONCO_HEO = response.CC_CON;
-                    $scope.heo.HEO_CONCO_THIT = response.CC_THIT;
-                    $scope.heo.HEO_CONCO_NAI = response.CC_NAI;
+                        $scope.heo.HEO_CONCO = response.CC_KD;
+                        $scope.heo.HEO_CONCO_MUA_TT = response.CC_MUA;
+                        $scope.heo.HEO_CONCO_SL = response.CC_SL;
+                        $scope.heo.HEO_CONCO_HEO = response.CC_CON;
+                        $scope.heo.HEO_CONCO_THIT = response.CC_THIT;
+                        $scope.heo.HEO_CONCO_NAI = response.CC_NAI;
 
-                    $scope.heo.HEO_CP = response.CP_KD;
-                    $scope.heo.HEO_CP_MUA_TT = response.CP_MUA;
-                    $scope.heo.HEO_CP_SL = response.CP_SL;
-                    $scope.heo.HEO_CP_HEO = response.CP_CON;
-                    $scope.heo.HEO_CP_THIT = response.CP_THIT;
-                    $scope.heo.HEO_CP_NAI = response.CP_NAI;
+                        $scope.heo.HEO_CP = response.CP_KD;
+                        $scope.heo.HEO_CP_MUA_TT = response.CP_MUA;
+                        $scope.heo.HEO_CP_SL = response.CP_SL;
+                        $scope.heo.HEO_CP_HEO = response.CP_CON;
+                        $scope.heo.HEO_CP_THIT = response.CP_THIT;
+                        $scope.heo.HEO_CP_NAI = response.CP_NAI;
 
-                    $scope.heo.HEO_CG = response.CG_KD;
-                    $scope.heo.HEO_CG_MUA_TT = response.CG_MUA;
-                    $scope.heo.HEO_CG_SL = response.CG_SL;
-                    $scope.heo.HEO_CG_HEO = response.CG_CON;
-                    $scope.heo.HEO_CG_THIT = response.CG_THIT;
-                    $scope.heo.HEO_CG_NAI = response.CG_NAI;
+                        $scope.heo.HEO_CG = response.CG_KD;
+                        $scope.heo.HEO_CG_MUA_TT = response.CG_MUA;
+                        $scope.heo.HEO_CG_SL = response.CG_SL;
+                        $scope.heo.HEO_CG_HEO = response.CG_CON;
+                        $scope.heo.HEO_CG_THIT = response.CG_THIT;
+                        $scope.heo.HEO_CG_NAI = response.CG_NAI;
 
-                    $scope.heo.HEO_GF = response.GF_KD;
-                    $scope.heo.HEO_GF_MUA_TT = response.GF_MUA;
-                    $scope.heo.HEO_GF_SL = response.GF_SL;
-                    $scope.heo.HEO_GF_HEO = response.GF_CON;
-                    $scope.heo.HEO_GF_THIT = response.GF_THIT;
-                    $scope.heo.HEO_GF_NAI = response.GF_NAI;
+                        $scope.heo.HEO_GF = response.GF_KD;
+                        $scope.heo.HEO_GF_MUA_TT = response.GF_MUA;
+                        $scope.heo.HEO_GF_SL = response.GF_SL;
+                        $scope.heo.HEO_GF_HEO = response.GF_CON;
+                        $scope.heo.HEO_GF_THIT = response.GF_THIT;
+                        $scope.heo.HEO_GF_NAI = response.GF_NAI;
 
-                    $scope.heo.HEO_ANOTHER = response.O_KD;
-                    $scope.heo.HEO_ANOTHER_MUA_TT = response.O_MUA;
-                    $scope.heo.HEO_ANOTHER_SL = response.O_SL;
-                    $scope.heo.HEO_ANOTHER_HEO = response.O_CON;
-                    $scope.heo.HEO_ANOTHER_THIT = response.O_THIT;
-                    $scope.heo.HEO_ANOTHER_NAI = response.O_NAI;
+                        $scope.heo.HEO_ANOTHER = response.O_KD;
+                        $scope.heo.HEO_ANOTHER_MUA_TT = response.O_MUA;
+                        $scope.heo.HEO_ANOTHER_SL = response.O_SL;
+                        $scope.heo.HEO_ANOTHER_HEO = response.O_CON;
+                        $scope.heo.HEO_ANOTHER_THIT = response.O_THIT;
+                        $scope.heo.HEO_ANOTHER_NAI = response.O_NAI;
 
-                }).error(function (err, status) {
-                    //console.log("load dealers error " + err);
-                });
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             /////// HEO
@@ -768,22 +907,24 @@
             //console.log("param");
             //console.log(param);
 
-            $http.post($scope.serviceBase + '/survey/create/heo', param)
-                .success(function (response) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
-                    //console.log("AC_PC: " + $scope.user.AC_PC);
+            $http.post($scope.serviceBase + '/survey/create/heo', param, { timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (response) {
+                        $ionicLoading.hide();
+                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //console.log("AC_PC: " + $scope.user.AC_PC);
 
-                    $scope.update = false;
-                    if ($scope.user.AC_PC == 0)
-                        $state.go('tabs.dealer-detail-sales-giacam', {});
-                    else
-                        $state.go('tabs.dealer-detail-sales-ga', {});
+                        $scope.update = false;
+                        if ($scope.user.AC_PC == 0)
+                            $state.go('tabs.dealer-detail-sales-giacam', {});
+                        else
+                            $state.go('tabs.dealer-detail-sales-ga', {});
 
-                }).error(function (err, status) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
-                });
+                    },
+                    function errorCallback (response) {
+                       $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             //console.log("AC_PC: " + $scope.user.AC_PC);

@@ -65,48 +65,52 @@
             var param = {
                 token: AuthService.token()
             }
-            $http.get(serviceBase + '/survey/vit/' + Dealers.survey().VIT_ID, { params: param })
-                .success(function (response) {
-                    //console.log("load gia cam success");
-                    //////// VIT
-                    ///// CON CO
-                    $scope.survey.VIT_CC = response.CC_KD;
-                    $scope.survey.VIT_CC_MUA_TT = response.CC_MUA;
-                    $scope.survey.VIT_CC_VD = response.CC_VD;
-                    $scope.survey.VIT_CC_VT = response.CC_VT;
-                    //// DH
-                    $scope.survey.VIT_DH = response.DH_KD;
-                    $scope.survey.VIT_DH_MUA_TT = response.DH_MUA;
-                    $scope.survey.VIT_DH_VD = response.DH_VD;
-                    $scope.survey.VIT_DH_VT = response.DH_VT;
-                    ///// CG
-                    $scope.survey.VIT_CG = response.CG_KD;
-                    $scope.survey.VIT_CG_MUA_TT = response.CG_MUA;
-                    $scope.survey.VIT_CG_VD = response.CG_VD;
-                    $scope.survey.VIT_CG_VT = response.CG_VT;
-                    //// NH
-                    $scope.survey.VIT_NH = response.NH_KD;
-                    $scope.survey.VIT_NH_MUA_TT = response.NH_MUA;
-                    $scope.survey.VIT_NH_VD = response.NH_VD;
-                    $scope.survey.VIT_NH_VT = response.NH_VT;
-                    //// GF
-                    $scope.survey.VIT_GF = response.GF_KD;
-                    $scope.survey.VIT_GF_MUA_TT = response.GF_MUA;
-                    $scope.survey.VIT_GF_VD = response.GF_VD;
-                    $scope.survey.VIT_GF_VT = response.GF_VT;
-                    //// LT
-                    $scope.survey.VIT_LT = response.LT_KD;
-                    $scope.survey.VIT_LT_MUA_TT = response.LT_MUA;
-                    $scope.survey.VIT_LT_VD = response.LT_VD;
-                    $scope.survey.VIT_LT_VT = response.LT_VT;
-                    //// ANOTHER
-                    $scope.survey.VIT_ANOTHER = response.O_KD;
-                    $scope.survey.VIT_ANOTHER_MUA_TT = response.O_MUA;
-                    $scope.survey.VIT_ANOTHER_VD = response.O_VD;
-                    $scope.survey.VIT_ANOTHER_VT = response.O_VT;
-                }).error(function (err, status) {
-                    //console.log("load dealers error " + err);
-                });
+            $http.get(serviceBase + '/survey/vit/' + Dealers.survey().VIT_ID, { params: param, timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (res) {
+                        var response = res.data;
+                        //console.log("load gia cam success");
+                        //////// VIT
+                        ///// CON CO
+                        $scope.survey.VIT_CC = response.CC_KD;
+                        $scope.survey.VIT_CC_MUA_TT = response.CC_MUA;
+                        $scope.survey.VIT_CC_VD = response.CC_VD;
+                        $scope.survey.VIT_CC_VT = response.CC_VT;
+                        //// DH
+                        $scope.survey.VIT_DH = response.DH_KD;
+                        $scope.survey.VIT_DH_MUA_TT = response.DH_MUA;
+                        $scope.survey.VIT_DH_VD = response.DH_VD;
+                        $scope.survey.VIT_DH_VT = response.DH_VT;
+                        ///// CG
+                        $scope.survey.VIT_CG = response.CG_KD;
+                        $scope.survey.VIT_CG_MUA_TT = response.CG_MUA;
+                        $scope.survey.VIT_CG_VD = response.CG_VD;
+                        $scope.survey.VIT_CG_VT = response.CG_VT;
+                        //// NH
+                        $scope.survey.VIT_NH = response.NH_KD;
+                        $scope.survey.VIT_NH_MUA_TT = response.NH_MUA;
+                        $scope.survey.VIT_NH_VD = response.NH_VD;
+                        $scope.survey.VIT_NH_VT = response.NH_VT;
+                        //// GF
+                        $scope.survey.VIT_GF = response.GF_KD;
+                        $scope.survey.VIT_GF_MUA_TT = response.GF_MUA;
+                        $scope.survey.VIT_GF_VD = response.GF_VD;
+                        $scope.survey.VIT_GF_VT = response.GF_VT;
+                        //// LT
+                        $scope.survey.VIT_LT = response.LT_KD;
+                        $scope.survey.VIT_LT_MUA_TT = response.LT_MUA;
+                        $scope.survey.VIT_LT_VD = response.LT_VD;
+                        $scope.survey.VIT_LT_VT = response.LT_VT;
+                        //// ANOTHER
+                        $scope.survey.VIT_ANOTHER = response.O_KD;
+                        $scope.survey.VIT_ANOTHER_MUA_TT = response.O_MUA;
+                        $scope.survey.VIT_ANOTHER_VD = response.O_VD;
+                        $scope.survey.VIT_ANOTHER_VT = response.O_VT;
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             //////// VIT
@@ -205,18 +209,20 @@
             }
             //console.log(param);
 
-            $http.post(serviceBase + '/survey/create/vit', param)
-                .success(function (response) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
-                    $scope.update = false;
+            $http.post(serviceBase + '/survey/create/vit', param, { timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (response) {
+                        $ionicLoading.hide();
+                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        $scope.update = false;
 
-                    $state.go('tabs.dealer-detail-sales-bo', {}, { reload: true });
+                        $state.go('tabs.dealer-detail-sales-bo', {}, { reload: true });
 
-                }).error(function (err, status) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
-                });
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             $state.go('tabs.dealer-detail-sales-bo', {}, { reload: true });

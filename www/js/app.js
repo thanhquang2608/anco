@@ -27,7 +27,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     });
 })
 
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+    //$ionicConfigProvider.views.forwardCache(true);
 
     $stateProvider
 
@@ -56,6 +57,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       })
       .state('tabs.newsurvey', {
           url: "/newsurvey",
+          cache: true,
           views: {
               'survey-tab': {
                   templateUrl: "templates/new-survey.html",
@@ -65,6 +67,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       })
       .state('tabs.sales-heo', {
           url: "/sales-heo",
+          cache: true,
           views: {
               'survey-tab': {
                   templateUrl: "templates/add-survey-sales-heo.html",
@@ -74,6 +77,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       })
         .state('tabs.sales-ga', {
             url: "/sales-ga",
+            cache: true,
             views: {
                 'survey-tab': {
                     templateUrl: "templates/add-survey-sales-ga.html",
@@ -83,6 +87,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         })
         .state('tabs.sales-vit', {
             url: "/sales-vit",
+            cache: true,
             views: {
                 'survey-tab': {
                     templateUrl: "templates/add-survey-sales-vit.html",
@@ -91,6 +96,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             }
         })
         .state('tabs.sales-bo', {
+            cache: true,
             url: "/sales-bo",
             views: {
                 'survey-tab': {

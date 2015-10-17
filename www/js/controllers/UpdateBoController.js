@@ -51,33 +51,37 @@
             var param = {
                 token: AuthService.token()
             }
-            $http.get(serviceBase + '/survey/bo/' + Dealers.survey().BO_ID, { params: param })
-                .success(function (response) {
-                    //console.log("load gia cam success");
-                    //////// BO
-                    //// CON CO
-                    $scope.survey.BO_CC = response.CC_KD;
-                    $scope.survey.BO_CC_MUA_TT = response.CC_MUA;
-                    $scope.survey.BO_CC_SL = response.CC_SL;
-                    //// DH
-                    $scope.survey.BO_DH = response.DH_KD;
-                    $scope.survey.BO_DH_MUA_TT = response.DH_MUA
-                    $scope.survey.BO_DH_SL = response.DH_SL;
-                    //// CP
-                    $scope.survey.BO_CP = response.CP_KD;
-                    $scope.survey.BO_CP_MUA_TT = response.CP_MUA;
-                    $scope.survey.BO_CP_SL = response.CP_SL;
-                    //// UP
-                    $scope.survey.BO_UP = response.UP_KD;
-                    $scope.survey.BO_UP_MUA_TT = response.UP_MUA;
-                    $scope.survey.BO_UP_SL = response.UP_SL;
-                    //// ANOTHER
-                    $scope.survey.BO_ANOTHER = response.O_KD;
-                    $scope.survey.BO_ANOTHER_MUA_TT = response.O_MUA;
-                    $scope.survey.BO_ANOTHER_SL = response.O_SL;
-                }).error(function (err, status) {
-                    //console.log("load dealers error " + err);
-                });
+            $http.get(serviceBase + '/survey/bo/' + Dealers.survey().BO_ID, { params: param, timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (res) {
+                        //console.log("load gia cam success");
+                        var response = res.data;
+                        //////// BO
+                        //// CON CO
+                        $scope.survey.BO_CC = response.CC_KD;
+                        $scope.survey.BO_CC_MUA_TT = response.CC_MUA;
+                        $scope.survey.BO_CC_SL = response.CC_SL;
+                        //// DH
+                        $scope.survey.BO_DH = response.DH_KD;
+                        $scope.survey.BO_DH_MUA_TT = response.DH_MUA
+                        $scope.survey.BO_DH_SL = response.DH_SL;
+                        //// CP
+                        $scope.survey.BO_CP = response.CP_KD;
+                        $scope.survey.BO_CP_MUA_TT = response.CP_MUA;
+                        $scope.survey.BO_CP_SL = response.CP_SL;
+                        //// UP
+                        $scope.survey.BO_UP = response.UP_KD;
+                        $scope.survey.BO_UP_MUA_TT = response.UP_MUA;
+                        $scope.survey.BO_UP_SL = response.UP_SL;
+                        //// ANOTHER
+                        $scope.survey.BO_ANOTHER = response.O_KD;
+                        $scope.survey.BO_ANOTHER_MUA_TT = response.O_MUA;
+                        $scope.survey.BO_ANOTHER_SL = response.O_SL;
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             //////// BO
@@ -148,19 +152,21 @@
             }
             //console.log(param);
 
-            $http.post(serviceBase + '/survey/create/bo', param)
-                .success(function (response) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
-                    $scope.BO_ID = response.BoId;
-                    $scope.update = false;
+            $http.post(serviceBase + '/survey/create/bo', param, { timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (response) {
+                        $ionicLoading.hide();
+                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        $scope.BO_ID = response.data.BoId;
+                        $scope.update = false;
 
-                    $state.go('tabs.dealers', {}, { reload: true });
+                        $state.go('tabs.dealers', {}, { reload: true });
 
-                }).error(function (err, status) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n', noBackdrop: true, duration: 2000 });
-                });
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             $state.go('tabs.dealers', {}, { reload: true });

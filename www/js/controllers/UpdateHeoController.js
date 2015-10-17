@@ -80,54 +80,58 @@
             var param = {
                 token: AuthService.token()
             }
-            $http.get(serviceBase + '/survey/heo/' + Dealers.survey().HEO_ID, { params: param })
-                .success(function (response) {
-                    //console.log("load heo success");
-                    $scope.heo.HEO_ANCO = response.AC_KD;
-                    $scope.heo.HEO_ANCO_MUA_TT = response.AC_MUA;
-                    $scope.heo.HEO_ANCO_SL = response.AC_SL;
-                    $scope.heo.HEO_ANCO_HEO = response.AC_CON;
-                    $scope.heo.HEO_ANCO_THIT = response.AC_THIT;
-                    $scope.heo.HEO_ANCO_NAI = response.AC_NAI;
+            $http.get(serviceBase + '/survey/heo/' + Dealers.survey().HEO_ID, { params: param, timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (res) {
+                        var response = res.data;
+                        //console.log("load heo success");
+                        $scope.heo.HEO_ANCO = response.AC_KD;
+                        $scope.heo.HEO_ANCO_MUA_TT = response.AC_MUA;
+                        $scope.heo.HEO_ANCO_SL = response.AC_SL;
+                        $scope.heo.HEO_ANCO_HEO = response.AC_CON;
+                        $scope.heo.HEO_ANCO_THIT = response.AC_THIT;
+                        $scope.heo.HEO_ANCO_NAI = response.AC_NAI;
 
-                    $scope.heo.HEO_CONCO = response.CC_KD;
-                    $scope.heo.HEO_CONCO_MUA_TT = response.CC_MUA;
-                    $scope.heo.HEO_CONCO_SL = response.CC_SL;
-                    $scope.heo.HEO_CONCO_HEO = response.CC_CON;
-                    $scope.heo.HEO_CONCO_THIT = response.CC_THIT;
-                    $scope.heo.HEO_CONCO_NAI = response.CC_NAI;
+                        $scope.heo.HEO_CONCO = response.CC_KD;
+                        $scope.heo.HEO_CONCO_MUA_TT = response.CC_MUA;
+                        $scope.heo.HEO_CONCO_SL = response.CC_SL;
+                        $scope.heo.HEO_CONCO_HEO = response.CC_CON;
+                        $scope.heo.HEO_CONCO_THIT = response.CC_THIT;
+                        $scope.heo.HEO_CONCO_NAI = response.CC_NAI;
 
-                    $scope.heo.HEO_CP = response.CP_KD;
-                    $scope.heo.HEO_CP_MUA_TT = response.CP_MUA;
-                    $scope.heo.HEO_CP_SL = response.CP_SL;
-                    $scope.heo.HEO_CP_HEO = response.CP_CON;
-                    $scope.heo.HEO_CP_THIT = response.CP_THIT;
-                    $scope.heo.HEO_CP_NAI = response.CP_NAI;
+                        $scope.heo.HEO_CP = response.CP_KD;
+                        $scope.heo.HEO_CP_MUA_TT = response.CP_MUA;
+                        $scope.heo.HEO_CP_SL = response.CP_SL;
+                        $scope.heo.HEO_CP_HEO = response.CP_CON;
+                        $scope.heo.HEO_CP_THIT = response.CP_THIT;
+                        $scope.heo.HEO_CP_NAI = response.CP_NAI;
 
-                    $scope.heo.HEO_CG = response.CG_KD;
-                    $scope.heo.HEO_CG_MUA_TT = response.CG_MUA;
-                    $scope.heo.HEO_CG_SL = response.CG_SL;
-                    $scope.heo.HEO_CG_HEO = response.CG_CON;
-                    $scope.heo.HEO_CG_THIT = response.CG_THIT;
-                    $scope.heo.HEO_CG_NAI = response.CG_NAI;
+                        $scope.heo.HEO_CG = response.CG_KD;
+                        $scope.heo.HEO_CG_MUA_TT = response.CG_MUA;
+                        $scope.heo.HEO_CG_SL = response.CG_SL;
+                        $scope.heo.HEO_CG_HEO = response.CG_CON;
+                        $scope.heo.HEO_CG_THIT = response.CG_THIT;
+                        $scope.heo.HEO_CG_NAI = response.CG_NAI;
 
-                    $scope.heo.HEO_GF = response.GF_KD;
-                    $scope.heo.HEO_GF_MUA_TT = response.GF_MUA;
-                    $scope.heo.HEO_GF_SL = response.GF_SL;
-                    $scope.heo.HEO_GF_HEO = response.GF_CON;
-                    $scope.heo.HEO_GF_THIT = response.GF_THIT;
-                    $scope.heo.HEO_GF_NAI = response.GF_NAI;
+                        $scope.heo.HEO_GF = response.GF_KD;
+                        $scope.heo.HEO_GF_MUA_TT = response.GF_MUA;
+                        $scope.heo.HEO_GF_SL = response.GF_SL;
+                        $scope.heo.HEO_GF_HEO = response.GF_CON;
+                        $scope.heo.HEO_GF_THIT = response.GF_THIT;
+                        $scope.heo.HEO_GF_NAI = response.GF_NAI;
 
-                    $scope.heo.HEO_ANOTHER = response.O_KD;
-                    $scope.heo.HEO_ANOTHER_MUA_TT = response.O_MUA;
-                    $scope.heo.HEO_ANOTHER_SL = response.O_SL;
-                    $scope.heo.HEO_ANOTHER_HEO = response.O_CON;
-                    $scope.heo.HEO_ANOTHER_THIT = response.O_THIT;
-                    $scope.heo.HEO_ANOTHER_NAI = response.O_NAI;
+                        $scope.heo.HEO_ANOTHER = response.O_KD;
+                        $scope.heo.HEO_ANOTHER_MUA_TT = response.O_MUA;
+                        $scope.heo.HEO_ANOTHER_SL = response.O_SL;
+                        $scope.heo.HEO_ANOTHER_HEO = response.O_CON;
+                        $scope.heo.HEO_ANOTHER_THIT = response.O_THIT;
+                        $scope.heo.HEO_ANOTHER_NAI = response.O_NAI;
 
-                }).error(function (err, status) {
-                    //console.log("load dealers error " + err);
-                });
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             /////// HEO
@@ -242,22 +246,24 @@
             }
             //console.log(param);
 
-            $http.post(serviceBase + '/survey/create/heo', param)
-                .success(function (response) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
-                    //console.log("AC_PC: " + $scope.user.AC_PC);
+            $http.post(serviceBase + '/survey/create/heo', param, { timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback (response) {
+                        $ionicLoading.hide();
+                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //console.log("AC_PC: " + $scope.user.AC_PC);
 
-                    $scope.update = false;
-                    //if ($scope.user.AC_PC == 0)
-                    //    $state.go('tabs.dealer-detail-sales-giacam', {});
-                    //else
+                        $scope.update = false;
+                        //if ($scope.user.AC_PC == 0)
+                        //    $state.go('tabs.dealer-detail-sales-giacam', {});
+                        //else
                         $state.go('tabs.dealer-detail-sales-ga', {});
 
-                }).error(function (err, status) {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Lỗi trong quá trình xử lý!\n' + err.toString(), noBackdrop: true, duration: 2000 });
-                });
+                    },
+                    function errorCallback (response) {
+                        $rootScope.processRequestError(response);
+                    }
+                );
         }
         else {
             //console.log("AC_PC: " + $scope.user.AC_PC);
