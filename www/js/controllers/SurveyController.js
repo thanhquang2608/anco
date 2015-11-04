@@ -1464,8 +1464,19 @@
     var confirmLat = 0;
     $scope.gpsConfirm = function () {
         console.log("GPS confirm");
-        confirmLong = $scope.survey.long;
-        confirmLat = $scope.survey.lat;
+
+        if ($scope.dealer.confirmGPS == true) {
+            confirmLong = $scope.survey.long;
+            confirmLat = $scope.survey.lat;
+
+            if (geolocationApp) {
+                geolocationApp.stopWatch();
+            }
+        } else {
+            confirmLong = undefined;
+            confirmLat = undefined;
+        }
+        
     }
 
     function geolocationApp() {
@@ -1480,18 +1491,24 @@
             //document.getElementById("watchButton").addEventListener("click", function () {
             //    that._handleWatch.apply(that, arguments);
             //}, false);
-            //document.getElementById("refreshButton").addEventListener("click", function () {
-            //    that._handleRefresh.apply(that, arguments);
-            //}, false);
+            document.getElementById("refreshGPS").addEventListener("click", function () {
+                $scope.survey.lat = undefined;
+                $scope.survey.long = undefined;
+                $scope.dealer.confirmGPS = false;
+               that._handleWatch.apply(that, arguments);
+            }, false);
         },
 
         _handleRefresh: function () {
             var options = {
-                enableHighAccuracy: true
-            },
-                that = this;
+                timeout: 5000,
+                enableHighAccuracy: true,
+                maximumAge: 3000
+            };
+            
+            var that = this;
 
-            that._setResults("Waiting for geolocation information...");
+            that._setResults("Đang lấy vị trí, vui lòng chờ...");
 
             navigator.geolocation.getCurrentPosition(function () {
                 that._onSuccess.apply(that, arguments);
@@ -1500,47 +1517,42 @@
             }, options);
         },
 
+        stopWatch : function() {
+            var that = this;
+            if (that._watchID != null) {
+                navigator.geolocation.clearWatch(that._watchID);
+                that._watchID = null;
+                //button.innerHTML = "Start Geolocation Watch";
+            }
+        },
+
         _handleWatch: function () {
             var that = this;
             // If watch is running, clear it now. Otherwise, start it.
             //button = document.getElementById("watchButton");
 
-            if (that._watchID != null) {
-                that._setResults();
-                navigator.geolocation.clearWatch(that._watchID);
-                that._watchID = null;
-
-                //button.innerHTML = "Start Geolocation Watch";
-            }
-            else {
-                that._setResults("Waiting for geolocation information...");
-                // Update the watch every second.
-                var options = {
-                    frequency: 5000,
-                    enableHighAccuracy: true
-                };
-                that._watchID = navigator.geolocation.watchPosition(function () {
-                    that._onSuccess.apply(that, arguments);
-                }, function () {
-                    that._onError.apply(that, arguments);
-                }, options);
-                //button.innerHTML = "Clear Geolocation Watch";
-
-            }
+            // Neu dang lang nghe thi stop
+            that.stopWatch();
+            
+            // Bat dau lang nghe
+            that._setResults("Đang lấy vị trí, vui lòng chờ...");
+            // Update the watch every second.
+            var options = {
+                timeout: 5000,
+                enableHighAccuracy: true,
+                maximumAge: 3000
+            };
+            that._watchID = navigator.geolocation.watchPosition(function () {
+                that._onSuccess.apply(that, arguments);
+            }, function () {
+                that._onError.apply(that, arguments);
+            }, options);
+            //button.innerHTML = "Clear Geolocation Watch";
         },
 
         _onSuccess: function (position) {
-            // Successfully retrieved the geolocation information. Display it all.
             this._setResults('(' + Math.round(position.coords.latitude * 1000) / 1000 + ', ' +
                              Math.round(position.coords.longitude * 1000) / 1000 + ')');
-            //this._setResults('Latitude: ' + position.coords.latitude + ', ' +
-            //                 'Longitude: ' + position.coords.longitude + ', ' +
-            //                 //'Altitude: ' + position.coords.altitude + '<br />' +
-            //                 //'Accuracy: ' + position.coords.accuracy + '<br />' +
-            //                 //'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
-            //                 //'Heading: ' + position.coords.heading + '<br />' +
-            //                 //'Speed: ' + position.coords.speed + '<br />' +
-            //                 'Timestamp: ' + new Date(position.timestamp).toLocaleTimeString().split(" ")[0] + '<br />');
 
             $scope.$apply(function () {
                 $scope.survey.lat = position.coords.latitude;

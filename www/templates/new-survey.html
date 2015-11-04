@@ -208,9 +208,12 @@
                     Tọa độ GPS
                 </div>
                 <div class="col">
-                    <div ng-if="survey.lat && survey.long" style="padding-top:5px;">
-                        <input id="confirm_gps" type="checkbox" ng-model="dealer.confirmGPS" ng-click="gpsConfirm()">
-                        <label for="confirm_gps">Xác nhận</label>
+                    <div>
+                         <span ng-if="survey.lat && survey.long" style="padding-top:5px;">
+                            <input id="confirm_gps" type="checkbox" ng-model="dealer.confirmGPS" ng-click="gpsConfirm()">
+                            <label for="confirm_gps">Xác nhận</label>
+                        </span>
+                        <button class="icon ion-refresh" id="refreshGPS" type="button"></button>
                     </div>
                     <div  id="latlong" ng-model="dealer.gps">
                         Chưa xác định
