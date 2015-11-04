@@ -1492,6 +1492,7 @@
             //    that._handleWatch.apply(that, arguments);
             //}, false);
             document.getElementById("refreshGPS").addEventListener("click", function () {
+                document.getElementById("refreshGPS").disabled = true; 
                 $scope.survey.lat = undefined;
                 $scope.survey.long = undefined;
                 $scope.dealer.confirmGPS = false;
@@ -1512,8 +1513,10 @@
 
             navigator.geolocation.getCurrentPosition(function () {
                 that._onSuccess.apply(that, arguments);
+                document.getElementById("refreshGPS").disabled = false;
             }, function () {
                 that._onError.apply(that, arguments);
+                document.getElementById("refreshGPS").disabled = true;
             }, options);
         },
 
@@ -1544,8 +1547,10 @@
             };
             that._watchID = navigator.geolocation.watchPosition(function () {
                 that._onSuccess.apply(that, arguments);
+                document.getElementById("refreshGPS").disabled = false;
             }, function () {
                 that._onError.apply(that, arguments);
+                document.getElementById("refreshGPS").disabled = false;
             }, options);
             //button.innerHTML = "Clear Geolocation Watch";
         },
@@ -1563,6 +1568,10 @@
         _onError: function (error) {
             this._setResults('code: ' + error.code + '<br/>' +
                              'message: ' + error.message + '<br/>');
+            $scope.$apply(function () {
+                $scope.survey.lat = null;
+                $scope.survey.long = null;
+            });
         },
 
         _setResults: function (value) {
