@@ -90,6 +90,12 @@
     $scope.heo_o_error = undefined;
 
     //////// GA
+    //// ANCO
+    $scope.survey.GA_ANCO = 0;
+    $scope.survey.GA_ANCO_MUA_TT = 0;
+    // $scope.survey.GA_ANCO_GD = 0;
+    // $scope.survey.GA_ANCO_LT = 0;
+    // $scope.survey.GA_ANCO_LM = 0;
     //// CON CO
     $scope.survey.GA_CC = 0;
     $scope.survey.GA_CC_MUA_TT = 0;
@@ -546,6 +552,12 @@
             var param = {
                 token: AuthService.token(),
                 surveyid: SurveyService.getSurveyID(),
+
+                anco_kd: $scope.survey.GA_ANCO,
+                anco_mua: $scope.survey.GA_ANCO == 0 ? 0 : $scope.survey.GA_ANCO_MUA_TT,
+                anco_gade: $scope.survey.GA_ANCO == 0 ? 0 : parseInt($scope.survey.GA_ANCO_GD),
+                anco_lt: $scope.survey.GA_ANCO == 0 ? 0 : parseInt($scope.survey.GA_ANCO_LT),
+                anco_lm: $scope.survey.GA_ANCO == 0 ? 0 : parseInt($scope.survey.GA_ANCO_LM),
 
                 cc_kd: $scope.survey.GA_CC,
                 cc_mua: $scope.survey.GA_CC == 0 ? 0 : $scope.survey.GA_CC_MUA_TT,
@@ -1025,8 +1037,12 @@
                         else {
                             // if create dealer -> add temp data to list dealer
                             Dealers.dealerPush({
-                                "SurveyId": response.data.SurveyId, "DealerPhoto": "",
-                                "DealerName": $scope.dealer.dealerName, "ProvinceName": $scope.provinceName, "Address": $scope.dealer.address
+                                "SurveyId": response.data.SurveyId,
+                                "DealerPhoto": "",
+                                "DealerName": $scope.dealer.dealerName,
+                                "ProvinceName": $scope.provinceName,
+                                "Address": $scope.dealer.address,
+                                "DealerId" : response.data.DealerId
                             });
                         }
                         $scope.surveyID = response.data.SurveyId;
