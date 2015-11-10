@@ -187,38 +187,49 @@
         var valid = true;
 
         // ANCO
-        if ((data.ac_con + data.ac_thit + data.ac_nai != 100) && (data.ac_con + data.ac_thit + data.ac_nai != 0)) {
+        var sum_ac = data.ac_con + data.ac_thit + data.ac_nai;
+        if ((sum_ac != 100 && sum_ac != 0) || (sum_ac == 0 && data.ac_mua == 1)) {
             $scope.heo_anco_error = errorPercent;
             valid = false;
         }
 
         // CONCO
-        if ((data.cc_con + data.cc_thit + data.cc_nai != 100) && (data.cc_con + data.cc_thit + data.cc_nai != 0)) {
+        var sum_cc = data.cc_con + data.cc_thit + data.cc_nai;
+        // if ((data.cc_con + data.cc_thit + data.cc_nai != 100) && (data.cc_con + data.cc_thit + data.cc_nai != 0)) {
+        if ((sum_cc != 100 && sum_cc != 0) || (sum_cc == 0 && data.cc_mua == 1)) {
             $scope.heo_conco_error = errorPercent;
             valid = false;
         }
 
 
         // CP
-        if ((data.cp_con + data.cp_thit + data.cp_nai != 100) && (data.cp_con + data.cp_thit + data.cp_nai != 0)) {
+        var sum_cp = data.cp_con + data.cp_thit + data.cp_nai;
+        // if ((data.cp_con + data.cp_thit + data.cp_nai != 100) && (data.cp_con + data.cp_thit + data.cp_nai != 0)) {
+        if ((sum_cp != 100 && sum_cp != 0) || (sum_cp == 0 && data.cp_mua == 1)) {
             $scope.heo_cp_error = errorPercent;
             valid = false;
         }
 
         // CG
-        if ((data.cg_con + data.cg_thit + data.cg_nai != 100) && (data.cg_con + data.cg_thit + data.cg_nai != 0)) {
+        var sum_cg = data.cg_con + data.cg_thit + data.cg_nai;
+        // if ((data.cg_con + data.cg_thit + data.cg_nai != 100) && (data.cg_con + data.cg_thit + data.cg_nai != 0)) {
+        if ((sum_cg != 100 && sum_cg != 0) || (sum_cg == 0 && data.cg_mua == 1)) {
             $scope.heo_cg_error = errorPercent;
             valid = false;
         }
 
         // GF
-        if ((data.gf_con + data.gf_thit + data.gf_nai != 100) && (data.gf_con + data.gf_thit + data.gf_nai != 0)) {
+        var sum_gf = data.gf_con + data.gf_thit + data.gf_nai;
+        // if ((data.gf_con + data.gf_thit + data.gf_nai != 100) && (data.gf_con + data.gf_thit + data.gf_nai != 0)) {
+        if ((sum_gf != 100 && sum_gf != 0) || (sum_gf == 0 && data.gf_mua == 1)) {
             $scope.heo_gf_error = errorPercent;
             valid = false;
         }
 
         // OTHER
-        if ((data.o_con + data.o_thit + data.o_nai != 100) && (data.o_con + data.o_thit + data.o_nai != 0)) {
+        var sum_o = data.o_con + data.o_thit + data.o_nai;
+        // if ((data.o_con + data.o_thit + data.o_nai != 100) && (data.o_con + data.o_thit + data.o_nai != 0)) {
+        if ((sum_o != 100 && sum_o != 0) || (sum_o == 0 && data.o_mua == 1)) {
             $scope.heo_o_error = errorPercent;
             valid = false;
         }

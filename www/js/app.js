@@ -21,6 +21,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             StatusBar.styleLightContent();
         }
 
+        ionic.Platform.isFullScreen = true;
+
         if (window.Connection) {
             if (navigator.connection.type == Connection.NONE) {
                 alert('Không kết nối mạng được!'); 
