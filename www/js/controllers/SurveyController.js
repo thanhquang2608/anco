@@ -1590,6 +1590,7 @@
             var options = {
                 frequency: 5000,
                 enableHighAccuracy: true,
+                timeout: 30000
             };
 
             var that = this;
@@ -1628,6 +1629,7 @@
             var options = {
                 frequency: 5000,
                 enableHighAccuracy: true,
+                timeout: 30000
             };
 
             that._watchID = navigator.geolocation.watchPosition(function () {
