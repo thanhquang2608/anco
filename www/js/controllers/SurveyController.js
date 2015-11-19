@@ -1588,9 +1588,8 @@
 
         _handleRefresh: function () {
             var options = {
-                timeout: 30000,
-                enableHighAccuracy: false,
-                maximumAge: 3000
+                frequency: 5000,
+                enableHighAccuracy: true,
             };
 
             var that = this;
@@ -1627,9 +1626,8 @@
             that._setResults("Đang lấy vị trí, vui lòng chờ...");
             // Update the watch every second.
             var options = {
-                timeout: 30000,
-                enableHighAccuracy: false,
-                maximumAge: 3000
+                frequency: 5000,
+                enableHighAccuracy: true,
             };
 
             that._watchID = navigator.geolocation.watchPosition(function () {
