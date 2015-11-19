@@ -1589,7 +1589,7 @@
         _handleRefresh: function () {
             var options = {
                 timeout: 30000,
-                enableHighAccuracy: true,
+                enableHighAccuracy: false,
                 maximumAge: 3000
             };
 
@@ -1628,7 +1628,7 @@
             // Update the watch every second.
             var options = {
                 timeout: 30000,
-                enableHighAccuracy: true,
+                enableHighAccuracy: false,
                 maximumAge: 3000
             };
 
