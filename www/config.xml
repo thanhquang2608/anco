@@ -57,6 +57,7 @@
     <splash src="resources/android/splash/drawable-port-xxhdpi-screen.png" density="port-xxhdpi"/>
     <splash src="resources/android/splash/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
   </platform>
+  <gap:platform name="ios" />
   <preference name="AndroidPersistentFileLocation" value="Compatibility" />
   
   <!-- <feature name="http://api.phonegap.com/1.0/geolocation"/> -->
