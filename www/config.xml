@@ -25,9 +25,9 @@
   <gap:plugin name="cordova-plugin-console" source="npm" />
   <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
   <gap:plugin name="ionic-plugin-keyboard" source="npm" />
-  <gap:plugin name="cordova-plugin-file" source="npm"/>
+  <plugin name="org.apache.cordova.file" spec="1.0.1" source="pgb" />
   <!--<gap:plugin name="cordova-plugin-file" source="npm" />-->
-  <gap:plugin name="cordova-plugin-file-transfer" source="npm" />
+  <plugin name="org.apache.cordova.file-transfer" spec="0.4.6" source="pgb" />
   <!--<gap:plugin name="cordova-plugin-file-transfer" source="npm" />-->
   <gap:plugin name="cordova-plugin-x-toast" source="npm" />
   
