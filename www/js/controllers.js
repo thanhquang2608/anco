@@ -2,6 +2,7 @@ var app = angular.module('starter.controllers', []);
 
 app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, $ionicLoading, AuthService, AUTH_EVENTS, NETWORK_EVENTS, DealerService) {
     $rootScope.TIME_OUT = 60000;
+    var isShowingNoInternet = false;
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
         var alertPopup = $ionicPopup.alert({
@@ -21,9 +22,17 @@ app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, $io
 
     $scope.$on(NETWORK_EVENTS.nointernet, function (event) {
         $ionicLoading.hide();
-        var alertPopup = $ionicPopup.alert({
-            template: 'Không kết nối được với server'
-        });
+        if (!isShowingNoInternet) {
+            isShowingNoInternet = true;
+
+            var alertPopup = $ionicPopup.alert({
+                template: 'Không kết nối được với server'
+            });
+
+            alertPopup.then(function(res) {
+                isShowingNoInternet = false;
+            });
+        }
     });
 
     $scope.$on(NETWORK_EVENTS.timeout, function (event) {
