@@ -35,7 +35,7 @@
 	<!--<gap:plugin name="org.apache.cordova.media-capture" source="npm"/>
 	<gap:plugin name="org.apache.cordova.media" source="npm"/>-->
 	<gap:plugin name="cordova-plugin-device" source="npm"/>
-  <gap:plugin name="org.apache.cordova.geolocation" version="0.3.2" />
+  <gap:plugin name="org.apache.cordova.geolocation" version="0.3.12" />
   <gap:plugin name="com.synconset.imagepicker" version="1.0.4" />
   <platform name="android">
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
