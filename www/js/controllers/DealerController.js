@@ -12,12 +12,16 @@
     $scope.loading = false;
     $scope.update = false;
 
+    $scope.search = {};
+
     $scope.dates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
     $scope.months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
     $scope.dealers = [];
     $scope.getUser = function () {
         $scope.user = AuthService.user();
+        $scope.provinces = $scope.user.Provinces;
+        $scope.search.provinceSelect = $scope.user.Provinces[0];
     }
 
     $scope.getUser();
@@ -357,8 +361,10 @@
 
     $rootScope.$on(AUTH_EVENTS.authenticated, function (event) {
         //console.log("DealerController on AUTH_EVENTS");
-        $scope.user = AuthService.user();
+        // $scope.user = AuthService.user();
         //$scope.loadDealers();
+
+        $scope.getUser();
     });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -488,6 +494,74 @@
         //        $scope.loading = false;
         //        //console.log("load dealers error "+err);
         //    });
+    }
+
+    $scope.loadDealersForSup = function (isPull) {
+        // New flow
+        var listDealer = $localstorage.getObject(LIST_DEALERS_KEY);
+        var param = {
+            token: AuthService.token(),
+            saleid: $scope.user.SaleRepId
+        }
+        // List dealer not null
+        if (listDealer != null) {
+            // If pull refresh
+            if (isPull) {
+                $http.get($scope.serviceBase  '/survey/listForSup', { params: param, timeout: $rootScope.TIME_OUT })
+                    .then(
+                        function successCallback(response) {
+                            for (var item in response.data) {
+                                //console.log(response.data[item]);
+                                if (DealerMap.getByKey(response.data[item].DealerId) == false) {
+                                    response.data[item]['Message'] = "Upload hÃ¬nh lá»—i!";                                   
+                                }
+                            }
+                            Dealers.setDealers(response.data);
+                            $scope.dealers = Dealers.all();
+                            console.log($scope.dealers);
+                            $scope.$broadcast('scroll.refreshComplete');
+                            //$scope.loading = false;
+
+                        },
+                        function errorCallback(response) {
+                            $scope.$broadcast('scroll.refreshComplete');
+                            $rootScope.processRequestError(response);
+                        }
+                    );
+            }
+            // Click tab
+            else {
+                Dealers.setDealers(listDealer);
+                $scope.dealers = Dealers.all();
+                console.log($scope.dealers);
+            }
+        }
+            // List dealer null
+        else {
+            $scope.loading = true;
+            $http.get($scope.serviceBase  '/survey/listForSup', { params: param, timeout: $rootScope.TIME_OUT })
+                .then(
+                    function successCallback(response) {
+                        for (var item in response.data) {
+                            //console.log(response.data[item]);
+                            if (DealerMap.getByKey(response.data[item].DealerId) == false) {
+                                response.data[item]['Message'] = "Upload hÃ¬nh lá»—i!";
+                            }
+                        }
+                        Dealers.setDealers(response.data);
+                        $scope.dealers = Dealers.all();
+                        ////console.log($scope.dealers);
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.loading = false;
+
+                    },
+                    function errorCallback(response) {
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.loading = false;
+                        $rootScope.processRequestError(response);
+                    }
+                );
+        }
     }
 
     $scope.initDealer = function () {

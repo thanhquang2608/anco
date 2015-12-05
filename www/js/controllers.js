@@ -72,6 +72,25 @@ app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, $io
             DealerService.setUploadImageFinish(true);
         })
     });
+
+    $scope.getUser = function() {
+        $scope.user = AuthService.user();
+        if (!$scope.user.RoleId || $scope.user.RoleId == 1) {
+            $rootScope.IsSaleRep = true;
+        } else {
+            $rootScope.IsSaleRep = false;
+        }
+
+        if (!$rootScope.$$phase) {
+            $rootScope.$apply();
+        }
+    }
+   
+    $scope.getUser();
+
+    $scope.$on(AUTH_EVENTS.authenticated, function (event) {
+        $scope.getUser();
+    });
 })
 
 .controller('HomeCtrl', function ($scope) {

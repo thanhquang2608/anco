@@ -1086,7 +1086,7 @@
                                 "SurveyId": response.data.SurveyId,
                                 "DealerPhoto": "",
                                 "DealerName": $scope.dealer.dealerName,
-                                "ProvinceName": $scope.provinceName,
+                                "ProvinceName": $scope.dealer.province.ProvinceName,
                                 "Address": $scope.dealer.address,
                                 "DealerId" : response.data.DealerId
                             });
