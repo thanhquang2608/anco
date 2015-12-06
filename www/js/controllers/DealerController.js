@@ -507,7 +507,7 @@
         if (listDealer != null) {
             // If pull refresh
             if (isPull) {
-                $http.get($scope.serviceBase  '/survey/listForSup', { params: param, timeout: $rootScope.TIME_OUT })
+                $http.get($scope.serviceBase + '/survey/listForSup', { params: param, timeout: $rootScope.TIME_OUT })
                     .then(
                         function successCallback(response) {
                             for (var item in response.data) {
@@ -539,7 +539,7 @@
             // List dealer null
         else {
             $scope.loading = true;
-            $http.get($scope.serviceBase  '/survey/listForSup', { params: param, timeout: $rootScope.TIME_OUT })
+            $http.get($scope.serviceBase + '/survey/listForSup', { params: param, timeout: $rootScope.TIME_OUT })
                 .then(
                     function successCallback(response) {
                         for (var item in response.data) {
