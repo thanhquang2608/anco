@@ -75,7 +75,7 @@ app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, $io
 
     $scope.getUser = function() {
         $scope.user = AuthService.user();
-        if (!$scope.user.RoleId || $scope.user.RoleId == 1) {
+        if (!$scope.user || !$scope.user.RoleId || $scope.user.RoleId == 1) {
             $rootScope.IsSaleRep = true;
         } else {
             $rootScope.IsSaleRep = false;
