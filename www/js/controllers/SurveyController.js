@@ -1589,7 +1589,7 @@
         _handleRefresh: function () {
             var options = {
                 frequency: 5000,
-                enableHighAccuracy: true,
+                enableHighAccuracy: false,
                 timeout: 30000
             };
 
@@ -1628,7 +1628,7 @@
             // Update the watch every second.
             var options = {
                 frequency: 5000,
-                enableHighAccuracy: true,
+                enableHighAccuracy: false,
                 timeout: 30000
             };
 
