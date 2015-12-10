@@ -182,3 +182,32 @@ hr {
     margin: 1em 0;
     padding: 0; 
 }
+
+.margin-right {
+	margin-right: 5px !important;
+}
+
+.margin-right2 {
+	margin-right: 10px !important;
+}
+
+.margin-right3 {
+	margin-right: 15px !important;
+}
+
+.margin-right4 {
+	margin-right: 20px !important;
+}
+
+.margin-right5 {
+	margin-right: 25px !important;
+}
+
+.margin-right6 {
+	margin-right: 30px !important;
+}
+
+.margin-top {
+	display: block;
+	margin-top: 5px !important;
+}

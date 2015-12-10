@@ -24,6 +24,14 @@
                         </div>
                     </div>
                     <div class="row">                   
+                        <div class="col-survey-title">Nhãn hiệu</div>
+                        <div class="col">
+                            <label id="heo_ac_brand_ac" class="margin-right"><input class="margin-right" ng-model="survey.HEO_AC_BRAND_AC" type="checkbox" ng-disabled="heo.HEO_ANCO == 0" ng-change="setUpdate()"/>ANCO</label>
+                            <label id="heo_ac_brand_am"><input class="margin-right" ng-model="survey.HEO_AC_BRAND_AM" type="checkbox" ng-disabled="heo.HEO_ANCO == 0" ng-change="setUpdate()"/>A&M</label>
+                            <label class="margin-top" id="heo_ac_brand_gn"><input class="margin-right" ng-model="survey.HEO_AC_BRAND_GN" type="checkbox" ng-disabled="heo.HEO_ANCO == 0" ng-change="setUpdate()"/>GUINNESS</label>
+                        </div> 
+                    </div>
+                    <div class="row">                   
                         <div class="col-survey-title">Sản lượng</div>
                         <div class="col">
                             <div class="col match-parent col-flex">
@@ -104,6 +112,21 @@
                             <input id="heo_cc_mua_tt" ng-disabled="survey.HEO_CONCO == 0" type="radio" value="1" ng-model="survey.HEO_CONCO_MUA_TT" ng-change="setUpdate()">
                             <label for="heo_cc_mua_tt">Có</label>
                         </div>
+                    </div>
+                    <div class="row">                   
+                        <div class="col-survey-title">Nhãn hiệu</div>
+                        <div class="col">
+                            <label id="heo_cc_brand_cc" class="margin-right"><input class="margin-right" ng-model="survey.HEO_CC_BRAND_CC" type="checkbox" ng-disabled="heo.HEO_CONCO == 0" ng-change="setUpdate()"/>CON CÒ</label>
+                            <label id="heo_cc_brand_pc"><input class="margin-right" ng-model="survey.HEO_CC_BRAND_PC" type="checkbox" ng-disabled="heo.HEO_CONCO == 0" ng-change="setUpdate()"/>PORCY</label>
+                            <label class="margin-top">
+                            <label id="heo_ac_brand_am" class="margin-right6"><input class="margin-right" ng-model="survey.HEO_CC_BRAND_AM" type="checkbox" ng-disabled="heo.HEO_CONCO == 0" ng-change="setUpdate()"/>AMI</label>
+                            <label id="heo_cc_brand_bo"><input class="margin-right" ng-model="survey.HEO_CC_BRAND_BO" type="checkbox" ng-disabled="heo.HEO_CONCO == 0" ng-change="setUpdate()"/>BIG ONE</label>
+                            <label class="margin-top">
+                            <label class="margin-right3" id="heo_cc_brand_sm"><input class="margin-right" ng-model="survey.HEO_CC_BRAND_SM" type="checkbox" ng-disabled="heo.HEO_CONCO == 0" ng-change="setUpdate()"/>SUMO</label>
+                            <label id="heo_cc_brand_dl"><input class="margin-right" ng-model="survey.HEO_CC_BRAND_DL" type="checkbox" ng-disabled="heo.HEO_CONCO == 0" ng-change="setUpdate()"/>DELICE</label>
+                            <label class="margin-top">
+                            <label class="margin-top" id="heo_cc_brand_ff"><input class="margin-right" ng-model="survey.HEO_CC_BRAND_FF" type="checkbox" ng-disabled="heo.HEO_CONCO == 0" ng-change="setUpdate()"/>FRANCE FEED</label>
+                        </div> 
                     </div>
                     <div class="row">
                         <div class="col-survey-title">Sản lượng</div>

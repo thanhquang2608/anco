@@ -50,6 +50,9 @@
     // $scope.survey.HEO_ANCO_HEO = 0;
     // $scope.survey.HEO_ANCO_THIT = 0;
     // $scope.survey.HEO_ANCO_NAI = 0;
+    $scope.survey.HEO_AC_BRAND_AC = false;
+    $scope.survey.HEO_AC_BRAND_AM = false;
+    $scope.survey.HEO_AC_BRAND_GN = false;
     //// CONCO
     $scope.survey.HEO_CONCO = 0;
     $scope.survey.HEO_CONCO_MUA_TT = 0;
@@ -57,6 +60,13 @@
     // $scope.survey.HEO_CONCO_HEO = 0;
     // $scope.survey.HEO_CONCO_THIT = 0;
     // $scope.survey.HEO_CONCO_NAI = 0;
+    $scope.survey.HEO_CC_BRAND_CC = false;
+    $scope.survey.HEO_CC_BRAND_PC = false;
+    $scope.survey.HEO_CC_BRAND_AM = false;
+    $scope.survey.HEO_CC_BRAND_BO = false;
+    $scope.survey.HEO_CC_BRAND_SM = false;
+    $scope.survey.HEO_CC_BRAND_DL = false;
+    $scope.survey.HEO_CC_BRAND_FF = false;
     //// CP
     $scope.survey.HEO_CP = 0;
     $scope.survey.HEO_CP_MUA_TT = 0;
@@ -412,6 +422,9 @@
                 ac_con: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_HEO || 0),
                 ac_thit: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_THIT || 0),
                 ac_nai: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_NAI || 0),
+                ac_brand_ac: $scope.survey.HEO_ANCO == 0 ? 0 : $scope.survey.HEO_AC_BRAND_AC ? 1 : 0,
+                ac_brand_am: $scope.survey.HEO_ANCO == 0 ? 0 : $scope.survey.HEO_AC_BRAND_AM ? 1 : 0,
+                ac_brand_gn: $scope.survey.HEO_ANCO == 0 ? 0 : $scope.survey.HEO_AC_BRAND_GN ? 1 : 0,
 
                 cc_kd: $scope.survey.HEO_CONCO,
                 cc_mua: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CONCO_MUA_TT,
@@ -419,6 +432,13 @@
                 cc_con: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_HEO || 0),
                 cc_thit: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_THIT || 0),
                 cc_nai: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_NAI || 0),
+                cc_brand_cc: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CC_BRAND_CC ? 1 : 0,
+                cc_brand_pc: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CC_BRAND_PC ? 1 : 0,
+                cc_brand_am: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CC_BRAND_AM ? 1 : 0,
+                cc_brand_bo: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CC_BRAND_BO ? 1 : 0,
+                cc_brand_sm: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CC_BRAND_SM ? 1 : 0,
+                cc_brand_dl: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CC_BRAND_DL ? 1 : 0,
+                cc_brand_ff: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CC_BRAND_FF ? 1 : 0,
 
                 cp_kd: $scope.survey.HEO_CP,
                 cp_mua: $scope.survey.HEO_CP == 0 ? 0 : $scope.survey.HEO_CP_MUA_TT,
