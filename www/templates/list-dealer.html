@@ -35,7 +35,7 @@
     </ion-content>
 </ion-view>
 
-<ion-view view-title="Danh Sách Đã Khảo Sát" ng-init="loadDealersForSup(false)" hide-back-button="true" showTabs ng-if="!$root.IsSaleRep">
+<ion-view view-title="Danh Sách Đã Khảo Sát" ng-init="loadDealersForSup(false)" hide-back-button="true" showTabs ng-if="!$root.IsSaleRep && provinces.length <= 3">
     <ion-content>
         <ion-refresher
             pulling-text="Pull to refresh..."
@@ -67,6 +67,54 @@
                 </center>
             </div>
             <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="dealer in filtered = ( dealers | filter: { ProvinceName : search.provinceSelect.ProvinceName }:true)" type="item-text-wrap" href="#/tab/dealers/{{dealer.SurveyId}}" ng-click="dealerDetail(dealer.DealerId)">
+                <img ng-if="dealer.DealerPhoto" ng-src="{{serviceBase}}{{dealer.DealerPhoto}}">
+                <img ng-if="!dealer.DealerPhoto" src="img/no-image.png">
+                <h2>Mã: {{dealer.DealerId}}</h2>
+                <h2>{{dealer.DealerName}}</h2>
+                <p>{{dealer.ProvinceName}}</p>
+                <p>{{dealer.Address}}</p>
+                <label class="error"> {{dealer.Message}}</label>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+                <!--<ion-option-button class="button-assertive" ng-click="remove(dealer)">
+                    Delete
+                </ion-option-button>-->
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
+
+<ion-view view-title="Danh Sách Đã Khảo Sát" ng-init="loadDealersForASM()" hide-back-button="true" showTabs ng-if="!$root.IsSaleRep && provinces.length > 3">
+    <ion-content>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="loadDealersForASM()">
+        </ion-refresher>
+        <ion-list>
+            <div style="margin: 0 auto; width:100px; padding-bottom:10px; padding-top:10px;" ng-if="loading">
+                <img src="img/loading.gif" style="vertical-align: middle;" >
+                <label style="color: gray;">
+                    Đang tải...
+                </label>
+            </div>
+            <div ng-if="!loading" style="margin: 0 auto; padding-bottom:10px; padding-top:10px;"> 
+                <center>
+                    <div ng-if="provinces.length > 1"> 
+                        <span class="col">
+                            <label style="padding-right:5px;">
+                                Tỉnh/TP: 
+                            </label>
+                            <label>
+                               <select ng-model="search.provinceSelect" ng-options="p.ProvinceName for p in provinces" ng-change="loadDealersForASM()"></select>
+                            </label>
+                        </span>
+                    </div>
+                    <!-- <hr> -->
+                    <label style="color: gray;">
+                        {{dealers.length}} khảo sát
+                    </label>
+                </center>
+            </div>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="dealer in dealers" type="item-text-wrap" href="#/tab/dealers/{{dealer.SurveyId}}" ng-click="dealerDetail(dealer.DealerId)">
                 <img ng-if="dealer.DealerPhoto" ng-src="{{serviceBase}}{{dealer.DealerPhoto}}">
                 <img ng-if="!dealer.DealerPhoto" src="img/no-image.png">
                 <h2>Mã: {{dealer.DealerId}}</h2>

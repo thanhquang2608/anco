@@ -21,7 +21,12 @@
     $scope.getUser = function () {
         $scope.user = AuthService.user();
         $scope.provinces = $scope.user.Provinces;
-        $scope.search.provinceSelect = $scope.user.Provinces[0];
+        $scope.provinces.sort(compareProvince);
+        $scope.search.provinceSelect = $scope.provinces[0];
+    }
+
+    function compareProvince(p1, p2) {
+        return p1.ProvinceName.localeCompare(p2.ProvinceName);
     }
 
     $scope.getUser();
@@ -513,7 +518,7 @@
                             for (var item in response.data) {
                                 //console.log(response.data[item]);
                                 if (DealerMap.getByKey(response.data[item].DealerId) == false) {
-                                    response.data[item]['Message'] = "Upload hÃ¬nh lá»—i!";                                   
+                                    response.data[item]['Message'] = "Upload hình lỗi!";                                   
                                 }
                             }
                             Dealers.setDealers(response.data);
@@ -545,7 +550,7 @@
                         for (var item in response.data) {
                             //console.log(response.data[item]);
                             if (DealerMap.getByKey(response.data[item].DealerId) == false) {
-                                response.data[item]['Message'] = "Upload hÃ¬nh lá»—i!";
+                                response.data[item]['Message'] = "Upload hình lỗi!";
                             }
                         }
                         Dealers.setDealers(response.data);
@@ -562,6 +567,32 @@
                     }
                 );
         }
+    }
+
+    $scope.loadDealersForASM = function () {
+        
+        var param = {
+            token: AuthService.token(),
+            saleid: $scope.user.SaleRepId,
+            provinceid : $scope.search.provinceSelect.ProvinceId
+        }
+
+        $scope.loading = true;
+        $http.get($scope.serviceBase + '/survey/listForASM', { params: param, timeout: $rootScope.TIME_OUT })
+            .then(
+                function successCallback(response) {
+                    Dealers.setDealers(response.data);
+                    $scope.dealers = response.data;
+                    $scope.$broadcast('scroll.refreshComplete');
+                    $scope.loading = false;
+
+                },
+                function errorCallback(response) {
+                    $scope.$broadcast('scroll.refreshComplete');
+                    $scope.loading = false;
+                    $rootScope.processRequestError(response);
+                }
+            );
     }
 
     $scope.initDealer = function () {
