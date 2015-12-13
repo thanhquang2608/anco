@@ -41,7 +41,7 @@
   
 
   <!-- Android -->
-  <plugin name="org.apache.cordova.geolocation" spec="0.3.12" source="pgb" />
+  <plugin name="org.apache.cordova.geolocation" spec="0.3.10" source="pgb" />
 
   <gap:plugin name="com.synconset.imagepicker" version="1.0.4" />
   <platform name="android">
