@@ -203,6 +203,7 @@ angular.module('starter.services', [])
     var LOCAL_USER_KEY = STORAGE_KEYS.user_key;
     var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
     var APP_VERSION_KEY = STORAGE_KEYS.appversion_dealers;
+    var LAST_ID_PROVINCE_SELECTED = STORAGE_KEYS.last_provinceid_selected;
     var isAuthenticated = false;
     var role = '';
     var authToken;
@@ -254,6 +255,7 @@ angular.module('starter.services', [])
         $localstorage.deleteObject(LOCAL_TOKEN_KEY);
         $localstorage.deleteObject(LOCAL_USER_KEY);
         $localstorage.deleteObject(LIST_DEALERS_KEY);
+        $localstorage.deleteObject(LAST_ID_PROVINCE_SELECTED);
     }
 
     var login = function (userdata) {

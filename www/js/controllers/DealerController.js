@@ -6,6 +6,7 @@
     $scope.failure = 0;
 
     //$scope.dealer = Dealers.get($stateParams.dealerId);
+    var LAST_ID_PROVINCE_SELECTED = STORAGE_KEYS.last_provinceid_selected;
     var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
     $scope.serviceBase = NETWORK.BASE_URL;
     $scope.submited = false;
@@ -22,7 +23,32 @@
         $scope.user = AuthService.user();
         $scope.provinces = $scope.user.Provinces;
         $scope.provinces.sort(compareProvince);
-        $scope.search.provinceSelect = $scope.provinces[0];
+
+        var indexSelectProvince = getLastIndexSelectProvince();
+        $scope.search.provinceSelect = $scope.provinces[indexSelectProvince];
+    }
+
+    function getLastIndexSelectProvince () {
+        var index = 0;
+        var id = $localstorage.getObject(LAST_ID_PROVINCE_SELECTED);
+        console.log('Last Id province: ', id);
+        for (var i = 0, count = $scope.provinces.length; i < count; i++) {
+            if (id == $scope.provinces[i].ProvinceId) {
+                index = i;
+                break;
+            }
+        };
+        console.log('Index select province ', index);
+
+        return index;
+    }
+
+    function setLastIndexSelectProvince () {
+        $localstorage.setObject(LAST_ID_PROVINCE_SELECTED, $scope.search.provinceSelect.ProvinceId);
+    }
+
+    $scope.selectProvince = function () {
+        setLastIndexSelectProvince();
     }
 
     function compareProvince(p1, p2) {

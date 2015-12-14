@@ -5,7 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var appVersion = "0.0.2";
+var appVersion = "1.0.2";
+var appOldVersion = undefined;
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
@@ -224,7 +225,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     });
 
 })
-.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
+.run(function ($rootScope, $state, AuthService, AUTH_EVENTS, $localstorage, STORAGE_KEYS) {
+    var APP_VERSION_KEY = STORAGE_KEYS.appversion_key;
+
+    appOldVersion = $localstorage.getObject(APP_VERSION_KEY);
+
+    if (appVersion != appOldVersion) {
+      AuthService.logout();
+      $localstorage.setObject(APP_VERSION_KEY, appVersion);
+    }
+
     $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
 
         // AuthService.checkVersion(appVersion);

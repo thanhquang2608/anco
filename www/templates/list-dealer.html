@@ -56,7 +56,7 @@
                                 Tỉnh/TP: 
                             </label>
                             <label>
-                               <select ng-model="search.provinceSelect" ng-options="p.ProvinceName for p in provinces"></select>
+                               <select ng-model="search.provinceSelect" ng-options="p.ProvinceName for p in provinces" ng-change="selectProvince();"></select>
                             </label>
                         </span>
                     </div>
@@ -104,7 +104,7 @@
                                 Tỉnh/TP: 
                             </label>
                             <label>
-                               <select ng-model="search.provinceSelect" ng-options="p.ProvinceName for p in provinces" ng-change="loadDealersForASM()"></select>
+                               <select ng-model="search.provinceSelect" ng-options="p.ProvinceName for p in provinces" ng-change="selectProvince(); loadDealersForASM();"></select>
                             </label>
                         </span>
                     </div>

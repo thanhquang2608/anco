@@ -16,7 +16,8 @@
     list_dealers : 'AncoListDealersKey',
     token_key : 'AncoTokenKey',
     user_key : 'AncoUserKey',
-    appversion_key : 'AppVersionKey'
+    appversion_key : 'AppVersionKey',
+    last_provinceid_selected : 'LastIdProvinceSelected'
 })
 
 .constant('USER_ROLES', {
